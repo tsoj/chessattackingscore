@@ -1,0 +1,14 @@
+# Package
+
+version       = "0.1.0"
+author        = "Jost Triller"
+description   = "A tool to analyze PGNs and score players for attacking style"
+license       = "MIT"
+srcDir        = "src"
+bin           = @["chessattackingscore"]
+
+
+# Dependencies
+
+requires "nim >= 2.2.4"
+requires "https://github.com/tsoj/nimchess >= 0.1.0"
