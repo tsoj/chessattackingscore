@@ -1,5 +1,8 @@
 import std/[tables, sequtils, strutils, math, algorithm, parseopt]
 import nimchess
+import features, paramfeatures, paramnorm
+
+export features
 
 # --- Constants ---
 const
@@ -12,68 +15,6 @@ const
   ]
 
   WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
-
-type
-  AttackingFeature* = enum
-    advancedPiecesPerMove
-    bishopQueenThreatsPerMove
-    capturesNearKing
-    centralPawnBreaksPerMove
-    checksPerMove
-    coordinatedAttacksPerMove
-    f7F2AttacksPerMove
-    forcingMovesPerMove
-    forfeitedCastlingGames
-    knightOutpostsPerMove
-    movesNearKing
-    oppositeSideCastlingGames
-    pawnStormsPerMove
-    rookLiftsPerMove
-    rookQueenThreatsPerMove
-    sacrificeScorePerWinMove
-    shortGameBonusPerWin
-
-# Updated feature weights from optimization
-const feature_weights* = [
-  advancedPiecesPerMove: 1.073095,
-  bishopQueenThreatsPerMove: 0.909629,
-  capturesNearKing: 0.739933,
-  centralPawnBreaksPerMove: 1.269948,
-  checksPerMove: -0.026265,
-  coordinatedAttacksPerMove: 0.461343,
-  f7F2AttacksPerMove: 0.665494,
-  forcingMovesPerMove: -0.037345,
-  forfeitedCastlingGames: 0.859766,
-  knightOutpostsPerMove: 0.892357,
-  movesNearKing: -0.031162,
-  oppositeSideCastlingGames: 0.561101,
-  pawnStormsPerMove: 1.112417,
-  rookLiftsPerMove: 1.047457,
-  rookQueenThreatsPerMove: 0.803675,
-  sacrificeScorePerWinMove: 0.559029,
-  shortGameBonusPerWin: 3.280553,
-]
-
-# Normalization parameters calculated from large game sample
-const normalization_params* = [
-  advancedPiecesPerMove: (mean: 0.19296217, std: 0.10240948),
-  bishopQueenThreatsPerMove: (mean: 0.03432087, std: 0.03951600),
-  capturesNearKing: (mean: 0.38103961, std: 0.13096237),
-  centralPawnBreaksPerMove: (mean: 0.02253382, std: 0.02369336),
-  checksPerMove: (mean: 0.05097479, std: 0.05653066),
-  coordinatedAttacksPerMove: (mean: 0.04120736, std: 0.07382315),
-  f7F2AttacksPerMove: (mean: 0.02120294, std: 0.02535035),
-  forcingMovesPerMove: (mean: 0.26368249, std: 0.08476835),
-  forfeitedCastlingGames: (mean: 0.10216457, std: 0.30286631),
-  knightOutpostsPerMove: (mean: 0.01351445, std: 0.02107667),
-  movesNearKing: (mean: 0.21502321, std: 0.08669685),
-  oppositeSideCastlingGames: (mean: 0.05369800, std: 0.22542203),
-  pawnStormsPerMove: (mean: 0.06986719, std: 0.05841764),
-  rookLiftsPerMove: (mean: 0.00568181, std: 0.01232329),
-  rookQueenThreatsPerMove: (mean: 0.04562202, std: 0.04895079),
-  sacrificeScorePerWinMove: (mean: 0.03873655, std: 0.14282984),
-  shortGameBonusPerWin: (mean: 0.12920070, std: 0.30864804),
-]
 
 # --- Data Types ---
 type
@@ -492,8 +433,8 @@ func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
 
   for feature in AttackingFeature:
     let rawValue = rawScores[feature]
-    let weight = feature_weights[feature]
-    let params = normalization_params[feature]
+    let weight = featureWeights[feature]
+    let params = normalizationParams[feature]
 
     var normalizedValue: float
     if params.std > 0:

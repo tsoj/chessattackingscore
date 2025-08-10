@@ -1,0 +1,978 @@
+[Event "25. DSB Kongress"]
+[Site "Magdeburg GER"]
+[Date "1927.07.20"]
+[EventDate "?"]
+[Round "4"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Rudolf L'Hermet"]
+[ECO "C10"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "47"]
+
+1. e4 e6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nd7 5. Nf3 Ngf6 6. Nxf6+
+Nxf6 7. Bd3 h6 8. Qe2 Bd6 9. Bd2 O-O 10. O-O-O Bd7 11. Ne5 c5
+12. dxc5 Bxe5 13. Qxe5 Bc6 14. Bf4 Qe7 15. Qd4 Rfd8 16. Bd6
+Qe8 17. Rhg1 b6 18. Qh4 bxc5 19. Be5 Qe7 20. g4 c4 21. g5 Nd7
+22. Qxh6 gxh6 23. gxh6+ Kf8 24. Rg8+ 1-0
+
+[Event "Vienna m"]
+[Site "Vienna AUT"]
+[Date "1929.02.01"]
+[EventDate "?"]
+[Round "8"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Baldur Hoenlinger"]
+[ECO "B15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "48"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Ng3 e6 6. Nf3 c5
+7. Bd3 Nc6 8. dxc5 Bxc5 9. a3 O-O 10. O-O b6 11. b4 Be7
+12. Bb2 Qc7 13. b5 Na5 14. Ne5 Bb7 15. Ng4 Qd8 16. Ne3 Nd5
+17. Qh5 g6 18. Ng4 Bf6 19. Nxf6+ Nxf6 20. Qh6 Rc8 21. Rad1 Qe7
+22. Rfe1 Ne8 23. Nf5 Qc5 24. Re5 Bd5 25. Ne7+ {Spielmann:
+Richtig Opfern! 25...Qxe7 26. Qxh7+ Kxh7 27. Rh5+ Kg8
+28. Rh8#} 1-0
+
+[Event "San Sebastian"]
+[Site "San Sebastian ESP"]
+[Date "1912.03.02"]
+[EventDate "1912.02.19"]
+[Round "10"]
+[Result "0-1"]
+[White "Akiba Rubinstein"]
+[Black "Rudolf Spielmann"]
+[ECO "A84"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "84"]
+
+1.d4 {Notes by Jacques Mieses and Dr. Savielly Tartakower.} e6
+2.c4 f5 3.Nc3 Bb4 4.Bd2 Nf6 5.g3 O-O 6.Bg2 d6 7.a3 Bxc3 8.Bxc3
+Nbd7 9.Qc2 c5 10.dxc5 Nxc5 11.Nf3 Nce4 12.O-O Bd7 13.Rfd1 {?
+Mieses: White should play 14.Rad1. As the game shows, the
+f2-pawn must be protected.} Rc8 14.Bxf6 Qxf6 15.Qb3 Rc7 16.Ne1
+{?! Mieses: Better was 16.Nd4. *** Tartakower: If 16.Nd4,
+then, as in the text, 16...Nc5 17.Qb4 f4, etc. If 16.e3 e5.}
+Nc5 17.Qb4 f4 {!} 18.Nd3 {Tartakower: If 18.Rxd6 fxg3 19.fxg3
+Qf2+ 20.Kh1 Qxe2 21.h3 (21.Rd2 Rf1+ followed by mate) 21...Ne4
+and wins.} fxg3 19.fxg3 Nxd3 20.Rxd3 Qf2+ 21.Kh1 Bc6 {!} 22.e4
+Rcf7 23.Re1 {Tartakower: If 23.Rxd6 Qe2 24.Qe1 (still parrying
+the triple threat ...Rf1+ or ...Bxe4 or ...Rf2) 24...Qxb2
+25.Rxe6 Rf2, etc.} a5 {!} 24.Qc3 Qc5 25.b4 Bxe4 {! Mieses:
+Brilliant and correct!} 26.Rxe4 {Mieses: The queen cannot be
+captured because of mate in two moves. After 26.Bxe4 the
+following winning continuation for Black is shown: 26...Rf1+
+27.Rxf1 Rxf1+ 28.Kg2 Rg1+! 29.Kf3 Qh5+ 30.Ke3 Qxh2, etc. But,
+as pointed out in "Deutsche Schachblaetter", playing 26.Rf3!
+White has the opportunity for strong resistance with big
+drawing chances; for example: 26...Rxf3 27.Qxf3! Rxf3 28.bxc5,
+or 26....Qc6 27.b5! Rxf3 28.Qxf3 Bxf3 29.bxc6 Bxc6 30.Bxc6
+bxc6 31.Rxe6, etc.} Rf1+ 27.Bxf1 Rxf1+ 28.Kg2 Qf2+ 29.Kh3 Rh1
+30.Rf3 {! Tartakower: If 30.Rf4 Qxh2+ 31.Kg4 Qh5+ mate, and if
+30.Rxe6 Qxh2+ 31.Kg4 Qh3+, followed by 32...Qxe6.} Qxh2+
+31.Kg4 Qh5+ 32.Kf4 Qh6+ 33.Kg4 g5 {! Tartakower: A splendid
+point, establishing a mating net at one stroke.} 34.Rxe6
+{Tartakower: If 34.Rf8+ Kxf8 35.Kf3 axb4 36.axb4 Kf7 with
+37...Qf6 to follow.} Qxe6+ 35.Rf5 h6 {Mieses: Enough to win,
+but here was also a quicker solution: 35...Qe4+ 36.Kxg5 h6+
+37.Kf6 (37.Kg6 Qe8+) 37...Re1! 38.Kg6 Qg4+.} 36.Qd3 Kg7 37.Kf3
+Rf1+ {!} 38.Qxf1 Qxf5+ 39.Kg2 Qxf1+ 40.Kxf1 axb4 41.axb4 Kf6
+42.Kf2 h5 0-1
+
+[Event "Mannheim"]
+[Site "Mannheim GER"]
+[Date "1914.07.20"]
+[EventDate "1914.07.20"]
+[Round "1"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Alexander Flamberg"]
+[ECO "C29"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "29"]
+
+1. e4 e5 2. Nc3 Nf6 3. f4 d5 4. fxe5 Nxe4 5. Nf3 Bg4 6. Qe2
+Nc5 7. d4 Bxf3 8. Qxf3 Qh4+ 9. g3 Qxd4 10. Be3 Qxe5 11. O-O-O
+c6 12. Nxd5 cxd5 13. Rxd5 Qe6 14. Bc4 Qe4 15. Bxc5 1-0
+
+[Event "Mieses - Spielmann"]
+[Site "Regensburg GER"]
+[Date "1910.05.14"]
+[EventDate "?"]
+[Round "8"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Jacques Mieses"]
+[ECO "D52"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "81"]
+
+1.d4 d5 2.c4 e6 3.Nc3 Nf6 4.Bg5 Nbd7 5.Nf3 c6 6.e3 Qa5 7.Nd2
+Bb4 8.Qc2 dxc4 9.Bxf6 Nxf6 10.Nxc4 Qc7 11.Bd3 Bd7 12.a3 Bd6
+13.e4 e5 14.f4 exd4 15.e5 Bf8 16.exf6 dxc3 17.Qe2+ Kd8
+18.O-O-O Qxf4+ 19.Kb1 Kc7 20.Rhf1 Qg5 21.h4 Qc5 22.fxg7 Bxg7
+23.Rxf7 Bd4 24.Rxd7+ Kxd7 25.Qg4+ Kc7 26.Qf4+ Be5 27.Nxe5 Raf8
+28.Qh2 Qf2 29.Bc2 Rhg8 30.Rd7+ Kb6 31.Nc4+ Ka6 32.Qc7 Qf1+
+33.Ka2 Qxc4+ 34.b3 Qb5 35.a4 Qb6 36.Bd3+ Ka5 37.Qe5+ c5
+38.Rxb7 Rxg2+ 39.Ka3 Rg4 40.Rxb6 axb6 41.Qc7 1-0
+
+[Event "Vienna"]
+[Site "Vienna AUT"]
+[Date "1926.02.17"]
+[EventDate "1926.01.28"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Robert Wahle"]
+[ECO "C01"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "33"]
+
+1. e4 e6 2. d4 d5 3. Nc3 Nf6 4. exd5 exd5 5. Bg5 Be7 6. Bd3
+Nc6 7. Nge2 Nb4 8. Ng3 Nxd3+ 9. Qxd3 g6 10. O-O c6 11. Rae1
+O-O 12. Rxe7 Qxe7 13. Qf3 Kg7 14. Nce4 dxe4 15. Nxe4 Qe6
+16. Bxf6+ Kg8 17. Qf4 1-0
+
+[Event "Munich CC t"]
+[Site "Munich GER"]
+[Date "1903.06.09"]
+[EventDate "1903.??.??"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Moisei Elyashiv"]
+[ECO "C39"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "57"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ng5 h6 6. Nxf7 Kxf7
+7. Bc4+ d5 8. Bxd5+ Kg7 9. d4 Qf6 10. e5 Qg6 11. h5 Qf5
+12. Nc3 Bb4 13. O-O f3 14. Ne4 Qxh5 15. Ng3 Qh4 16. Rxf3 gxf3
+17. Qxf3 Nf6 18. exf6+ Kf8 19. Bf4 Na6 20. Qe4 Qg4 21. Bxb7
+Bxb7 22. Bxh6+ Rxh6 23. Qxg4 Rh7 24. Qg6 Rf7 25. c3 Bd6
+26. Nf5 Be4 27. Qh6+ Kg8 28. Qg5+ Kf8 29. Nh6 1-0
+
+[Event "Bad Kissingen"]
+[Site "Bad Kissingen GER"]
+[Date "1928.08.17"]
+[EventDate "1928.08.12"]
+[Round "6"]
+[Result "0-1"]
+[White "Jose Raul Capablanca"]
+[Black "Rudolf Spielmann"]
+[ECO "D15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "78"]
+
+1.d4 d5 2.c4 c6 3.Nc3 Nf6 4.Nf3 dxc4 5.e3 b5 6.a4 b4 7.Na2 e6
+8.Bxc4 Be7 9.O-O O-O 10.b3 c5 11.Bb2 Bb7 12.Nc1 Nc6 13.dxc5
+Na5 14.Ne5 Nxc4 15.Nxc4 Bxc5 16.Nd3 Qd5 17.Nf4 Qg5 18.Bxf6
+Qxf6 19.Rc1 Rfd8 20.Qh5 Rac8 21.Rfd1 g6 22.Rxd8+ Qxd8 23.Qe5
+Be7 24.h3 Rc5 25.Qa1 Bf6 26.Rd1 Rd5 27.Rxd5 exd5 28.Ne5 Qd6
+29.Nfd3 Ba6 30.Qe1 Bxe5 31.Nxe5 Qxe5 32.Qxb4 Bd3 33.Qc5 Qb8
+34.b4 Qb7 35.b5 h5 36.Qc3 Bc4 37.e4 Qe7 38.exd5 Bxd5 39.a5 Qe4
+0-1
+
+[Event "St. Petersburg"]
+[Site "St. Petersburg RUE"]
+[Date "1909.02.28"]
+[EventDate "1909.02.15"]
+[Round "10"]
+[Result "0-1"]
+[White "Oldrich Duras"]
+[Black "Rudolf Spielmann"]
+[ECO "C50"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "66"]
+
+1.e4 {Notes by Lasker.} e5 2.Nf3 Nc6 3.Bc4 Nf6 4.d3 Bc5 5.Nc3
+d6 6.Be3 Bb6 7.h3 Be6 8.O-O {A mistake. The idea to retake at
+c4 with the Pawn is good enough in itself. After the exchange
+at c4, White's doubled pawn, even though isolated, would do no
+harm, on account of its central position; it would hamper
+Black's pieces and could not be easily attacked. But it was a
+condition, sine quo non, to secure the Queen Knight against
+Ba5 by say a3, for the trebled Pawn on the c-file has no
+mobility whatever.} Bxc4 9.dxc4 Ba5 10.Nd5 {After 10.Qd3 Bxc3
+11.bxc3 b6, the c-pawns would be fixed, and White's game
+should be lost in consequence. Hence White plays va banque for
+attack.} Nxe4 11.Qd3 f5 12.c3 {12.b4 Nxb4 13.Nxb4 Bxb4 14.Qd5
+or 12.b4 Bxb4 13.Rb1 was more in the nature of a va banque
+attack.} O-O 13.Rad1 Bb6 14.b4 Bxe3 15.Nxe3 Qf6 16.Rfe1 Ng5
+17.Nxg5 Qxg5 18.b5 Na5 19.Nd5 e4 20.Qe2 Rf7 21.Rd4 c6 22.Nb4
+Rd8 {22...c5 23.Rxd6 cxb4 24.cxb4.} 23.Nc2 Qf6 24.Ne3 Qe5
+25.Red1 Rf6 26.Qc2 h5 27.Qa4 {Nf1 first was imperative.} f4
+28.Qxa5 b6 29.Qa3 fxe3 30.fxe3 Qg3 {Threatening Rf2.} 31.Kh1
+Rdf8 32.Qc1 Rf2 33.Rg1 R8f3 {Black threatens Qxh3+.} 0-1
+
+[Event "Karlsbad"]
+[Site "Karlsbad (Karlovy Vary) AUH"]
+[Date "1911.09.11"]
+[EventDate "1911.08.21"]
+[Round "16"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Akiba Rubinstein"]
+[ECO "C49"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "73"]
+
+1.e4 {Notes by Rudolf Spielmann from 42nd "Les Cahiers de
+l'Echiquier Francais", July 1934 (p. 324), Dr. Savielly
+Tartakower from "500 Master Games of Chess", and Jacques
+Mieses.} e5 2.Nf3 Nc6 3.Nc3 Nf6 4.Bb5 Bb4 {Spielmann: Later
+Rubinstein played 4...Nd4 exclusively against the Four
+Knights. This defense, analyzed and tested for years, has been
+proven correct, and is the main reason why the Four Knights is
+now played so rarely.} 5.O-O O-O 6.d3 d6 7.Bg5 Bxc3 8.bxc3 Qe7
+{Tartakower: Introducing ingenious regroupings (...Nd8-Ne6 and
+...Rd8) which increase the security of Black's position. This
+system, due to Metger, gives better results in practice than
+for instance 8...Ne7 or 8...h6 9.Bh4 Bg4, etc.} 9.Re1 Nd8
+10.d4 Ne6 {Tartakower: He could quite well play 10...Bg4
+first.} 11.Bc1 c6 {Tartakower: The most vigorous continuation
+is the thrust 11...c5; e.g., 12.d5 (disappointing would be
+12.dxe5 dxe5 13.Nxe5, on account of 13...Nc7, winning a piece)
+12...Nc7 13.Bd3 Bg4 14.h3 Bh5, and Black holds his own.}
+12.Bf1 {Spielmann: As far as I know, played for the first time
+by Perlis in the tournament of Ostende 1906. *** Tartakower:
+Intending entirely fresh activities after g3. The potential
+effect of the two bishops, to all appearances on the retired
+list, is remarkable.} Rd8 13.g3 Qc7 14.Nh4 {Spielmann: Also
+good is 14.Bg2, but the text move, which involves the
+sacrifice of a pawn, is more suitable to my style.} d5
+{Spielmann: Necessary. *** Tartakower: In quest of
+emancipation. *** Mieses: A serious mistake.} 15.f4 {!} exf4
+{Tartakower: Helping White's intentions. 15...Nxe4 would have
+served. *** Spielmann: Relatively better was 15...Nxe4 16.dxe4
+Nxc3, but after 17.Qf3 White will also have a good attacking
+position.} 16.e5 Ne4 17.gxf4 f5 {! Mieses: If 17...Nxc3 then
+18.Qf3 followed by f5 and White has a decisive attack. ***
+Spielmann: If here 17...Nxc3, then 18.Qd3 Ne4 19.f5 with a
+stronger attack than in the game.} 18.exf6 {! Mieses: But not
+18.Nxf5? Nxf4. *** Spielmann: If 18.Nxf5 Rf8! (Better than
+18...Nxf4) 19.Ng3 Nxf4 20.Nxe4 dxe4 21.Rxe4 Nh3+ 22.Bxh3 Bxh3
+and White has an extra pawn, but his king is exposed.} Nxf6
+19.f5 {!} Nf8 20.Qf3 Qf7 {Spielmann: If 20...Ne4 21.Bd3 Nxc3?
+22.Bg5 and White has a decisive attack.} 21.Bd3 Bd7 22.Bf4 Re8
+{Spielmann: In case of 22...Qh5 23.Qxh5! Nxh5 24.Be5 White
+will win by doubling his rooks on the g-file.} 23.Be5 c5
+24.Kh1 {!} c4 25.Be2 Bc6 26.Qf4 N8d7 27.Bf3 Re7 28.Re2 Rf8
+29.Rg1 Qe8 30.Reg2 Rff7 {Spielmann: If 30...Nxe5 31.dxe5 Rxe5
+32.Rxg7+ Kh8 33.Ng6+! Kxg7 34.Nxe5+ Kh8 35.Ng6+ hxg6 36.Qh6+
+Nh7 37.fxg6 and White wins.} 31.Qh6 {!} Kf8 32.Ng6+ {!} hxg6
+33.Qh8+ Ng8 34.Bd6 {! Spielmann: The point of the
+combination. White's threat is 35.Rxg6, followed by 36.Rxg7.}
+Qd8 {Spielmann: If 34...Rf6, then 35.Rxg6 Rxg6 36.fxg6 with
+the double threat: 37.Re1 and 37.Bh5 followed by 38.Rf1+.}
+35.Rxg6 Ndf6 36.Rxf6 {!} Rxf6 37.Rxg7 {!} 1-0
+
+[Event "Munich"]
+[Site "Munich GER"]
+[Date "1904.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Friedrich Koehnlein"]
+[ECO "C29"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "77"]
+
+1. e4 e5 2. Nc3 Nf6 3. f4 d5 4. fxe5 Nxe4 5. Nf3 Bb4 6. Be2
+O-O 7. O-O Nc6 8. Qe1 Be6 9. d3 Nxc3 10. bxc3 Be7 11. Qg3 f6
+12. Bf4 fxe5 13. Nxe5 Bd6 14. d4 Nxe5 15. Bxe5 Rxf1+ 16. Rxf1
+Bxe5 17. Qxe5 Qd7 18. Bd3 Kh8 19. Re1 Bf7 20. Qe7 Qe8 21. Bxh7
+Kxh7 22. Qh4+ Kg8 23. Rxe8+ Rxe8 24. Qf4 Re7 25. h4 a6 26. h5
+c6 27. h6 gxh6 28. Qxh6 Re1+ 29. Kf2 Ra1 30. Qg5+ Kf8 31. Qd8+
+Kg7 32. Qb6 Rxa2 33. Qb3 Ra1 34. Qxb7 a5 35. c4 dxc4 36. Qb2
+Rd1 37. d5+ Kf8 38. dxc6 Rd8 39. c7 1-0
+
+[Event "Ostend-B"]
+[Site "Ostend BEL"]
+[Date "1907.05.28"]
+[EventDate "?"]
+[Round "10"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Oldrich Duras"]
+[ECO "C25"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "63"]
+
+1.e4 e5 2.Nc3 Nc6 3.f4 Bc5 4.fxe5 Bxg1 5.Rxg1 Nxe5 6.d4 Ng6
+7.Be3 d6 8.Qf3 Be6 9.Bd3 N8e7 10.O-O-O O-O 11.g4 f6 12.Qg3 Rf7
+13.h4 Nf8 14.Rdf1 c6 15.g5 f5 16.g6 hxg6 17.h5 fxe4 18.Rxf7
+Bxf7 19.Bxe4 d5 20.Bd3 Qd7 21.Bd2 Nf5 22.Qg5 Ne7 23.Ne2 Ne6
+24.Qg2 g5 25.Bxg5 Bxh5 26.Bf6 Bxe2 27.Qxe2 Rf8 28.Be5 Rf7
+29.Qh5 Kf8 30.Qh8+ Ng8 31.Bh7 Ke8 32.Bxg8 1-0
+
+[Event "Vienna"]
+[Site "Vienna AUT"]
+[Date "1926.01.30"]
+[EventDate "1926.01.28"]
+[Round "1"]
+[Result "0-1"]
+[White "Albert Becker"]
+[Black "Rudolf Spielmann"]
+[ECO "D12"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "80"]
+
+1. d4 d5 2. Nf3 Nf6 3. c4 c6 4. e3 Bf5 5. Nbd2 e6 6. Be2 Bd6
+7. c5 Bc7 8. b4 Nbd7 9. Bb2 Qe7 10. O-O e5 11. dxe5 Nxe5
+12. Nd4 Bd7 13. Qc2 Neg4 14. h3 Nh6 15. Bd3 O-O 16. Rfe1 Rae8
+17. Qc3 Qe5 18. f4 Qh5 19. N4f3 Bxh3 20. gxh3 Qxh3 21. Re2
+Bxf4 22. exf4 Rxe2 23. Bxe2 Qg3+ 24. Kh1 Nhg4 25. Rf1 Qh3+
+26. Kg1 Qg3+ 27. Kh1 Re8 28. Qd3 Qh3+ 29. Kg1 Qg3+ 30. Kh1
+Qh3+ 31. Kg1 Ne3 32. Ne1 Qg3+ 33. Kh1 Qh3+ 34. Kg1 Qg3+
+35. Kh1 Nxf1 36. Bxf1 Re3 37. Qf5 Rxe1 38. Be5 Qg4 39. Qxg4
+Nxg4 40. Kg2 Rd1 0-1
+
+[Event "Bussum"]
+[Site "Bussum NED"]
+[Date "1934.05.13"]
+[EventDate "?"]
+[Round "4"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Cornelis Lambertus Christiaan Dekker"]
+[ECO "C05"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "77"]
+
+1. e4 e6 2. d4 d5 3. Nd2 Nf6 4. e5 Nfd7 5. Bd3 c5 6. c3 Nc6
+7. Ndf3 Qb6 8. Ne2 cxd4 9. cxd4 Bb4+ 10. Kf1 O-O 11. Bxh7+
+Kxh7 12. Ng5+ Kg8 13. Qd3 Re8 14. Qh7+ Kf8 15. Qh8+ Ke7
+16. Qxg7 Kd8 17. Qxf7 Nf8 18. h4 Bd7 19. Be3 Rc8 20. h5 Ne7
+21. Nf4 Nf5 22. h6 Nxe3+ 23. fxe3 Bb5+ 24. Kg1 Rc7 25. h7 Rxf7
+26. Nxf7+ Kd7 27. h8=Q Ng6 28. Qf6 Nxf4 29. Qxf4 Bd3 30. Rh8
+Bf8 31. Nd6 Bxd6 32. Rxe8 Kxe8 33. exd6 Qxb2 34. Qf6 Qxa1+
+35. Kh2 Kd7 36. Qe7+ Kc6 37. Qc7+ Kb5 38. d7 Qd1 39. Qxb7+ 1-0
+
+[Event "15th DSB Kongress (Nuremberg)"]
+[Site "Nuremberg GER"]
+[Date "1906.08.09"]
+[EventDate "1906.07.23"]
+[Round "15"]
+[Result "0-1"]
+[White "Paul Saladin Leonhardt"]
+[Black "Rudolf Spielmann"]
+[ECO "C44"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "42"]
+
+1. e4 e5 2. Nf3 Nc6 3. d4 exd4 4. c3 d5 5. exd5 Qxd5 6. cxd4
+Bg4 7. Be2 Nf6 8. Nc3 Qh5 9. O-O Bd6 10. h3 O-O-O 11. hxg4
+Nxg4 12. g3 Qh3 13. Ne4 Be7 14. Be3 f5 15. Ned2 Nxe3 16. fxe3
+Qxg3+ 17. Kh1 Rd6 18. Nh2 Rh6 19. Bh5 Bd6 20. Rf4 Bxf4
+21. exf4 Qh4 0-1
+
+[Event "Spielmann - Bogoljubov"]
+[Site "Semmering AUT"]
+[Date "1932.01.13"]
+[EventDate "1932.01.08"]
+[Round "5"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Efim Bogoljubov"]
+[ECO "C77"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "65"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.Qe2 Be7 6.c3 d6 7.d4
+Bd7 8.O-O O-O 9.Bc2 Re8 10.d5 Nb8 11.h3 c6 12.dxc6 Bxc6 13.c4
+Nbd7 14.Nc3 Nc5 15.b4 Ne6 16.Be3 Bf8 17.Rfd1 Qc7 18.Rac1 b5
+19.Nd5 Qb7 20.Nh4 Nd7 21.cxb5 Qxb5 22.Bd3 Qb7 23.Bc4 Ba4
+24.Re1 g6 25.Qg4 Rac8 26.Nf5 h5 27.Qf3 Rc6 28.Nh6+ Bxh6
+29.Bxh6 Nd4 30.Nf6+ Kh8 31.Bg7+ Kxg7 32.Nxe8+ Kh6 33.Qxf7 1-0
+
+[Event "15th DSB Kongress (Nuremberg)"]
+[Site "Nuremberg GER"]
+[Date "1906.07.23"]
+[EventDate "1906.07.23"]
+[Round "1"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "David Przepiorka"]
+[ECO "C20"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "51"]
+
+1. e4 e5 2. Bc4 Bc5 3. d3 d6 4. Nc3 Nc6 5. Na4 Bb6 6. Nxb6
+axb6 7. f4 Nf6 8. Nf3 Bg4 9. c3 d5 10. exd5 Nxd5 11. h3 Bxf3
+12. Qxf3 Nxf4 13. Bxf4 exf4 14. O-O O-O 15. Qxf4 Qd7 16. d4
+Rae8 17. Rf3 Re7 18. Raf1 Nd8 19. Rg3 g6 20. Qh6 Qc6 21. Bb3
+Rfe8 22. Rf4 Re4 23. Bxf7+ Nxf7 24. Rxf7 Kxf7 25. Qxh7+ Kf8
+26. Rf3+ 1-0
+
+[Event "Ostend"]
+[Site "Ostend BEL"]
+[Date "1906.06.06"]
+[EventDate "1906.06.05"]
+[Round "2"]
+[Result "0-1"]
+[White "Rudolf Swiderski"]
+[Black "Rudolf Spielmann"]
+[ECO "D02"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "46"]
+
+1. d4 d5 2. Nf3 c5 3. e3 Nf6 4. Nbd2 Nc6 5. Be2 Bf5 6. dxc5 e5
+7. Bb5 Qc7 8. b4 Be7 9. Bb2 Nd7 10. a3 O-O 11. c4 Bd3 12. Qb3
+e4 13. Bxc6 bxc6 14. cxd5 cxd5 15. Nd4 Ne5 16. Qxd5 Bf6
+17. Nxe4 Rad8 18. Nd6 Nc4 19. N4b5 Nxb2 20. Qb3 Qc6 21. Nd4
+Bxd4 22. exd4 Rxd6 23. Qxb2 Qe4+ 0-1
+
+[Event "Gothenburg"]
+[Site "Gothenburg SWE"]
+[Date "1920.08.04"]
+[EventDate "1920.08.02"]
+[Round "11"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Jorgen Moeller"]
+[ECO "C33"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "55"]
+
+1.e4 e5 2.f4 exf4 3.Qf3 Nc6 4.c3 Nf6 5.d4 d5 6.e5 Ne4 7.Bb5
+Qh4+ 8.Kf1 g5 9.Nd2 Bg4 10.Nxe4 Bxf3 11.Nxf3 Qh6 12.Nf6+ Kd8
+13.h4 Be7 14.Nxg5 Qg6 15.Nxd5 Bxg5 16.hxg5 Qc2 17.Be2 Ne7
+18.Nxf4 c5 19.Rh3 cxd4 20.Rd3 Kd7 21.Bd1 Qxd3+ 22.Nxd3 dxc3
+23.bxc3 Rad8 24.Be2 Nf5 25.Bf4 Kc7 26.Rb1 b6 27.e6+ Kc8 28.Ne5
+1-0
+
+[Event "Trebitsch Memorial 16th"]
+[Site "Vienna AUT"]
+[Date "1933.11.16"]
+[EventDate "1933.11.12"]
+[Round "4"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Simon Rubinstein"]
+[ECO "D55"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "79"]
+
+1.d4 Nf6 2.c4 e6 3.Nc3 d5 4.Nf3 Be7 5.Bg5 O-O 6.e3 b6 7.Bd3
+Bb7 8.Bxf6 Bxf6 9.cxd5 exd5 10.h4 c5 11.Bxh7+ Kxh7 12.Ng5+ Kh6
+13.Qd3 g6 14.h5 Bxg5 15.hxg6+ Kg7 16.Rh7+ Kf6 17.O-O-O c4
+18.Qe2 Ke7 19.f4 Bf6 20.e4 dxe4 21.Nxe4 Kd7 22.d5 Na6 23.g7
+Rg8 24.Rh6 Bxg7 25.Rd6+ Kc7 26.Qxc4+ Kb8 27.Rxd8+ Rxd8 28.Kb1
+Nc7 29.d6 Ne6 30.f5 Bxe4+ 31.Qxe4 Nc5 32.Qc6 Rc8 33.Qd5 Rd8
+34.Qxf7 Rd7 35.Qg8+ Kb7 36.Qd5+ Kb8 37.Qc6 a5 38.Qxb6+ Nb7
+39.Qc6 Rd8 40.Qc7+ 1-0
+
+[Event "Munich"]
+[Site "Munich GER"]
+[Date "1909.06.22"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Savielly Tartakower"]
+[ECO "B15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "43"]
+
+1. e4 c6 2. d4 d5 3. Nc3 dxe4 4. Nxe4 Nf6 5. Ng3 e5 6. Nf3
+exd4 7. Nxd4 Bc5 8. Be3 Qb6 9. Qe2 O-O 10. O-O-O Nd5 11. Qh5
+Nf6 12. Qh4 Bg4 13. Bd3 Bxd1 14. Rxd1 Nbd7 15. Ngf5 Ne5
+16. Nxg7 Qd8 17. Ngf5 Ng6 18. Qh6 Ne8 19. Nf3 Bxe3+ 20. fxe3
+Qf6 21. Ng5 Qh8 22. Ne7+ 1-0
+
+[Event "Karlsbad"]
+[Site "Karlsbad CSR"]
+[Date "1923.05.06"]
+[EventDate "1923.04.28"]
+[Round "7"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Siegbert Tarrasch"]
+[ECO "C30"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "61"]
+
+1. e4 e5 2. f4 Bc5 3. Nf3 d6 4. c3 Bg4 5. fxe5 dxe5 6. Qa4+
+Bd7 7. Qc2 Nc6 8. b4 Bd6 9. Bc4 Nf6 10. d3 Ne7 11. O-O Ng6
+12. Be3 b5 13. Bb3 a5 14. a3 axb4 15. cxb4 O-O 16. Nc3 c6
+17. h3 Qe7 18. Ne2 Bb8 19. Kh2 Ba7 20. Bg5 h6 21. Bxf6 Qxf6
+22. Nfd4 Qd6 23. Nf5 Bxf5 24. Rxf5 Nf4 25. Rf1 g6 26. R1xf4
+exf4 27. e5 Qe7 28. Rf6 Kg7 29. d4 Bxd4 30. Bxf7 Bxe5
+31. Qxg6+ 1-0
+
+[Event "Teplitz-Schonau"]
+[Site "Teplice-Sanov CSR"]
+[Date "1922.10.07"]
+[EventDate "1922.10.02"]
+[Round "6"]
+[Result "0-1"]
+[White "Karel Treybal"]
+[Black "Rudolf Spielmann"]
+[ECO "C83"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "72"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. d4 b5
+7. Bb3 d5 8. dxe5 Be6 9. c3 Be7 10. Be3 O-O 11. Nbd2 f5
+12. Nxe4 fxe4 13. Nd4 Nxd4 14. cxd4 a5 15. a4 c6 16. f4 Qd7
+17. axb5 cxb5 18. g4 a4 19. Ba2 Bxg4 20. Bxd5+ Kh8 21. e6 Bxe6
+22. Bxa8 Rxa8 23. Qc2 Bc4 24. Rf2 Bd3 25. Qd2 b4 26. Kh1 b3
+27. Rg2 Qb7 28. f5 a3 29. f6 Bxf6 30. Rxa3 Rxa3 31. bxa3 Bc2
+32. Rg1 Qc8 33. a4 Qf5 34. a5 Qf3+ 35. Rg2 h5 36. Kg1 b2 0-1
+
+[Event "Hamburg"]
+[Site "Hamburg GER"]
+[Date "1910.07.27"]
+[EventDate "1910.07.18"]
+[Round "9"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Leo Fleischmann Forgacs"]
+[ECO "C51"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "59"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bb6 5. c3 Nf6 6. d3 d6
+7. a4 a6 8. Be3 Bxe3 9. fxe3 d5 10. exd5 Nxd5 11. Bxd5 Qxd5
+12. e4 Qd6 13. O-O O-O 14. Na3 Rd8 15. b5 Qc5+ 16. Kh1 Na5
+17. d4 Qxc3 18. Ng5 Be6 19. Qh5 h6 20. d5 hxg5 21. dxe6 fxe6
+22. Qf7+ Kh7 23. Rac1 Qxa3 24. Rxc7 Qf8 25. Qh5+ Kg8 26. Rxf8+
+Rxf8 27. h4 Rac8 28. b6 Rxc7 29. bxc7 Rc8 30. Qd1 1-0
+
+[Event "Abbazia"]
+[Site "Abbazia (Opatija) AUH"]
+[Date "1912.01.20"]
+[EventDate "1912.01.15"]
+[Round "5"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Richard Reti"]
+[ECO "C34"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "51"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 Nf6 4. Nc3 d5 5. e5 Ne4 6. Be2 Nc6
+7. d3 Nxc3 8. bxc3 g5 9. O-O Rg8 10. d4 g4 11. Ne1 f3 12. Bd3
+Qh4 13. Bf4 fxg2 14. Nxg2 Qh5 15. Rb1 Nd8 16. c4 Be6 17. Ne3
+dxc4 18. Be4 c6 19. d5 Bc5 20. Kh1 Bxe3 21. dxe6 Nxe6 22. Bxe3
+Qxe5 23. Bxh7 Rh8 24. Rxf7 Rd8 25. Qxg4 Qxe3 26. Bg6 1-0
+
+[Event "Karlsbad"]
+[Site "Karlsbad (Karlovy Vary) AUH"]
+[Date "1907.09.12"]
+[EventDate "1907.??.??"]
+[Round "17"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "David Janowski"]
+[ECO "C53"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "77"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. c3 d6 5. d4 exd4 6. cxd4 Bb6
+7. h3 Nf6 8. O-O Nxe4 9. Re1 O-O 10. Rxe4 d5 11. Bg5 Qd6
+12. Bxd5 Qxd5 13. Nc3 Qd7 14. d5 f6 15. Be3 Nd8 16. Bxb6 axb6
+17. Qe2 Nf7 18. Re7 Qd8 19. d6 Nxd6 20. Nd5 Rf7 21. Re1 Bd7
+22. Nh4 Ra5 23. Rxf7 Nxf7 24. Nf5 Ne5 25. Nfe7+ Kh8 26. b4 Ra8
+27. f4 Ng6 28. Nxg6+ hxg6 29. Ne7 Qe8 30. Qf2 g5 31. fxg5 fxg5
+32. Qd2 b5 33. Qxg5 Ra6 34. Re4 Rh6 35. Nf5 Qg6 36. Qd8+ Kh7
+37. Qxd7 Rh5 38. Rg4 Rg5 39. Rh4+ 1-0
+
+[Event "Teplitz-Schonau"]
+[Site "Teplice-Sanov CSR"]
+[Date "1922.10.09"]
+[EventDate "1922.10.02"]
+[Round "7"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Ernst Gruenfeld"]
+[ECO "C37"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "61"]
+
+1. e4 e5 2. f4 exf4 3. Bc4 Nc6 4. Nf3 g5 5. O-O d6 6. d4 Bg7
+7. c3 h6 8. g3 g4 9. Nh4 f3 10. Nd2 Bf6 11. Ndxf3 gxf3
+12. Qxf3 Rh7 13. Ng6 Rg7 14. Nf4 Bg4 15. Qg2 Bg5 16. h3 Bd7
+17. Nh5 Rh7 18. e5 dxe5 19. Qe4 f5 20. Rxf5 Bxf5 21. Qxf5 Re7
+22. Bxg5 hxg5 23. Rf1 Qd6 24. Bxg8 exd4 25. Qf8+ Kd7 26. Qxa8
+Qc5 27. Nf6+ Kd6 28. Qf8 Qe5 29. Kg2 d3 30. Rf2 Qe1 31. Qh6
+1-0
+
+[Event "Sopron"]
+[Site "Sopron HUN"]
+[Date "1934.09.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "0-1"]
+[White "Erno Gereben"]
+[Black "Rudolf Spielmann"]
+[ECO "D94"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "70"]
+
+1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. e3 Bg7 5. Nf3 O-O 6. Bd2 c6
+7. Qb3 b6 8. cxd5 cxd5 9. Rc1 Bb7 10. Ne5 Nfd7 11. Nxd7 Nxd7
+12. f4 e5 13. fxe5 Nxe5 14. dxe5 d4 15. Nd1 Bxe5 16. e4 Bxe4
+17. Nf2 Bd5 18. Qh3 Qe7 19. Be2 d3 20. Nxd3 Rfe8 21. Kf1 Bxb2
+22. Re1 Qf6+ 23. Nf2 Bd4 24. Qg3 Re4 25. h4 Rae8 26. Bb5 Rxe1+
+27. Bxe1 Re3 28. Qg5 Rxe1+ 29. Kxe1 Qxf2+ 30. Kd1 Bxg2 31. Re1
+Bf3+ 32. Be2 Bc3 33. Bxf3 Qxf3+ 34. Kc2 Bxe1 35. Qd8+ Kg7 0-1
+
+[Event "Mieses - Spielmann"]
+[Site "Regensburg GER"]
+[Date "1910.05.08"]
+[EventDate "?"]
+[Round "3"]
+[Result "0-1"]
+[White "Jacques Mieses"]
+[Black "Rudolf Spielmann"]
+[ECO "C45"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "66"]
+
+1.e4 e5 2.Nf3 Nc6 3.d4 exd4 4.Nxd4 Bc5 5.Be3 Bb6 6.Bc4 d6
+7.Nc3 Nf6 8.Nxc6 bxc6 9.Bg5 O-O 10.Qf3 Be6 11.Bd3 Bd4 12.Qg3
+Rb8 13.Nd1 Nh5 14.Qh4 Bf6 15.Bxf6 Nxf6 16.f4 c5 17.c4 d5
+18.exd5 Bxd5 19.cxd5 Qxd5 20.Qg3 Rfe8+ 21.Be2 Rbd8 22.Nc3 Qd2+
+23.Kf1 Nd5 24.Re1 Nxf4 25.Qf2 Rd4 26.g3 Nh3 27.Qf5 Qxb2
+28.Qxh3 Qxc3 29.Qf5 Rde4 30.Qf2 Qd2 31.Rg1 R4e6 32.Rg2 Rf6
+33.Bf3 Rxe1+ 0-1
+
+[Event "Scheveningen"]
+[Site "Scheveningen NED"]
+[Date "1905.08.09"]
+[EventDate "1905.07.31"]
+[Round "12"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Oldrich Duras"]
+[ECO "C15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "73"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.Bd3 dxe4 5.Bxe4 Nf6 6.Bd3 c5 7.a3
+Ba5 8.dxc5 Bxc3+ 9.bxc3 Qa5 10.Ne2 Bd7 11.O-O Qxc5 12.a4 Bc6
+13.Ba3 Qg5 14.f3 Nd5 15.Ng3 Qe3+ 16.Rf2 Nxc3 17.Qf1 Kd8 18.Bb2
+Nd5 19.Rd1 Nd7 20.Be4 Qb6 21.Bd4 Qa5 22.c4 N5b6 23.Qd3 Kc8
+24.Rb2 Ne5 25.Qe2 Nexc4 26.Rc2 Qb4 27.Rdc1 Na3 28.Rxc6+ bxc6
+29.Rxc6+ Kd7 30.Bc5 Qc4 31.Qd2+ Nd5 32.Rd6+ Ke8 33.Bxa3 Rd8
+34.Nf5 Qc7 35.Nxg7+ Kf8 36.Rxd8+ Kxg7 37.Qg5# 1-0
+
+[Event "Trencianske Teplice"]
+[Site "Trencianske Teplice CSR"]
+[Date "1928.05.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Max Walter"]
+[ECO "B10"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "39"]
+
+1. e4 c6 2. Nc3 d5 3. Nf3 Nf6 4. e5 Ne4 5. Qe2 Nxc3 6. dxc3 b6
+7. Nd4 c5 8. e6 fxe6 9. Qh5+ Kd7 10. Nf3 Kc7 11. Ne5 Bd7
+12. Nf7 Qe8 13. Qe5+ Kb7 14. Bf4 c4 15. Qc7+ Ka6 16. Nd8 Nc6
+17. Qb7+ Kb5 18. a4+ Kc5 19. Qxc6+ Bxc6 20. Nxe6# 1-0
+
+[Event "Spielmann - Bogoljubov"]
+[Site "Semmering AUT"]
+[Date "1932.01.19"]
+[EventDate "1932.01.08"]
+[Round "9"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Efim Bogoljubov"]
+[ECO "D70"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "79"]
+
+1.d4 Nf6 2.c4 g6 3.f3 c5 4.d5 d6 5.e4 e5 6.Bd3 Nh5 7.Ne2 f5
+8.Be3 f4 9.Bf2 g5 10.g4 Nf6 11.h4 gxh4 12.Bxh4 h5 13.g5 Nh7
+14.Nxf4 exf4 15.e5 Be7 16.e6 Bxg5 17.Bf2 Bf6 18.Bg6+ Ke7
+19.Nd2 Ng5 20.Qc2 Rh6 21.O-O-O Qg8 22.Bf5 Na6 23.Rdg1 Qh8
+24.Bh4 Nb4 25.Qb1 Nh7 26.Bxh7 Bxh4 27.Rxh4 Qxh7 28.Ne4 Rg6
+29.Ng5 Qg7 30.Rxh5 b5 31.a3 Na2+ 32.Qxa2 Qd4 33.Re1 Ba6
+34.Rh7+ Rg7 35.Rxg7+ Qxg7 36.Qb1 bxc4 37.Rh1 Rh8 38.Rxh8 Qxh8
+39.Qg6 Qf8 40.Nh7 1-0
+
+[Event "Trebitsch Memorial 16th"]
+[Site "Vienna AUT"]
+[Date "1933.11.13"]
+[EventDate "1933.11.12"]
+[Round "2"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Baldur Hoenlinger"]
+[ECO "B14"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "65"]
+
+1. e4 c6 2. d4 d5 3. exd5 cxd5 4. c4 Nf6 5. Nc3 e6 6. Nf3 dxc4
+7. Bxc4 Be7 8. O-O O-O 9. Bf4 a6 10. d5 exd5 11. Nxd5 Nxd5
+12. Bxd5 Nd7 13. Qc2 Qa5 14. Bb3 Nc5 15. Rae1 Qd8 16. Rd1 Qb6
+17. Bg5 Bxg5 18. Nxg5 g6 19. Bxf7+ Rxf7 20. Nxf7 Kxf7 21. Rd5
+Ne6 22. Rfd1 Qc6 23. Qb3 b5 24. Rd6 Qe4 25. Qc3 Ke7 26. Qh8 g5
+27. f3 Qg6 28. Rd8 Qc2 29. Re8+ Kf7 30. Qg8+ Kf6 31. Re1 Qc6
+32. h4 h6 33. h5 1-0
+
+[Event "Match"]
+[Site "Rotterdam NED"]
+[Date "1933.04.10"]
+[EventDate "?"]
+[Round "3"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Salo Landau"]
+[ECO "B02"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "51"]
+
+1. e4 Nf6 2. Nc3 d5 3. e5 Nfd7 4. e6 fxe6 5. d4 Nf6 6. Nf3 c5
+7. dxc5 Nc6 8. Bb5 Bd7 9. O-O Qc7 10. Re1 h6 11. Bxc6 bxc6
+12. Ne5 g5 13. Qd3 Rg8 14. b4 Bg7 15. Qg6+ Kd8 16. Qf7 Be8
+17. Qxe6 Rf8 18. b5 Ne4 19. Rxe4 dxe4 20. Bf4 Bxe5 21. Bxe5
+Qd7 22. Rd1 cxb5 23. Rxd7+ Bxd7 24. Qxh6 Rg8 25. c6 Be8
+26. Nxb5 1-0
+
+[Event "Ostend"]
+[Site "Ostend BEL"]
+[Date "1906.06.16"]
+[EventDate "1906.06.05"]
+[Round "11"]
+[Result "0-1"]
+[White "Ossip Bernstein"]
+[Black "Rudolf Spielmann"]
+[ECO "D32"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "50"]
+
+1. d4 d5 2. c4 e6 3. Nc3 c5 4. cxd5 exd5 5. dxc5 d4 6. Na4
+Bxc5 7. Nxc5 Qa5+ 8. Qd2 Qxc5 9. b4 Qb6 10. Bb2 Nc6 11. a3 Be6
+12. Nf3 Rd8 13. Qg5 Nf6 14. Qxg7 Ke7 15. Qh6 Rhg8 16. Rd1 a5
+17. Qd2 Ne4 18. Qc2 f5 19. bxa5 Qxa5+ 20. Nd2 Ne5 21. Bc1 Rd6
+22. f3 Nc3 23. g3 Rb6 24. Kf2 Rc8 25. Kg1 Nxe2+ 0-1
+
+[Event "Scheveningen"]
+[Site "Scheveningen NED"]
+[Date "1905.08.05"]
+[EventDate "1905.07.31"]
+[Round "8"]
+[Result "0-1"]
+[White "Georg Schories"]
+[Black "Rudolf Spielmann"]
+[ECO "C82"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "50"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 a6 4. Ba4 Nf6 5. O-O Nxe4 6. d4 b5
+7. Bb3 d5 8. dxe5 Be6 9. c3 Bc5 10. a4 b4 11. Qe2 O-O 12. Bc2
+f5 13. exf6 Qxf6 14. Bxe4 dxe4 15. Qxe4 Bb3 16. c4 Qd6
+17. Nbd2 Rae8 18. Qb1 Nd4 19. Ne4 Nxf3+ 20. gxf3 Qg6+ 21. Kh1
+Rxf3 22. Re1 Rxf2 23. Bg5 Qh5 24. Nf6+ gxf6 25. Rxe8+ Kf7 0-1
+
+[Event "Karlsbad"]
+[Site "Karlsbad CSR"]
+[Date "1929.07.31"]
+[EventDate "1929.07.31"]
+[Round "1"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Ernst Gruenfeld"]
+[ECO "D31"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "47"]
+
+1. d4 d5 2. c4 e6 3. Nc3 dxc4 4. e4 c5 5. Nf3 cxd4 6. Nxd4 a6
+7. Bxc4 Bd7 8. O-O Nc6 9. Nf3 Qc7 10. Qe2 Bd6 11. Rd1 Nge7
+12. Be3 Ne5 13. Nxe5 Bxe5 14. g3 Bxc3 15. bxc3 Ng6 16. Bb3 O-O
+17. Bd4 b5 18. Qe3 Bc6 19. h4 Qb7 20. h5 Ne7 21. Bxg7 Kxg7
+22. Qg5+ Ng6 23. h6+ Kg8 24. Qf6 1-0
+
+[Event "Marienbad"]
+[Site "Marianske Lazne CSR"]
+[Date "1925.05.31"]
+[EventDate "1925.??.??"]
+[Round "9"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Savielly Tartakower"]
+[ECO "B41"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "61"]
+
+1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 a6 5.c4 Nf6 6.Nc3 Qc7 7.a3
+Be7 8.Be2 O-O 9.O-O d6 10.Be3 Nbd7 11.Rc1 b6 12.b4 Bb7 13.f3
+Rac8 14.Qe1 Qb8 15.Qf2 Bd8 16.Na4 Ne5 17.Nb2 d5 18.exd5 exd5
+19.Nf5 Nxc4 20.Nxc4 dxc4 21.Bxc4 Qe5 22.Bd3 Rxc1 23.Rxc1 Nd5
+24.Bd4 Qf4 25.Re1 Bf6 26.Bxf6 gxf6 27.g3 Qc7 28.Qd2 Qc3 29.Qh6
+Qxe1+ 30.Bf1 Re8 31.Qg7# 1-0
+
+[Event "Ebensee"]
+[Site "Ebensee AUT"]
+[Date "1933.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Hans Mueller"]
+[ECO "D45"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "79"]
+
+1. d4 d5 2. Nf3 Nf6 3. c4 c6 4. Nc3 e6 5. e3 Nbd7 6. Ne5 Be7
+7. Bd3 O-O 8. f4 c5 9. O-O Qc7 10. cxd5 exd5 11. Qf3 cxd4
+12. exd4 Qb6 13. Be3 Qxb2 14. Rfc1 Qa3 15. Rab1 Bd8 16. Bf2
+Qd6 17. Nb5 Qb8 18. Bg3 Ne4 19. Bxe4 dxe4 20. Qb3 Bb6 21. Nxf7
+Rxf7 22. f5 Ne5 23. Kh1 Bxf5 24. Bxe5 Qe8 25. Nd6 Qe6 26. Nxf7
+Qxb3 27. Rxb3 Kxf7 28. Rf1 Ke6 29. Bxg7 Rg8 30. Be5 Rd8
+31. Rb5 Bg6 32. h4 Be8 33. Rf6+ Ke7 34. Rb3 Bg6 35. h5 Bxh5
+36. Rf5 Bg4 37. Bf6+ Ke6 38. Bxd8 Kxf5 39. Bxb6 axb6 40. Kg1
+1-0
+
+[Event "25. DSB Kongress"]
+[Site "Magdeburg GER"]
+[Date "1927.07.21"]
+[EventDate "?"]
+[Round "5"]
+[Result "0-1"]
+[White "Efim Bogoljubov"]
+[Black "Rudolf Spielmann"]
+[ECO "B10"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "86"]
+
+1.e4 c6 2.Nc3 d5 3.Nf3 Nf6 4.e5 Ne4 5.d4 Bf5 6.Nh4 e6 7.Nxf5
+exf5 8.Nxe4 fxe4 9.Qg4 Qd7 10.Qg3 c5 11.dxc5 Nc6 12.c3 Bxc5
+13.Be2 O-O 14.Bf4 f6 15. exf6 Rxf6 16.Be3 d4 17.cxd4 Nxd4
+18.Bxd4 Qxd4 19.O-O Qxb2 20.Bc4+ Kh8 21. Rae1 Raf8 22.Re2 Qd4
+23.Bb3 Rxf2 24.Rexf2 Rxf2 25.Qxf2 Qe5 26.g3 h5 27.Rd1 Bxf2+
+28.Kxf2 Qf6+ 29.Ke3 Qf3+ 30.Kd4 e3 31.Rd3 Qf2 32.Rxe3 Qxh2
+33.Ke4 Qg2+ 34.Kd3 Kh7 35.Kd4 Kh6 36.Bd5 Qd2+ 37.Ke4 b5 38.Rd3
+Qe2+ 39.Re3 Qc2+ 40.Ke5 a5 41.Kd6 g6 42.g4 hxg4 43.Re6 b4 0-1
+
+[Event "Match"]
+[Site "YUG"]
+[Date "1931.05.21"]
+[EventDate "1931.05.12"]
+[Round "6"]
+[Result "0-1"]
+[White "Vasja Pirc"]
+[Black "Rudolf Spielmann"]
+[ECO "A84"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "60"]
+
+1. d4 e6 2. c4 f5 3. Nf3 Nf6 4. g3 Bb4+ 5. Bd2 Bxd2+ 6. Nbxd2
+Nc6 7. Bg2 O-O 8. O-O d6 9. Qb3 Kh8 10. Qc3 e5 11. dxe5 dxe5
+12. Rad1 Qe7 13. Rfe1 e4 14. Nd4 Nxd4 15. Qxd4 c5 16. Qc3 Bd7
+17. Nf1 Bc6 18. Ne3 Nd7 19. Bh3 Qg5 20. Rd6 Qh5 21. Kg2 Rae8
+22. Nd5 Ne5 23. Nf4 Qf7 24. Nd5 f4 25. Nxf4 g5 26. Be6 Qf6
+27. Nh5 Qxf2+ 28. Kh1 Rf6 29. Bd7 Rxd6 30. Bxe8 Rd4 0-1
+
+[Event "Match"]
+[Site "YUG"]
+[Date "1931.05.23"]
+[EventDate "1931.05.12"]
+[Round "7"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Vasja Pirc"]
+[ECO "D18"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "49"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. e3 Na6
+7. Bxc4 Nb4 8. O-O e6 9. Qe2 Ne4 10. Ne5 Bd6 11. Nxf7 Kxf7
+12. Qf3 g6 13. Nxe4 Bxh2+ 14. Kxh2 Qh4+ 15. Kg1 Qxe4 16. Qg3
+Rhe8 17. Bd2 Qc2 18. Bc3 Nd5 19. Rfc1 Qe4 20. Bd2 g5 21. f3
+Qh4 22. Qxh4 gxh4 23. e4 Bg6 24. exd5 exd5 25. Bf1 1-0
+
+[Event "Barmen Meisterturnier B"]
+[Site "Barmen GER"]
+[Date "1905.08.21"]
+[EventDate "1905.08.14"]
+[Round "7"]
+[Result "0-1"]
+[White "David Przepiorka"]
+[Black "Rudolf Spielmann"]
+[ECO "C63"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "74"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 f5 4. d3 fxe4 5. dxe4 Nf6 6. O-O d6
+7. Nc3 Be6 8. Qe2 h6 9. Be3 g5 10. Kh1 Bg7 11. Ng1 O-O
+12. Bxc6 bxc6 13. f3 Qe8 14. b3 Qg6 15. g4 Rf7 16. Qg2 Raf8
+17. Nge2 d5 18. Bc5 Rd8 19. Ng3 h5 20. h3 h4 21. Nf5 Bxf5
+22. exf5 Qh6 23. Rae1 d4 24. Ne4 Nd5 25. Qd2 Nf4 26. Kh2 Bf8
+27. Qa5 d3 28. Rd1 Rd5 29. c4 Bxc5 30. cxd5 Bb6 31. Qa6 cxd5
+32. Nf2 Qd6 33. Kh1 e4 34. fxe4 Bxf2 35. Qxd6 cxd6 36. Rxf2
+dxe4 37. Rfd2 Re7 0-1
+
+[Event "Munich"]
+[Site "Munich GER"]
+[Date "1926.12.28"]
+[EventDate "?"]
+[Round "3"]
+[Result "1-0"]
+[White "Rudolf Spielmann"]
+[Black "Hans Gebhardt"]
+[ECO "B20"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "51"]
+
+1. e4 c5 2. b4 cxb4 3. a3 bxa3 4. Nxa3 d6 5. Bc4 Nf6 6. Bb2
+Nc6 7. Qe2 e6 8. Nf3 Be7 9. O-O O-O 10. Nb5 Ne8 11. Qe3 a6
+12. Nbd4 Bd7 13. Nxc6 Bxc6 14. Nd4 Bd7 15. f4 Rc8 16. Bb3 Qc7
+17. Kh1 Bf6 18. Rae1 e5 19. fxe5 dxe5 20. Nf5 Nd6 21. Nxd6
+Qxd6 22. Ba3 Qc6 23. Bd5 Qxc2 24. Rxf6 gxf6 25. Qg3+ Kh8
+26. Be7 1-0
+
