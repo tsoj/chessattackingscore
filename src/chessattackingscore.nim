@@ -6,7 +6,7 @@ export features
 
 const
   PIECE_VALUES = [pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9]
-  WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 2
+  WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
 
 type
   AttackingStats* = object
@@ -19,7 +19,6 @@ type
     oppositeSideCastlingGames: int
     forfeitedCastlingGames: int
     pawnStormsVsKing: int
-    totalChecks: int
     centralPawnBreaks: int
     advancedPieces: int
     rookLifts: int
@@ -29,10 +28,7 @@ type
     rookQueenThreats: int
     bishopQueenThreats: int
     totalSacrificeScore: float
-    forcingMoves: int
-    f7F2Attacks: int
     coordinatedAttacks: int
-    shortGameBonus: float
 
   SacrificeState = object
     active: bool
@@ -108,7 +104,6 @@ func updateSacrificeTracking(
     position: Position,
     move: Move,
     sacrificeState: var SacrificeState,
-    isWin: bool,
     stats: var AttackingStats,
 ) =
   # Apply the move to check material balance after our move
@@ -127,16 +122,15 @@ func updateSacrificeTracking(
   else:
     # No deficit; if a sequence was active, it ends here
     if sacrificeState.active:
-      if isWin:
-        let seqScore = scoreSacrificeQuietDeficits(sacrificeState.quietDeficits)
-        stats.totalSacrificeScore += seqScore
+      let seqScore = scoreSacrificeQuietDeficits(sacrificeState.quietDeficits)
+      stats.totalSacrificeScore += seqScore
       sacrificeState.active = false
       sacrificeState.quietDeficits = @[]
 
 func finalizeSacrificeTracking(
-    sacrificeState: SacrificeState, isWin: bool, stats: var AttackingStats
+    sacrificeState: SacrificeState, stats: var AttackingStats
 ) =
-  if sacrificeState.active and isWin:
+  if sacrificeState.active:
     let seqScore = scoreSacrificeQuietDeficits(sacrificeState.quietDeficits)
     stats.totalSacrificeScore += seqScore
 
@@ -209,20 +203,20 @@ func analyzeTacticalMoves(
 
   let numPieces = position.occupancy.countSetBits
 
-  # Pawn storms
-  if movingPieceType == pawn:
-    let
-      pawnFile = fileNumber(move.target)
-      pawnRank = rankNumber(move.target)
-      enemyKingSquare = position.kingSquare(black)
-      kingFile = fileNumber(enemyKingSquare)
-      kingRank = rankNumber(enemyKingSquare)
-
-    if kingRank > pawnRank and abs(pawnFile - kingFile) <= 2:
-      inc stats.pawnStormsVsKing
-
   # We don't evaluate this in the endgame, since there pieces move very freely anyway
-  if numPieces >= 16:
+  if numPieces >= 18:
+    # Pawn storms
+    if movingPieceType == pawn:
+      let
+        pawnFile = fileNumber(move.target)
+        pawnRank = rankNumber(move.target)
+        enemyKingSquare = position.kingSquare(black)
+        kingFile = fileNumber(enemyKingSquare)
+        kingRank = rankNumber(enemyKingSquare)
+
+      if kingRank > pawnRank and abs(pawnFile - kingFile) <= 2:
+        inc stats.pawnStormsVsKing
+
     # Central pawn breaks
     if movingPieceType == pawn and fileNumber(move.source) in [3, 4] and
         rankNumber(move.target) == 4 and numPieces >= 20:
@@ -249,23 +243,6 @@ func analyzeTacticalMoves(
           not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
         inc stats.knightOutposts
 
-  # Only important during opening
-  if numPieces >= 26:
-    # F7/F2 attacks (now always f7 in normalized view)
-    if move.target == f7 or position.attacksFrom(move.target).isSet(f7):
-      inc stats.f7F2Attacks
-
-func analyzeForcingMoves(
-    position: Position, move: Move, materialBalance: int, stats: var AttackingStats
-) =
-  if move.isCapture:
-    inc stats.forcingMoves
-
-  let newPosition = position.doMove(move)
-  if newPosition.inCheck(position.enemy):
-    inc stats.forcingMoves
-    inc stats.totalChecks
-
 func analyzeCoordinatedAttacks(
     position: Position, materialBalance: int, stats: var AttackingStats
 ) =
@@ -281,18 +258,6 @@ func analyzeCoordinatedAttacks(
 
   if uniqueAttackers >= 3:
     inc stats.coordinatedAttacks
-
-func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): float =
-  let finalBalance = getMaterialBalance(position, playerColor)
-
-  if hasWinningAdvantage(finalBalance):
-    return 0.0
-
-  let gameLength = (ply + 1) div 2
-  # Don't give a high bonus for games that are too short
-  if gameLength in 20 .. 60:
-    return max(0.0, (60 - max(30, gameLength)).float / 30.0)
-  return 0.0
 
 # --- Main Analysis Function ---
 func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
@@ -334,7 +299,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         continue
 
       # Update sacrifice tracking
-      updateSacrificeTracking(position, move, sacrificeState, isWin, stats)
+      if isWin:
+        updateSacrificeTracking(position, move, sacrificeState, stats)
 
       # Only analyze attacking if we don't have winning material advantage
       if not hasWinningAdvantage(materialBalance):
@@ -343,8 +309,6 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
 
         analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
-
-        analyzeForcingMoves(position, move, materialBalance, stats)
 
         analyzeCoordinatedAttacks(position, materialBalance, stats)
 
@@ -356,7 +320,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         inc stats.numWinMoves
 
   # Finalize sacrifice tracking
-  finalizeSacrificeTracking(sacrificeState, isWin, stats)
+  if isWin:
+    finalizeSacrificeTracking(sacrificeState, stats)
 
   # Check for forfeited castling
   if usCastledSide.isNone and game.moves.len >= 40:
@@ -368,8 +333,6 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
     inc stats.numDraws
   elif isWin:
     inc stats.numWins
-    stats.shortGameBonus +=
-      calculateShortGameBonus(position, playerColor, game.moves.len)
   else:
     inc stats.numLosses
 
@@ -409,24 +372,23 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.totalMoves.float
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
   result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.totalMoves.float
-  result[forcingMovesPerMove] = stats.forcingMoves.float / stats.totalMoves.float
-  result[checksPerMove] = stats.totalChecks.float / stats.totalMoves.float
   result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
   result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.totalMoves.float
   result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.totalMoves.float
   result[rookLiftsPerMove] = stats.rookLifts.float / stats.totalMoves.float
   result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.totalMoves.float
-  result[shortGameBonusPerWin] = if stats.numWins > 0: stats.shortGameBonus / stats.numWins.float else: 0.0
-  result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / stats.totalMoves.float
   #!fmt: on
 
-func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
+func getAttackingScore*(
+    rawScores: array[AttackingFeature, float],
+    weights: array[AttackingFeature, float] = featureWeights,
+): float =
   var totalWeightedScore = 0.0
   var totalWeight = 0.0
 
   for feature in AttackingFeature:
     let rawValue = rawScores[feature]
-    let weight = featureWeights[feature]
+    let weight = weights[feature]
     let params = normalizationParams[feature]
 
     var normalizedValue: float
@@ -436,12 +398,12 @@ func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
       normalizedValue = 0.0
 
     totalWeightedScore += weight * normalizedValue
-    totalWeight += weight
+    totalWeight += weight.abs
 
-  if totalWeight > 0:
-    return totalWeightedScore / totalWeight
-  else:
+  if totalWeight == 0:
     return 0.0
+
+  return totalWeightedScore / totalWeight
 
 func getAttackingScore(stats: AttackingStats): float =
   getAttackingScore(getRawFeatureScores(stats))
@@ -511,7 +473,7 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
         gameScoresForPlayer.add((game, score))
 
       inc gamesProcessed
-      if gamesProcessed mod 100 == 0:
+      if gamesProcessed mod 1000 == 0:
         echo "Processed ", gamesProcessed, " games..."
 
     echo "\n--- Analysis Complete ---"

@@ -16,31 +16,6 @@ type
     iteration: int
     maxIterations: int
 
-proc calculateScoreWithWeights(
-    rawScores: array[AttackingFeature, float], weights: array[AttackingFeature, float]
-): float =
-  var totalWeightedScore = 0.0
-  var totalWeight = 0.0
-
-  for feature in AttackingFeature:
-    let rawValue = rawScores[feature]
-    let weight = weights[feature]
-    let params = normalizationParams[feature]
-
-    var normalizedValue: float
-    if params.std > 0:
-      normalizedValue = (rawValue - params.mean) / params.std
-    else:
-      normalizedValue = 0.0
-
-    totalWeightedScore += weight * normalizedValue
-    totalWeight += weight
-
-  if totalWeight == 0:
-    return 0.0
-
-  return totalWeightedScore / totalWeight
-
 proc preprocessGamesFromFolder(
     folderPath: string, targetLabel: float, maxGamesPerClass: int
 ): seq[GameData] =
@@ -119,7 +94,7 @@ proc calculateLoss(
   var totalError = 0.0
 
   for data in trainingData:
-    let predictedScore = calculateScoreWithWeights(data.rawScores, weights)
+    let predictedScore = getAttackingScore(data.rawScores, weights)
     totalError += pow(predictedScore - data.targetLabel, 2)
 
   return totalError / trainingData.len.float
@@ -181,8 +156,8 @@ proc estimateGradientSPSA(
     weightsMinus[feature] = weight - ck * delta[feature]
 
     # Ensure weights stay non-negative
-    weightsPlus[feature] = max(0.0, weightsPlus[feature])
-    weightsMinus[feature] = max(0.0, weightsMinus[feature])
+    weightsPlus[feature] = weightsPlus[feature]
+    weightsMinus[feature] = weightsMinus[feature]
 
   # Evaluate loss at both points
   let lossPlus = calculateLoss(trainingData, weightsPlus)
@@ -221,7 +196,7 @@ proc evaluatePerformance(
   var attackingScores: seq[float] = @[]
 
   for data in dataset:
-    let score = calculateScoreWithWeights(data.rawScores, weights)
+    let score = getAttackingScore(data.rawScores, weights)
     if data.targetLabel == 0.0:
       normalScores.add(score)
     else:

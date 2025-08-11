@@ -3,10 +3,7 @@ type AttackingFeature* = enum
   bishopQueenThreatsPerMove
   capturesNearKing
   centralPawnBreaksPerMove
-  checksPerMove
   coordinatedAttacksPerMove
-  f7F2AttacksPerMove
-  forcingMovesPerMove
   forfeitedCastlingGames
   knightOutpostsPerMove
   movesNearKing
@@ -15,4 +12,3 @@ type AttackingFeature* = enum
   rookLiftsPerMove
   rookQueenThreatsPerMove
   sacrificeScorePerWinMove
-  shortGameBonusPerWin
