@@ -2383,7 +2383,7 @@ Re6 37. e5 Bxg4 38. Rxh7 Rxf6+ 39. exf6 1-0
 7.Bxd2 O-O 8.h4 h6 9.c3 Nd7 10.Ng5 c5 11.Qh5 cxd4 12.cxd4 Qb6
 13.Bc3 Bb4 14.Kf1 Bxc3 15.bxc3 Qb2 16.Rd1 Qxa2 17.Rh3 b6
 18.Bh7+ Kh8 19.Rg3 Ba6+ 20.Kg1 Qe2 21.Nxf7+ Rxf7 22.Qxf7 Qxd1+
-23.Kh2 g5 24.Bg6 Nf8 25.Qf6+ Kg8 26.Bf7+ Kxh7 27.hxg5 1-0
+23.Kh2 g5 24.Bg6 Nf8 25.Qf6+ Kg8 26.Bf7+ Kh7 27.hxg5 1-0
 
 [Event "Hoogovens"]
 [Site "Wijk aan Zee NED"]
@@ -5196,4 +5196,3 @@ O-O 14.dxc5 bxc5 15.Nd2 Ng6 16.Qh5 Be8 17.Qe2 Bxa4 18.Qg4 Bd7
 12. Nxf4 Nc5 13. exf5 Nxf5 14. Bd2 a5 15. Nd3 Qh4 16. Nf2 Be5
 17. Ng4 Bd4+ 18. Nf2 Bd7 19. Qc2 Ng3 20. hxg3 Qxg3 21. Be1 Bh3
 0-1
-

@@ -1,4 +1,4 @@
-﻿[Event "USSR Championship"]
+[Event "USSR Championship"]
 [Site "Moscow URS"]
 [Date "1957.02.21"]
 [Round "21"]
@@ -656,7 +656,7 @@ What else?} (19... Rxf7 20. Rxd8+ {Leads to a quick mate:} Ne8 21. Rxe8+ Rf8
 21. Nxf7+ Kg8 22. Rxa1 Kxf7 {Now Black is "only" an exchange down, but his
 pawns are also weak and there is no hope.} 23. Ne5+ Ke6 24. Nxc6 Ne4+ 25. Ke3
 Bb6+ 26. Bd4 {And here Smyslov decided to throw in the towel. A marvellous,
-fascinating game that demonstrated that even the great players like Smyslov 
+fascinating game that demonstrated that even the great players like Smyslov
 (albeit out of form) can succumb to Tal's psychological pressure and hurricane
 like pressure over the board. ---After this game, the path of the two
 competitors diverged. Tal would go on to score a very convincing tournament
@@ -686,7 +686,7 @@ was curious to see if it can work as well against the formidable Patriarch,
 who was very dismissive of Tal's "gambling" style in the past. --- This match,
 dubbed "The War of Antipodes" by Garry Kasparov in his book On My Great
 Predecessors, was very much anticipated and historical, and we will be
-examining two games from it, starting with the very first game of the match.} 
+examining two games from it, starting with the very first game of the match.}
 1. e4 {No hesitation. Very natural for Tal to go for his favourite move in the
 most important event of his career up to that point.} e6 {The French was
 always one of Botvinnik's favourite openings throughout his career, although
@@ -755,7 +755,7 @@ is not the only move in the position, mind you.} Qf7 {Trying to alleviate the
 pin and move the knight from g6 away.} (19... e4 {Would allow} 20. Nf4) (19...
 exd4 {also leads nowhere after either} 20. cxd4 ({or} 20. Nxd4 {[%cal Gh3c3]
 Note how it is nice to have the rook on h3 defending c3 in these lines.})) 20.
-dxe5 Ncxe5 {Trying to keep the position complicated.} ({With that being said} 
+dxe5 Ncxe5 {Trying to keep the position complicated.} ({With that being said}
 20... Ngxe5 {wouldn't have brought much relief after, say} 21. Nf4 Qxh5 22.
 Nxh5 {All WHite's pieces are active, White has weaknesses on f5 and d5 and
 White has the bishop pair and the passed h-pawn to top it all.}) 21. Re3 {
@@ -1013,7 +1013,7 @@ encounters that stays in your mind for a while.} 1. d4 {As mentioned earlier,
 1.d4 was not really the most common opening move for Tal, but he could, of
 course, vary as White.} Nf6 2. c4 e6 3. Nf3 b6 4. Nc3 Bb4 5. Bg5 Bb7 6. e3 h6 {
 This variation of the Queen's Indian/Nimzo hybrid is probably not the most
-critical for Black, but it does appear to this day in games of strong players 
+critical for Black, but it does appear to this day in games of strong players
 (albeit not that much in the last decade).} 7. Bh4 Bxc3+ 8. bxc3 d6 {So, via
 the transposition we have reached some sort of Nimzo-Indian position where
 White has the bishop pair and Black has the fluent pawn structure and
@@ -1359,7 +1359,7 @@ position for the Tarrasch Defence, where Black has an isolated pawn but often
 obtains reasonable dynamic chances in return.} h6 11. Be3 Re8 12. Qb3 {This
 move increases the pressure on the d5 pawn and basically forces Black's next
 move. I am not 100% sure if it is beneficial to bring the knight closer to the
-juicy c4 square, even if this is the 2nd most common move in this position 
+juicy c4 square, even if this is the 2nd most common move in this position
 (have I mentioned I don't know that much at all about the Tarrasch Defence)?}
 Na5 13. Qc2 {[%cal Gc2f5] I guess one of the ideas behind having the queen on
 c2 is to be able to jump to f5 with the knight.} Bg4 {Another very typical
@@ -1534,4 +1534,3 @@ apart from the splendid combination, I also found Tal's handling of a typical
 Spanish middlegame extremely instructive. We often admire his combinations and
 tend to forget he was also a very well-rounded player with above average
 positional understanding.} 1-0
-

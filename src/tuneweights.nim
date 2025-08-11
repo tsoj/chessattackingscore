@@ -1,4 +1,4 @@
-import std/[os, parseopt, strutils, sequtils, tables, math, random, strformat]
+import std/[os, parseopt, strutils, sequtils, tables, math, random, strformat, times]
 import nimchess
 from chessattackingscore import AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature, getAttackingScore
 import paramnorm
@@ -66,6 +66,7 @@ proc preprocessGamesFromFolder(folderPath: string, targetLabel: float, maxGamesP
       break
 
     try:
+      echo "path: ", pgnPath
       for game in readPgnFileIter(pgnPath):
         if processedData.len >= maxGamesPerClass:
           break
@@ -234,11 +235,11 @@ proc writeFeatureWeightsFile(weights: array[AttackingFeature, float]) =
   ]##
   let filePath = "src/paramfeatures.nim"
 
-  var content = """##[
+  var content = fmt"""##[
 Feature weights for chess attacking score calculation.
 These weights determine the relative importance of each attacking feature.
 
-This file is automatically updated by the tune_weights script.
+This file is automatically updated by the tune_weights script on {now().utc}.
 ]##
 
 import features

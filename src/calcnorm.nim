@@ -5,7 +5,7 @@ This analyzes a large set of games to determine mean and standard deviation
 for each raw score feature, enabling better normalization.
 ]##
 
-import std/[os, strutils, sequtils, tables, strformat, math, parseopt, algorithm]
+import std/[os, strutils, sequtils, tables, strformat, math, parseopt, algorithm, times]
 import nimchess
 from chessattackingscore import AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature
 
@@ -105,8 +105,6 @@ proc calculateNormalizationParameters(rawScoreCollections: array[AttackingFeatur
   var normalizationParams: array[AttackingFeature, tuple[mean: float, std: float]]
 
   echo "\nCalculating normalization parameters..."
-  echo "Feature".alignLeft(35) & " " & "Count".alignLeft(8) & " " & "Mean".alignLeft(12) & " " & "Std".alignLeft(12) & " " & "Min".alignLeft(12) & " " & "Max".alignLeft(12)
-  echo "-".repeat(90)
 
   for feature in AttackingFeature:
     let scores = rawScoreCollections[feature]
@@ -116,17 +114,8 @@ proc calculateNormalizationParameters(rawScoreCollections: array[AttackingFeatur
 
     let meanVal = calculateMean(scores)
     let stdVal = calculateStdDev(scores, meanVal)
-    let minVal = scores.min()
-    let maxVal = scores.max()
 
     normalizationParams[feature] = (mean: meanVal, std: stdVal)
-
-    echo ($feature).alignLeft(35) & " " &
-         ($scores.len).alignLeft(8) & " " &
-         fmt"{meanVal:.6f}".alignLeft(12) & " " &
-         fmt"{stdVal:.6f}".alignLeft(12) & " " &
-         fmt"{minVal:.6f}".alignLeft(12) & " " &
-         fmt"{maxVal:.6f}".alignLeft(12)
 
   return normalizationParams
 
@@ -136,11 +125,11 @@ proc writeNormalizationParamsFile(normalizationParams: array[AttackingFeature, t
   ]##
   let filePath = "src/paramnorm.nim"
 
-  var content = """##[
+  var content = fmt"""##[
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculate_normalization script.
+This file is automatically updated by the calculate_normalization script on {now().utc}.
 ]##
 
 import features

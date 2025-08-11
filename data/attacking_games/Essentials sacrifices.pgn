@@ -165,8 +165,6 @@ Rg8 35.Rd1 e3 36.Qc3 Qxd1 37.Rxd1 e2 0-1
 [WhiteElo "?"]
 [BlackElo "?"]
 [PlyCount "35"]
-[SetUp "1"]
-[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/1NBQKBNR w KQkq - 0 1"]
 
 1. e4 e5 2. Nf3 Nc6 3. Bc4 Bc5 4. b4 Bxb4 5. c3 Ba5 6. d4 exd4
 7. O-O Nf6 8. Ba3 Bb6 9. Qb3 d5 10. exd5 Na5 11. Re1+ Be6
@@ -551,4 +549,3 @@ a6 8.dxc5 Bxc5 9.e4 Ng4 10.e5 Nd4 11.Nxd4 Qxd4 12.Nd2 Nxe5
 13.Nb3 Qxc4 14.Qxe5 Bf8 15.Be3 Qd5 16.Qg3 Bd6 17.f4 Qe4
 18.Rad1 Be7 19.f5 Bh4 20.Qh3 Bf6 21.Bc5 e5 22.Nd4 b6 23.Rfe1
 Qf4 24.g3 Qh6 25.Qg2 Rb8 26.Qc6+ Bd7 27.Ne6 1-0
-

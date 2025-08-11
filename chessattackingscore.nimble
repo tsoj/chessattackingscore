@@ -11,12 +11,9 @@ bin           = @["chessattackingscore"]
 # Dependencies
 
 requires "nim >= 2.2.4"
-requires "https://github.com/tsoj/nimchess >= 0.1.0"
+requires "https://github.com/tsoj/nimchess >= 0.1.2"
 
-# Tasks
-
-task calculate_normalization, "Calculate normalization parameters from PGN files":
-  exec "nim compile --run calculate_normalization.nim"
-
-task tune_weights, "Optimize feature weights using SPSA":
-  exec "nim compile --run tune_weights.nim"
+task calcParams, "Calculate normalization and feature weight parameters from PGN files":
+  exec "nim r -f -d:danger src/calcnorm.nim"
+  exec "nim r -f -d:danger src/tuneweights.nim"
+  echo "Done"
