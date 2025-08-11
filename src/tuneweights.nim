@@ -95,7 +95,8 @@ proc calculateLoss(
 
   for data in trainingData:
     let predictedScore = getAttackingScore(data.rawScores, weights)
-    totalError += pow(predictedScore - data.targetLabel, 2)
+    # totalError += pow(predictedScore - data.targetLabel, 2)
+    totalError += abs(predictedScore - data.targetLabel)
 
   return totalError / trainingData.len.float
 
@@ -154,10 +155,6 @@ proc estimateGradientSPSA(
     let weight = optimizer.weights[feature]
     weightsPlus[feature] = weight + ck * delta[feature]
     weightsMinus[feature] = weight - ck * delta[feature]
-
-    # Ensure weights stay non-negative
-    weightsPlus[feature] = weightsPlus[feature]
-    weightsMinus[feature] = weightsMinus[feature]
 
   # Evaluate loss at both points
   let lossPlus = calculateLoss(trainingData, weightsPlus)

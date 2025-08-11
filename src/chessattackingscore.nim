@@ -24,12 +24,12 @@ type
     advancedPieces: int
     rookLifts: int
     knightOutposts: int
-    movesNearKingDist: array[8, int]
-    capturesNearKingDist: array[8, int]
     rookQueenThreats: int
     bishopQueenThreats: int
-    totalSacrificeScore: float
     coordinatedAttacks: int
+    movesNearKingDist: array[8, int]
+    capturesNearKingDist: array[8, int]
+    totalSacrificeScore: float
 
   SacrificeState = object
     active: bool
@@ -375,24 +375,20 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   #!fmt: off
   result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.numWinMoves).float
   result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float / stats.numGames.float
-
   result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
-
 
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
 
-  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.numNonDrawMoves.float
-  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.numNonDrawMoves.float
-
-
-
-  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.numNonDrawMoves.float
-  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / stats.numNonDrawMoves.float
-  result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.numNonDrawMoves.float
-  result[rookLiftsPerMove] = stats.rookLifts.float / stats.numNonDrawMoves.float
-  result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.numNonDrawMoves.float
-  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / stats.numNonDrawMoves.float
+  let numNonDrawMovesDivider = max(1, stats.numNonDrawMoves).float
+  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / numNonDrawMovesDivider
+  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / numNonDrawMovesDivider
+  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / numNonDrawMovesDivider
+  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / numNonDrawMovesDivider
+  result[advancedPiecesPerMove] = stats.advancedPieces.float / numNonDrawMovesDivider
+  result[rookLiftsPerMove] = stats.rookLifts.float / numNonDrawMovesDivider
+  result[knightOutpostsPerMove] = stats.knightOutposts.float / numNonDrawMovesDivider
+  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / numNonDrawMovesDivider
   #!fmt: on
 
 func getAttackingScore*(
