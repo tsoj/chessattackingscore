@@ -1,19 +1,18 @@
-type
-  AttackingFeature* = enum
-    advancedPiecesPerMove
-    bishopQueenThreatsPerMove
-    capturesNearKing
-    centralPawnBreaksPerMove
-    checksPerMove
-    coordinatedAttacksPerMove
-    f7F2AttacksPerMove
-    forcingMovesPerMove
-    forfeitedCastlingGames
-    knightOutpostsPerMove
-    movesNearKing
-    oppositeSideCastlingGames
-    pawnStormsPerMove
-    rookLiftsPerMove
-    rookQueenThreatsPerMove
-    sacrificeScorePerWinMove
-    shortGameBonusPerWin
+type AttackingFeature* = enum
+  advancedPiecesPerMove
+  bishopQueenThreatsPerMove
+  capturesNearKing
+  centralPawnBreaksPerMove
+  checksPerMove
+  coordinatedAttacksPerMove
+  f7F2AttacksPerMove
+  forcingMovesPerMove
+  forfeitedCastlingGames
+  knightOutpostsPerMove
+  movesNearKing
+  oppositeSideCastlingGames
+  pawnStormsPerMove
+  rookLiftsPerMove
+  rookQueenThreatsPerMove
+  sacrificeScorePerWinMove
+  shortGameBonusPerWin

@@ -6,13 +6,7 @@ export features
 
 # --- Constants ---
 const
-  PIECE_VALUES = [
-    pawn: 1,
-    knight: 3,
-    bishop: 3,
-    rook: 5,
-    queen: 9
-  ]
+  PIECE_VALUES = [pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9]
 
   WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
 
@@ -43,8 +37,6 @@ type
     coordinatedAttacks: int
     shortGameBonus: float
 
-
-
   SacrificeState = object
     active: bool
     quietDeficits: seq[int]
@@ -58,20 +50,20 @@ type
     topN: int
     eventFilter: seq[string]
 
-# --- Helper Functions ---
-func squareDistance(sq1, sq2: Square): int =
-  let
-    file1 = sq1.int8 mod 8
-    rank1 = sq1.int8 div 8
-    file2 = sq2.int8 mod 8
-    rank2 = sq2.int8 div 8
-  max(abs(file1 - file2), abs(rank1 - rank2))
+# # --- Helper Functions ---
+# func squareDistance(sq1, sq2: Square): int =
+#   let
+#     file1 = sq1.int8 mod 8
+#     rank1 = sq1.int8 div 8
+#     file2 = sq2.int8 mod 8
+#     rank2 = sq2.int8 div 8
+#   max(abs(file1 - file2), abs(rank1 - rank2))
 
-func squareFile(square: Square): int =
-  square.int8 mod 8
+# func fileNumber(square: Square): int =
+#   square.int8 mod 8
 
-func squareRank(square: Square): int =
-  square.int8 div 8
+# func rankNumber(square: Square): int =
+#   square.int8 div 8
 
 func hasWinningAdvantage(balance: int): bool =
   balance >= WINNING_MATERIAL_ADVANTAGE
@@ -81,7 +73,7 @@ func getMaterialScore(position: Position, side: Color): int =
   for pieceType in [pawn, knight, bishop, rook, queen]:
     let pieces = position[side, pieceType]
     var count = 0
-    for square in a1..h8:
+    for square in a1 .. h8:
       if not empty(square.toBitboard and pieces):
         inc count
     score += count * PIECE_VALUES[pieceType]
@@ -93,7 +85,9 @@ func getMaterialBalance(position: Position, playerColor: Color): int =
     materialThem = getMaterialScore(position, playerColor.opposite)
   materialUs - materialThem
 
-func createAnalysisView(position: Position, move: Move, playerColor: Color): (Position, Move, Color) =
+func createAnalysisView(
+    position: Position, move: Move, playerColor: Color
+): (Position, Move, Color) =
   if playerColor == white:
     return (position, move, white)
 
@@ -105,7 +99,7 @@ func createAnalysisView(position: Position, move: Move, playerColor: Color): (Po
     captured = move.isCapture,
     enPassant = move.isEnPassantCapture,
     castled = move.isCastling,
-    promoted = move.promoted
+    promoted = move.promoted,
   )
   return (mirroredPosition, mirroredMove, white)
 
@@ -116,12 +110,12 @@ func maxFilterRadius(sequence: seq[int], radius: int): seq[int] =
     return @[]
 
   result = newSeq[int](n)
-  for i in 0..<n:
+  for i in 0 ..< n:
     let
       lo = max(0, i - radius)
       hi = min(n, i + radius + 1)
     var maxVal = sequence[lo]
-    for j in lo..<hi:
+    for j in lo ..< hi:
       maxVal = max(maxVal, sequence[j])
     result[i] = maxVal
 
@@ -131,9 +125,14 @@ func scoreSacrificeQuietDeficits(quietDeficits: seq[int], radius: int = 2): floa
   let filtered = maxFilterRadius(quietDeficits, radius)
   filtered.sum.float
 
-func updateSacrificeTracking(position: Position, move: Move, playerColor: Color,
-                           sacrificeState: var SacrificeState, isWin: bool,
-                           stats: var AttackingStats) =
+func updateSacrificeTracking(
+    position: Position,
+    move: Move,
+    playerColor: Color,
+    sacrificeState: var SacrificeState,
+    isWin: bool,
+    stats: var AttackingStats,
+) =
   # Temporarily apply the move to check material balance
   let newPosition = position.doMove(move)
   let balanceAfter = getMaterialBalance(newPosition, playerColor)
@@ -156,20 +155,27 @@ func updateSacrificeTracking(position: Position, move: Move, playerColor: Color,
       sacrificeState.active = false
       sacrificeState.quietDeficits = @[]
 
-func finalizeSacrificeTracking(sacrificeState: SacrificeState, isWin: bool,
-                             stats: var AttackingStats) =
+func finalizeSacrificeTracking(
+    sacrificeState: SacrificeState, isWin: bool, stats: var AttackingStats
+) =
   if sacrificeState.active and isWin:
     let seqScore = scoreSacrificeQuietDeficits(sacrificeState.quietDeficits)
     stats.totalSacrificeScore += seqScore
 
 # --- Move Analysis Functions ---
-func analyzeCastling(position: Position, move: Move, isOurTurn: bool,
-                    usCastledSide: var string, themCastledSide: var string,
-                    materialBalance: int, stats: var AttackingStats) =
+func analyzeCastling(
+    position: Position,
+    move: Move,
+    isOurTurn: bool,
+    usCastledSide: var string,
+    themCastledSide: var string,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   if not move.isCastling:
     return
 
-  let side = if squareFile(move.target) > squareFile(move.source): "K" else: "Q"
+  let side = if fileNumber(move.target) > fileNumber(move.source): "K" else: "Q"
 
   if isOurTurn:
     usCastledSide = side
@@ -179,14 +185,19 @@ func analyzeCastling(position: Position, move: Move, isOurTurn: bool,
   else:
     themCastledSide = side
 
-func analyzeKingProximity(position: Position, move: Move, isCapture: bool,
-                         playerColor: Color, materialBalance: int,
-                         stats: var AttackingStats) =
+func analyzeKingProximity(
+    position: Position,
+    move: Move,
+    isCapture: bool,
+    playerColor: Color,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   # Find enemy king
   let enemyKing = position[playerColor.opposite, king]
   var enemyKingSquare = noSquare
 
-  for square in a1..h8:
+  for square in a1 .. h8:
     if not empty(square.toBitboard and enemyKing):
       enemyKingSquare = square
       break
@@ -195,20 +206,25 @@ func analyzeKingProximity(position: Position, move: Move, isCapture: bool,
     return
 
   let dist = squareDistance(move.target, enemyKingSquare)
-  if dist < 8:
+  if dist <= 4:
     if isCapture:
       inc stats.capturesNearKingDist[dist]
     else:
       inc stats.movesNearKingDist[dist]
 
-func analyzePieceThreats(position: Position, move: Move, movingPieceType: Piece,
-                        playerColor: Color, materialBalance: int,
-                        stats: var AttackingStats) =
+func analyzePieceThreats(
+    position: Position,
+    move: Move,
+    movingPieceType: Piece,
+    playerColor: Color,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   # Find enemy king
   let enemyKing = position[playerColor.opposite, king]
   var enemyKingSquare = noSquare
 
-  for square in a1..h8:
+  for square in a1 .. h8:
     if not empty(square.toBitboard and enemyKing):
       enemyKingSquare = square
       break
@@ -217,66 +233,81 @@ func analyzePieceThreats(position: Position, move: Move, movingPieceType: Piece,
     return
 
   let
-    toFile = squareFile(move.target)
-    toRank = squareRank(move.target)
-    kingFile = squareFile(enemyKingSquare)
-    kingRank = squareRank(enemyKingSquare)
+    toFile = fileNumber(move.target)
+    toRank = rankNumber(move.target)
+    kingFile = fileNumber(enemyKingSquare)
+    kingRank = rankNumber(enemyKingSquare)
 
-  if movingPieceType in [rook, queen] and rook.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
+  if movingPieceType in [rook, queen] and
+      rook.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
     inc stats.rookQueenThreats
 
-  if movingPieceType in [bishop, queen] and bishop.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
+  if movingPieceType in [bishop, queen] and
+      bishop.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
     inc stats.bishopQueenThreats
 
-func analyzeTacticalMoves(position: Position, move: Move, movingPieceType: Piece,
-                         themCastledSide: string, playerColor: Color,
-                         materialBalance: int, stats: var AttackingStats) =
+func analyzeTacticalMoves(
+    position: Position,
+    move: Move,
+    movingPieceType: Piece,
+    themCastledSide: string,
+    playerColor: Color,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   # Normalize to white's perspective
   let (position, move, playerColor) = createAnalysisView(position, move, playerColor)
 
   # Pawn storms
   if movingPieceType == pawn and themCastledSide.len > 0:
-    let pawnFile = squareFile(move.source)
+    let pawnFile = fileNumber(move.source)
 
     # Find enemy king position (now always black king in normalized view)
     let enemyKing = position[black, king]
-    for square in a1..h8:
+    for square in a1 .. h8:
       if not empty(square.toBitboard and enemyKing):
-        let kingFile = squareFile(square)
+        let kingFile = fileNumber(square)
         if abs(pawnFile - kingFile) <= 2:
           inc stats.pawnStormsVsKing
         break
 
   # Central pawn breaks
-  if movingPieceType == pawn and squareFile(move.source) in [3, 4] and squareRank(move.target) == 4:
+  if movingPieceType == pawn and fileNumber(move.source) in [3, 4] and
+      rankNumber(move.target) == 4:
     inc stats.centralPawnBreaks
 
   # Advanced pieces
   if movingPieceType != pawn:
-    let targetRank = squareRank(move.target)
+    let targetRank = rankNumber(move.target)
     if targetRank >= 4:
       inc stats.advancedPieces
 
   # Rook lifts
   if movingPieceType == rook:
     let
-      sourceRank = squareRank(move.source)
-      targetRank = squareRank(move.target)
+      sourceRank = rankNumber(move.source)
+      targetRank = rankNumber(move.target)
     if sourceRank in [0, 1] and targetRank == 2:
       inc stats.rookLifts
 
   # Knight outposts
   if movingPieceType == knight:
-    let targetRank = squareRank(move.target)
-    if targetRank >= 4 and not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
+    let targetRank = rankNumber(move.target)
+    if targetRank >= 4 and
+        not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
       inc stats.knightOutposts
 
   # F7/F2 attacks (now always f7 in normalized view)
   if move.target == f7 or position.attacksFrom(move.target).isSet(f7):
     inc stats.f7F2Attacks
 
-func analyzeForcingMoves(position: Position, move: Move, playerColor: Color,
-                        materialBalance: int, stats: var AttackingStats) =
+func analyzeForcingMoves(
+    position: Position,
+    move: Move,
+    playerColor: Color,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   if move.isCapture:
     inc stats.forcingMoves
 
@@ -285,9 +316,12 @@ func analyzeForcingMoves(position: Position, move: Move, playerColor: Color,
     inc stats.forcingMoves
     inc stats.totalChecks
 
-func analyzeCoordinatedAttacks(position: Position, playerColor: Color,
-                              materialBalance: int, stats: var AttackingStats) =
-
+func analyzeCoordinatedAttacks(
+    position: Position,
+    playerColor: Color,
+    materialBalance: int,
+    stats: var AttackingStats,
+) =
   let enemyKingSquare = position.kingSquare(playerColor.opposite)
 
   # Count attacking pieces in 3x3 area around king
@@ -309,13 +343,14 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
 
   let gameLength = (ply + 1) div 2
   # Don't give a high bonus for games that are too short
-  if gameLength in 20..60:
+  if gameLength in 20 .. 60:
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
 # --- Main Analysis Function ---
 func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
-  let playerColor = if game.headers.getOrDefault("White") == playerName: white else: black
+  let playerColor =
+    if game.headers.getOrDefault("White") == playerName: white else: black
   var
     position = game.startPosition
     usCastledSide = ""
@@ -323,9 +358,13 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
 
   let
     termination = game.headers.getOrDefault("Termination", "").toLower()
-    isDraw = "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
-    isWin = ((game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
-             (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)) and not isDraw
+    isDraw =
+      "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
+    isWin =
+      (
+        (game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
+        (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)
+      ) and not isDraw
 
   var sacrificeState = SacrificeState()
 
@@ -336,8 +375,9 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
       materialBalance = getMaterialBalance(position, playerColor)
 
     # Handle castling
-    analyzeCastling(position, move, isOurTurn, usCastledSide, themCastledSide,
-                   materialBalance, stats)
+    analyzeCastling(
+      position, move, isOurTurn, usCastledSide, themCastledSide, materialBalance, stats
+    )
 
     if isOurTurn:
       let movingPieceType = position.pieceAt(move.source)
@@ -351,14 +391,18 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
 
       # Only analyze attacking if we don't have winning material advantage
       if not hasWinningAdvantage(materialBalance):
-        analyzeKingProximity(position, move, move.isCapture, playerColor,
-                           materialBalance, stats)
+        analyzeKingProximity(
+          position, move, move.isCapture, playerColor, materialBalance, stats
+        )
 
-        analyzePieceThreats(position, move, movingPieceType, playerColor,
-                          materialBalance, stats)
+        analyzePieceThreats(
+          position, move, movingPieceType, playerColor, materialBalance, stats
+        )
 
-        analyzeTacticalMoves(position, move, movingPieceType, themCastledSide,
-                           playerColor, materialBalance, stats)
+        analyzeTacticalMoves(
+          position, move, movingPieceType, themCastledSide, playerColor,
+          materialBalance, stats,
+        )
 
         analyzeForcingMoves(position, move, playerColor, materialBalance, stats)
 
@@ -384,7 +428,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
     inc stats.numDraws
   elif isWin:
     inc stats.numWins
-    stats.shortGameBonus += calculateShortGameBonus(position, playerColor, game.moves.len)
+    stats.shortGameBonus +=
+      calculateShortGameBonus(position, playerColor, game.moves.len)
   else:
     inc stats.numLosses
 
@@ -409,22 +454,36 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
     else:
       result = 0.0
 
-  result[sacrificeScorePerWinMove] = if stats.numWinMoves > 0: stats.totalSacrificeScore / stats.numWinMoves.float else: 0.0
+  result[sacrificeScorePerWinMove] =
+    if stats.numWinMoves > 0:
+      stats.totalSacrificeScore / stats.numWinMoves.float
+    else:
+      0.0
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
-  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / stats.totalMoves.float
-  result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float / stats.numGames.float
+  result[coordinatedAttacksPerMove] =
+    stats.coordinatedAttacks.float / stats.totalMoves.float
+  result[oppositeSideCastlingGames] =
+    stats.oppositeSideCastlingGames.float / stats.numGames.float
   result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / stats.totalMoves.float
-  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.totalMoves.float
+  result[rookQueenThreatsPerMove] =
+    stats.rookQueenThreats.float / stats.totalMoves.float
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
   result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.totalMoves.float
   result[forcingMovesPerMove] = stats.forcingMoves.float / stats.totalMoves.float
   result[checksPerMove] = stats.totalChecks.float / stats.totalMoves.float
-  result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
-  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.totalMoves.float
+  result[forfeitedCastlingGames] =
+    stats.forfeitedCastlingGames.float / stats.numGames.float
+  result[bishopQueenThreatsPerMove] =
+    stats.bishopQueenThreats.float / stats.totalMoves.float
   result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.totalMoves.float
   result[rookLiftsPerMove] = stats.rookLifts.float / stats.totalMoves.float
-  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.totalMoves.float
-  result[shortGameBonusPerWin] = if stats.numWins > 0: stats.shortGameBonus / stats.numWins.float else: 0.0
+  result[centralPawnBreaksPerMove] =
+    stats.centralPawnBreaks.float / stats.totalMoves.float
+  result[shortGameBonusPerWin] =
+    if stats.numWins > 0:
+      stats.shortGameBonus / stats.numWins.float
+    else:
+      0.0
   result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / stats.totalMoves.float
 
 func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
@@ -449,7 +508,6 @@ func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
     return totalWeightedScore / totalWeight
   else:
     return 0.0
-
 
 func getAttackingScore(stats: AttackingStats): float =
   getAttackingScore(getRawFeatureScores(stats))
@@ -525,7 +583,9 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
 
     echo "\n--- Analysis Complete ---"
     if gamesFilteredByRating > 0 and args.minRating > 0:
-      echo "Filtered out ", gamesFilteredByRating, " games due to rating requirements (min rating: ", args.minRating, ")"
+      echo "Filtered out ",
+        gamesFilteredByRating, " games due to rating requirements (min rating: ",
+        args.minRating, ")"
 
     # Output results
     if gameScoresForPlayer.len == 0:
@@ -540,20 +600,24 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
     echo "\nOverall Stats for ", totalGames, " games:"
     echo "Average Attacking Score: ", avgScore.formatFloat(ffDecimal, 2), " / 100.0"
 
-    gameScoresForPlayer.sort(proc(a, b: (Game, float)): int = cmp(a[1], b[1]))
+    gameScoresForPlayer.sort(
+      proc(a, b: (Game, float)): int =
+        cmp(a[1], b[1])
+    )
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games ---"
     for i in countdown(min(args.topN, gameScoresForPlayer.len) - 1, 0):
       let (game, score) = gameScoresForPlayer[gameScoresForPlayer.len - 1 - i]
-      echo "\nScore: ", score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
+      echo "\nScore: ",
+        score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
       echo game.toPgnString()
 
     echo "\n--- Top ", args.topN, " Least Aggressive Games ---"
-    for i in 0..<min(args.topN, gameScoresForPlayer.len):
+    for i in 0 ..< min(args.topN, gameScoresForPlayer.len):
       let (game, score) = gameScoresForPlayer[i]
-      echo "\nScore: ", score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
+      echo "\nScore: ",
+        score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
       echo game.toPgnString()
-
   except IOError:
     echo "Error: Could not read PGN file: ", args.pgnPath
     quit(1)
@@ -569,7 +633,6 @@ proc processAllPlayersMode(args: AnalysisArgs) =
   echo "Analyzing all players..."
 
   try:
-
     for game in readPgnFileIter(args.pgnPath):
       if args.maxGames > 0 and gamesProcessed >= args.maxGames:
         echo "Reached game limit of ", args.maxGames
@@ -598,15 +661,19 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
         if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
           topAggressiveGames.add((game, score, player, tempStats))
-          topAggressiveGames.sort(proc(a, b: (Game, float, string, AttackingStats)): int =
-            cmp(b[1], a[1]))
+          topAggressiveGames.sort(
+            proc(a, b: (Game, float, string, AttackingStats)): int =
+              cmp(b[1], a[1])
+          )
           if topAggressiveGames.len > args.topN:
             topAggressiveGames.setLen(args.topN)
 
         if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
           leastAggressiveGames.add((game, score, player, tempStats))
-          leastAggressiveGames.sort(proc(a, b: (Game, float, string, AttackingStats)): int =
-            cmp(a[1], b[1]))
+          leastAggressiveGames.sort(
+            proc(a, b: (Game, float, string, AttackingStats)): int =
+              cmp(a[1], b[1])
+          )
           if leastAggressiveGames.len > args.topN:
             leastAggressiveGames.setLen(args.topN)
 
@@ -616,7 +683,9 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
     echo "\n--- Analysis Complete ---"
     if gamesFilteredByRating > 0 and args.minRating > 0:
-      echo "Filtered out ", gamesFilteredByRating, " games due to rating requirements (min rating: ", args.minRating, ")"
+      echo "Filtered out ",
+        gamesFilteredByRating, " games due to rating requirements (min rating: ",
+        args.minRating, ")"
 
     # Output results for all players mode
     var playerResults: seq[(string, float, AttackingStats)] = @[]
@@ -628,32 +697,66 @@ proc processAllPlayersMode(args: AnalysisArgs) =
     if playerResults.len == 0:
       echo "No players found with at least ", args.minGames, " games."
     else:
-      playerResults.sort(proc(a, b: (string, float, AttackingStats)): int =
-        cmp(b[1], a[1]))
+      playerResults.sort(
+        proc(a, b: (string, float, AttackingStats)): int =
+          cmp(b[1], a[1])
+      )
 
-      echo "Attacking ranking for ", playerResults.len, " players with at least ", args.minGames, " games:"
+      echo "Attacking ranking for ",
+        playerResults.len, " players with at least ", args.minGames, " games:"
       echo "-".repeat(80)
-      echo "Rank".alignLeft(5), " ", "Player".alignLeft(30), " ", "Agg. Score".alignLeft(15), " ", "Games".alignLeft(10), " ", "Record (W/D/L)"
+      echo "Rank".alignLeft(5),
+        " ",
+        "Player".alignLeft(30),
+        " ",
+        "Agg. Score".alignLeft(15),
+        " ",
+        "Games".alignLeft(10),
+        " ",
+        "Record (W/D/L)"
       echo "-".repeat(80)
 
       for i, (player, score, stats) in playerResults.pairs:
         let record = $stats.numWins & " / " & $stats.numDraws & " / " & $stats.numLosses
-        echo alignLeft($(i+1), 5), " ", player.alignLeft(30), " ", score.formatFloat(ffDecimal, 2).alignLeft(15), " ", alignLeft($(stats.numGames), 10), " ", record
+        echo alignLeft($(i + 1), 5),
+          " ",
+          player.alignLeft(30),
+          " ",
+          score.formatFloat(ffDecimal, 2).alignLeft(15),
+          " ",
+          alignLeft($(stats.numGames), 10),
+          " ",
+          record
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games (All Players) ---"
     for (game, score, player, stats) in topAggressiveGames:
       echo "-".repeat(50)
-      echo "\nScore: ", score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?"), " - ", player
-      echo "White: ", game.headers.getOrDefault("White", "?"), ", Black: ", game.headers.getOrDefault("Black", "?")
+      echo "\nScore: ",
+        score.formatFloat(ffDecimal, 2),
+        " - ",
+        game.headers.getOrDefault("Site", "?"),
+        " - ",
+        player
+      echo "White: ",
+        game.headers.getOrDefault("White", "?"),
+        ", Black: ",
+        game.headers.getOrDefault("Black", "?")
       echo game.toPgnString()
 
     echo "\n--- Top ", args.topN, " Least Aggressive Games (All Players) ---"
     for (game, score, player, stats) in leastAggressiveGames:
       echo "-".repeat(50)
-      echo "\nScore: ", score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?"), " - ", player
-      echo "White: ", game.headers.getOrDefault("White", "?"), ", Black: ", game.headers.getOrDefault("Black", "?")
+      echo "\nScore: ",
+        score.formatFloat(ffDecimal, 2),
+        " - ",
+        game.headers.getOrDefault("Site", "?"),
+        " - ",
+        player
+      echo "White: ",
+        game.headers.getOrDefault("White", "?"),
+        ", Black: ",
+        game.headers.getOrDefault("Black", "?")
       echo game.toPgnString()
-
   except IOError:
     echo "Error: Could not read PGN file: ", args.pgnPath
     quit(1)
@@ -666,14 +769,15 @@ proc parseArguments(): AnalysisArgs =
     minGames: 10,
     minRating: 0,
     topN: 1,
-    eventFilter: @[]
+    eventFilter: @[],
   )
 
   var p = initOptParser()
   while true:
     p.next()
     case p.kind
-    of cmdEnd: break
+    of cmdEnd:
+      break
     of cmdShortOption, cmdLongOption:
       case p.key
       of "pgn":

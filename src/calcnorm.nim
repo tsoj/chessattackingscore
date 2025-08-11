@@ -7,15 +7,17 @@ for each raw score feature, enabling better normalization.
 
 import std/[os, strutils, sequtils, tables, strformat, math, parseopt, algorithm, times]
 import nimchess
-from chessattackingscore import AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature
+from chessattackingscore import
+  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature
 
-type
-  NormalizationArgs = object
-    pgnPath: string
-    maxGames: int
-    minRating: int
+type NormalizationArgs = object
+  pgnPath: string
+  maxGames: int
+  minRating: int
 
-proc collectRawScores(pgnPath: string, maxGames: int = 0, minRating: int = 2000): array[AttackingFeature, seq[float]] =
+proc collectRawScores(
+    pgnPath: string, maxGames: int = 0, minRating: int = 2000
+): array[AttackingFeature, seq[float]] =
   ##[
   Process PGN file and collect all raw scores for statistical analysis.
 
@@ -68,7 +70,6 @@ proc collectRawScores(pgnPath: string, maxGames: int = 0, minRating: int = 2000)
       if gamesProcessed mod 100 == 0:
         stdout.write(&"\rProcessed {gamesProcessed} games...")
         stdout.flushFile()
-
   except Exception as e:
     echo fmt"Error processing PGN file: {e.msg}"
     quit(1)
@@ -95,7 +96,9 @@ proc calculateStdDev(values: seq[float], mean: float): float =
 
   return sqrt(sumSquaredDiffs / (values.len - 1).float)
 
-proc calculateNormalizationParameters(rawScoreCollections: array[AttackingFeature, seq[float]]): array[AttackingFeature, tuple[mean: float, std: float]] =
+proc calculateNormalizationParameters(
+    rawScoreCollections: array[AttackingFeature, seq[float]]
+): array[AttackingFeature, tuple[mean: float, std: float]] =
   ##[
   Calculate mean and standard deviation for each feature.
 
@@ -108,7 +111,7 @@ proc calculateNormalizationParameters(rawScoreCollections: array[AttackingFeatur
 
   for feature in AttackingFeature:
     let scores = rawScoreCollections[feature]
-    if scores.len < 10:  # Need at least 10 samples
+    if scores.len < 10: # Need at least 10 samples
       echo fmt"Warning: Only {scores.len} samples for {feature}, skipping..."
       continue
 
@@ -119,13 +122,16 @@ proc calculateNormalizationParameters(rawScoreCollections: array[AttackingFeatur
 
   return normalizationParams
 
-proc writeNormalizationParamsFile(normalizationParams: array[AttackingFeature, tuple[mean: float, std: float]]) =
+proc writeNormalizationParamsFile(
+    normalizationParams: array[AttackingFeature, tuple[mean: float, std: float]]
+) =
   ##[
   Write the normalization parameters directly to the source file.
   ]##
   let filePath = "src/paramnorm.nim"
 
-  var content = fmt"""##[
+  var content =
+    fmt"""##[
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
@@ -139,7 +145,9 @@ const normalizationParams* = [
 
   for feature in AttackingFeature:
     let params = normalizationParams[feature]
-    content.add(fmt"  {feature}: (mean: {params.mean:.8f}, std: {params.std:.8f})," & "\n")
+    content.add(
+      fmt"  {feature}: (mean: {params.mean:.8f}, std: {params.std:.8f})," & "\n"
+    )
 
   content.add("]\n")
 
@@ -159,9 +167,10 @@ proc parseArguments(): NormalizationArgs =
   while true:
     p.next()
     case p.kind
-    of cmdEnd: break
+    of cmdEnd:
+      break
     of cmdShortOption, cmdLongOption:
-      case p.key:
+      case p.key
       of "pgn":
         pgnPath = p.val
       of "games":
@@ -193,11 +202,7 @@ Options:
     echo "Error: PGN path is required. Use --pgn <path>"
     quit(1)
 
-  return NormalizationArgs(
-    pgnPath: pgnPath,
-    maxGames: maxGames,
-    minRating: minRating
-  )
+  return NormalizationArgs(pgnPath: pgnPath, maxGames: maxGames, minRating: minRating)
 
 proc main() =
   let args = parseArguments()
@@ -208,7 +213,8 @@ proc main() =
 
   try:
     # Collect raw scores
-    let rawScoreCollections = collectRawScores(args.pgnPath, args.maxGames, args.minRating)
+    let rawScoreCollections =
+      collectRawScores(args.pgnPath, args.maxGames, args.minRating)
 
     # Check if we have any meaningful data
     var hasData = false
@@ -234,7 +240,6 @@ proc main() =
     writeNormalizationParamsFile(normalizationParams)
 
     echo "\nNormalization parameters have been written to src/paramnorm.nim"
-
   except Exception as e:
     echo fmt"Error: {e.msg}"
     quit(1)
