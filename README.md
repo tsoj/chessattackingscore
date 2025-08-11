@@ -5,7 +5,7 @@ A tool to analyze PGNs and score players for attacking style
 ## Build
 
 ### Optional: Retune normalization and feature weights:
-```
+```bash
 nimble calcParams
 ```
 
@@ -18,10 +18,10 @@ nimble build
 
 Analyze aggression for all players in a PGN file:
 ```bash
-chessattackingscore --pgn=games.pgn
+./chessattackingscore --pgn=games.pgn
 ```
 
 Analyze a specific player:
 ```bash
-chessattackingscore --pgn=games.pgn --player="Glaurung"
+./chessattackingscore --pgn=games.pgn --player="Glaurung"
 ```

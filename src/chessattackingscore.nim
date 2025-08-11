@@ -4,13 +4,10 @@ import features, paramfeatures, paramnorm
 
 export features
 
-# --- Constants ---
 const
   PIECE_VALUES = [pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9]
-
   WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
 
-# --- Data Types ---
 type
   AttackingStats* = object
     numGames: int
@@ -49,21 +46,6 @@ type
     minRating: int
     topN: int
     eventFilter: seq[string]
-
-# # --- Helper Functions ---
-# func squareDistance(sq1, sq2: Square): int =
-#   let
-#     file1 = sq1.int8 mod 8
-#     rank1 = sq1.int8 div 8
-#     file2 = sq2.int8 mod 8
-#     rank2 = sq2.int8 div 8
-#   max(abs(file1 - file2), abs(rank1 - rank2))
-
-# func fileNumber(square: Square): int =
-#   square.int8 mod 8
-
-# func rankNumber(square: Square): int =
-#   square.int8 div 8
 
 func hasWinningAdvantage(balance: int): bool =
   balance >= WINNING_MATERIAL_ADVANTAGE
@@ -459,32 +441,26 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
       stats.totalSacrificeScore / stats.numWinMoves.float
     else:
       0.0
+
+  #!fmt: off
+  result[sacrificeScorePerWinMove] = if stats.numWinMoves > 0: stats.totalSacrificeScore / stats.numWinMoves.float else: 0.0
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
-  result[coordinatedAttacksPerMove] =
-    stats.coordinatedAttacks.float / stats.totalMoves.float
-  result[oppositeSideCastlingGames] =
-    stats.oppositeSideCastlingGames.float / stats.numGames.float
+  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / stats.totalMoves.float
+  result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float / stats.numGames.float
   result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / stats.totalMoves.float
-  result[rookQueenThreatsPerMove] =
-    stats.rookQueenThreats.float / stats.totalMoves.float
+  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.totalMoves.float
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
   result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.totalMoves.float
   result[forcingMovesPerMove] = stats.forcingMoves.float / stats.totalMoves.float
   result[checksPerMove] = stats.totalChecks.float / stats.totalMoves.float
-  result[forfeitedCastlingGames] =
-    stats.forfeitedCastlingGames.float / stats.numGames.float
-  result[bishopQueenThreatsPerMove] =
-    stats.bishopQueenThreats.float / stats.totalMoves.float
+  result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
+  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.totalMoves.float
   result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.totalMoves.float
   result[rookLiftsPerMove] = stats.rookLifts.float / stats.totalMoves.float
-  result[centralPawnBreaksPerMove] =
-    stats.centralPawnBreaks.float / stats.totalMoves.float
-  result[shortGameBonusPerWin] =
-    if stats.numWins > 0:
-      stats.shortGameBonus / stats.numWins.float
-    else:
-      0.0
+  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.totalMoves.float
+  result[shortGameBonusPerWin] = if stats.numWins > 0: stats.shortGameBonus / stats.numWins.float else: 0.0
   result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / stats.totalMoves.float
+  #!fmt: on
 
 func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
   var totalWeightedScore = 0.0
