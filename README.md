@@ -23,5 +23,5 @@ chessattackingscore --pgn=games.pgn
 
 Analyze a specific player:
 ```bash
-chessattackingscore --pgn=games.pgn --player="Magnus Carlsen"
+chessattackingscore --pgn=games.pgn --player="Glaurung"
 ```
