@@ -501,14 +501,14 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
     )
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games ---"
-    for i in countdown(min(args.topN, gameScoresForPlayer.len) - 1, 0):
+    for i in 0..<min(args.topN, gameScoresForPlayer.len):
       let (game, score) = gameScoresForPlayer[gameScoresForPlayer.len - 1 - i]
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
       echo game.toPgnString()
 
     echo "\n--- Top ", args.topN, " Least Aggressive Games ---"
-    for i in 0 ..< min(args.topN, gameScoresForPlayer.len):
+    for i in 0..<min(args.topN, gameScoresForPlayer.len) - 1:
       let (game, score) = gameScoresForPlayer[i]
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
