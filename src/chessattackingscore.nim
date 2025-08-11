@@ -16,6 +16,7 @@ type
     numLosses: int
     totalMoves: int
     numWinMoves: int
+    numNonDrawMoves: int
     oppositeSideCastlingGames: int
     forfeitedCastlingGames: int
     pawnStormsVsKing: int
@@ -298,19 +299,20 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         position = position.doMove(move)
         continue
 
-      # Update sacrifice tracking
       if isWin:
+        # Update sacrifice tracking
         updateSacrificeTracking(position, move, sacrificeState, stats)
 
-      # Only analyze attacking if we don't have winning material advantage
-      if not hasWinningAdvantage(materialBalance):
-        analyzeKingProximity(position, move, materialBalance, stats)
+      if not isDraw:
+        # Only analyze attacking if we don't have winning material advantage
+        if not hasWinningAdvantage(materialBalance):
+          analyzeKingProximity(position, move, materialBalance, stats)
 
-        analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
+          analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
 
-        analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
+          analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
 
-        analyzeCoordinatedAttacks(position, materialBalance, stats)
+          analyzeCoordinatedAttacks(position, materialBalance, stats)
 
     position = position.doMove(move)
 
@@ -318,6 +320,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
       inc stats.totalMoves
       if isWin:
         inc stats.numWinMoves
+      if not isDraw:
+        inc stats.numNonDrawMoves
 
   # Finalize sacrifice tracking
   if isWin:
@@ -336,26 +340,28 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
   else:
     inc stats.numLosses
 
+
+func getProximityScore(distances: array[8, int]): float =
+  let weights = [0, 8, 6, 4, 2, 1, 0, 0]
+  var
+    score = 0
+    totalMovesInZone = 0
+
+  for i, freq in distances.pairs:
+    score += weights[i] * freq
+    totalMovesInZone += freq
+
+  let maxWeight = max(weights)
+  if totalMovesInZone > 0:
+    result = score.float / (totalMovesInZone * maxWeight).float
+  else:
+    result = 0.0
+
 # --- Score Calculation Functions ---
 func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float] =
   if stats.numGames == 0 or stats.totalMoves == 0:
     return
 
-  func getProximityScore(distances: array[8, int]): float =
-    let weights = [0, 8, 6, 4, 2, 1, 0, 0]
-    var
-      score = 0
-      totalMovesInZone = 0
-
-    for i, freq in distances.pairs:
-      score += weights[i] * freq
-      totalMovesInZone += freq
-
-    let maxWeight = max(weights)
-    if totalMovesInZone > 0:
-      result = score.float / (totalMovesInZone * maxWeight).float
-    else:
-      result = 0.0
 
   result[sacrificeScorePerWinMove] =
     if stats.numWinMoves > 0:
@@ -363,20 +369,30 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
     else:
       0.0
 
+  let numNonDraws = stats.numGames - stats.numDraws
+  assert numNonDraws >= 0
+
   #!fmt: off
-  result[sacrificeScorePerWinMove] = if stats.numWinMoves > 0: stats.totalSacrificeScore / stats.numWinMoves.float else: 0.0
-  result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
-  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / stats.totalMoves.float
+  result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.numWinMoves).float
   result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float / stats.numGames.float
-  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / stats.totalMoves.float
-  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.totalMoves.float
-  result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
-  result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.totalMoves.float
+
   result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
-  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.totalMoves.float
-  result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.totalMoves.float
-  result[rookLiftsPerMove] = stats.rookLifts.float / stats.totalMoves.float
-  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.totalMoves.float
+
+
+  result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
+  result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
+
+  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / stats.numNonDrawMoves.float
+  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / stats.numNonDrawMoves.float
+
+
+
+  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / stats.numNonDrawMoves.float
+  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / stats.numNonDrawMoves.float
+  result[advancedPiecesPerMove] = stats.advancedPieces.float / stats.numNonDrawMoves.float
+  result[rookLiftsPerMove] = stats.rookLifts.float / stats.numNonDrawMoves.float
+  result[knightOutpostsPerMove] = stats.knightOutposts.float / stats.numNonDrawMoves.float
+  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / stats.numNonDrawMoves.float
   #!fmt: on
 
 func getAttackingScore*(
