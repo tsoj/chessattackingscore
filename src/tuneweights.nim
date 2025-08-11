@@ -95,7 +95,6 @@ proc calculateLoss(
 
   for data in trainingData:
     let predictedScore = getAttackingScore(data.rawScores, weights)
-    # totalError += pow(predictedScore - data.targetLabel, 2)
     totalError += abs(predictedScore - data.targetLabel)
 
   return totalError / trainingData.len.float

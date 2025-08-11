@@ -340,7 +340,6 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
   else:
     inc stats.numLosses
 
-
 func getProximityScore(distances: array[8, int]): float =
   let weights = [0, 8, 6, 4, 2, 1, 0, 0]
   var
@@ -361,7 +360,6 @@ func getProximityScore(distances: array[8, int]): float =
 func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float] =
   if stats.numGames == 0 or stats.totalMoves == 0:
     return
-
 
   result[sacrificeScorePerWinMove] =
     if stats.numWinMoves > 0:
@@ -513,14 +511,14 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
     )
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games ---"
-    for i in 0..<min(args.topN, gameScoresForPlayer.len):
+    for i in 0 ..< min(args.topN, gameScoresForPlayer.len):
       let (game, score) = gameScoresForPlayer[gameScoresForPlayer.len - 1 - i]
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
       echo game.toPgnString()
 
     echo "\n--- Top ", args.topN, " Least Aggressive Games ---"
-    for i in 0..<min(args.topN, gameScoresForPlayer.len) - 1:
+    for i in 0 ..< min(args.topN, gameScoresForPlayer.len) - 1:
       let (game, score) = gameScoresForPlayer[i]
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2), " - ", game.headers.getOrDefault("Site", "?")
