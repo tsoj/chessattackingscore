@@ -7,10 +7,8 @@ license = "MIT"
 srcDir = "src"
 bin = @["chessattackingscore"]
 
-# Dependencies
-
 requires "nim >= 2.2.4"
-requires "nimchess >= 0.1.4"
+requires "nimchess >= 0.1.5"
 
 task calcParams, "Calculate normalization and feature weight parameters from PGN files":
   exec "nim r src/calcnorm.nim"

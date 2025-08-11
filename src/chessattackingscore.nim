@@ -1,4 +1,4 @@
-import std/[tables, sequtils, strutils, math, algorithm, parseopt]
+import std/[tables, sequtils, strutils, math, algorithm, parseopt, strformat]
 import nimchess
 import features, paramfeatures, paramnorm
 
@@ -6,7 +6,7 @@ export features
 
 const
   PIECE_VALUES = [pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9]
-  WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
+  WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 2
 
 type
   AttackingStats* = object
@@ -67,11 +67,9 @@ func getMaterialBalance(position: Position, playerColor: Color): int =
     materialThem = getMaterialScore(position, playerColor.opposite)
   materialUs - materialThem
 
-func createAnalysisView(
-    position: Position, move: Move, playerColor: Color
-): (Position, Move, Color) =
-  if playerColor == white:
-    return (position, move, white)
+func createAnalysisView(position: Position, move: Move): (Position, Move) =
+  if position.us == white:
+    return (position, move)
 
   # For black, we mirror both position and move to normalize to white's perspective
   let mirroredPosition = position.mirrorVertically
@@ -83,7 +81,7 @@ func createAnalysisView(
     castled = move.isCastling,
     promoted = move.promoted,
   )
-  return (mirroredPosition, mirroredMove, white)
+  return (mirroredPosition, mirroredMove)
 
 # --- Sacrifice Analysis ---
 func maxFilterRadius(sequence: seq[int], radius: int): seq[int] =
@@ -92,14 +90,13 @@ func maxFilterRadius(sequence: seq[int], radius: int): seq[int] =
     return @[]
 
   result = newSeq[int](n)
-  for i in 0 ..< n:
+  for i in 0 ..< sequence.len:
     let
       lo = max(0, i - radius)
-      hi = min(n, i + radius + 1)
-    var maxVal = sequence[lo]
-    for j in lo ..< hi:
-      maxVal = max(maxVal, sequence[j])
-    result[i] = maxVal
+      hi = min(n - 1, i + radius)
+      mm = sequence[lo .. hi].minmax
+    assert mm[0] <= mm[1]
+    result[i] = mm[1]
 
 func scoreSacrificeQuietDeficits(quietDeficits: seq[int], radius: int = 2): float =
   if quietDeficits.len == 0:
@@ -110,14 +107,13 @@ func scoreSacrificeQuietDeficits(quietDeficits: seq[int], radius: int = 2): floa
 func updateSacrificeTracking(
     position: Position,
     move: Move,
-    playerColor: Color,
     sacrificeState: var SacrificeState,
     isWin: bool,
     stats: var AttackingStats,
 ) =
-  # Temporarily apply the move to check material balance
+  # Apply the move to check material balance after our move
   let newPosition = position.doMove(move)
-  let balanceAfter = getMaterialBalance(newPosition, playerColor)
+  let balanceAfter = getMaterialBalance(newPosition, position.us)
 
   if balanceAfter < 0:
     # We are in a deficit
@@ -126,7 +122,7 @@ func updateSacrificeTracking(
       sacrificeState.quietDeficits = @[]
 
     # If this move is quiet (non-capture, non-check), record the deficit
-    if not move.isCapture and not position.doMove(move).inCheck(playerColor.opposite):
+    if not move.isTactical and not newPosition.inCheck(position.enemy):
       sacrificeState.quietDeficits.add(abs(balanceAfter))
   else:
     # No deficit; if a sequence was active, it ends here
@@ -149,47 +145,30 @@ func analyzeCastling(
     position: Position,
     move: Move,
     isOurTurn: bool,
-    usCastledSide: var string,
-    themCastledSide: var string,
+    usCastledSide: var Option[CastlingSide],
+    themCastledSide: var Option[CastlingSide],
     materialBalance: int,
     stats: var AttackingStats,
 ) =
   if not move.isCastling:
     return
 
-  let side = if fileNumber(move.target) > fileNumber(move.source): "K" else: "Q"
+  let side = move.castlingSide(position)
 
   if isOurTurn:
-    usCastledSide = side
-    if themCastledSide.len > 0 and usCastledSide != themCastledSide:
+    usCastledSide = some side
+    if themCastledSide.isSome and usCastledSide != themCastledSide:
       if not materialBalance.hasWinningAdvantage:
         inc stats.oppositeSideCastlingGames
   else:
-    themCastledSide = side
+    themCastledSide = some side
 
 func analyzeKingProximity(
-    position: Position,
-    move: Move,
-    isCapture: bool,
-    playerColor: Color,
-    materialBalance: int,
-    stats: var AttackingStats,
+    position: Position, move: Move, materialBalance: int, stats: var AttackingStats
 ) =
-  # Find enemy king
-  let enemyKing = position[playerColor.opposite, king]
-  var enemyKingSquare = noSquare
-
-  for square in a1 .. h8:
-    if not empty(square.toBitboard and enemyKing):
-      enemyKingSquare = square
-      break
-
-  if enemyKingSquare == noSquare:
-    return
-
-  let dist = squareDistance(move.target, enemyKingSquare)
+  let dist = squareDistance(move.target, position.kingSquare(position.enemy))
   if dist <= 4:
-    if isCapture:
+    if move.isCapture:
       inc stats.capturesNearKingDist[dist]
     else:
       inc stats.movesNearKingDist[dist]
@@ -198,21 +177,10 @@ func analyzePieceThreats(
     position: Position,
     move: Move,
     movingPieceType: Piece,
-    playerColor: Color,
     materialBalance: int,
     stats: var AttackingStats,
 ) =
-  # Find enemy king
-  let enemyKing = position[playerColor.opposite, king]
-  var enemyKingSquare = noSquare
-
-  for square in a1 .. h8:
-    if not empty(square.toBitboard and enemyKing):
-      enemyKingSquare = square
-      break
-
-  if enemyKingSquare == noSquare:
-    return
+  let enemyKingSquare = position.kingSquare(position.enemy)
 
   let
     toFile = fileNumber(move.target)
@@ -221,98 +189,95 @@ func analyzePieceThreats(
     kingRank = rankNumber(enemyKingSquare)
 
   if movingPieceType in [rook, queen] and
-      rook.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
+      not empty(rook.attackMask(move.target, 0.Bitboard) and mask3x3(enemyKingSquare)):
     inc stats.rookQueenThreats
 
   if movingPieceType in [bishop, queen] and
-      bishop.attackMask(move.target, 0.Bitboard).isSet(enemyKingSquare):
+      not empty(bishop.attackMask(move.target, 0.Bitboard) and mask3x3(enemyKingSquare)):
     inc stats.bishopQueenThreats
 
 func analyzeTacticalMoves(
     position: Position,
     move: Move,
     movingPieceType: Piece,
-    themCastledSide: string,
-    playerColor: Color,
     materialBalance: int,
     stats: var AttackingStats,
 ) =
   # Normalize to white's perspective
-  let (position, move, playerColor) = createAnalysisView(position, move, playerColor)
+  let (position, move) = createAnalysisView(position, move)
+  assert position.us == white
+
+  let numPieces = position.occupancy.countSetBits
 
   # Pawn storms
-  if movingPieceType == pawn and themCastledSide.len > 0:
-    let pawnFile = fileNumber(move.source)
-
-    # Find enemy king position (now always black king in normalized view)
-    let enemyKing = position[black, king]
-    for square in a1 .. h8:
-      if not empty(square.toBitboard and enemyKing):
-        let kingFile = fileNumber(square)
-        if abs(pawnFile - kingFile) <= 2:
-          inc stats.pawnStormsVsKing
-        break
-
-  # Central pawn breaks
-  if movingPieceType == pawn and fileNumber(move.source) in [3, 4] and
-      rankNumber(move.target) == 4:
-    inc stats.centralPawnBreaks
-
-  # Advanced pieces
-  if movingPieceType != pawn:
-    let targetRank = rankNumber(move.target)
-    if targetRank >= 4:
-      inc stats.advancedPieces
-
-  # Rook lifts
-  if movingPieceType == rook:
+  if movingPieceType == pawn:
     let
-      sourceRank = rankNumber(move.source)
-      targetRank = rankNumber(move.target)
-    if sourceRank in [0, 1] and targetRank == 2:
-      inc stats.rookLifts
+      pawnFile = fileNumber(move.target)
+      pawnRank = rankNumber(move.target)
+      enemyKingSquare = position.kingSquare(black)
+      kingFile = fileNumber(enemyKingSquare)
+      kingRank = rankNumber(enemyKingSquare)
 
-  # Knight outposts
-  if movingPieceType == knight:
-    let targetRank = rankNumber(move.target)
-    if targetRank >= 4 and
-        not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
-      inc stats.knightOutposts
+    if kingRank > pawnRank and abs(pawnFile - kingFile) <= 2:
+      inc stats.pawnStormsVsKing
 
-  # F7/F2 attacks (now always f7 in normalized view)
-  if move.target == f7 or position.attacksFrom(move.target).isSet(f7):
-    inc stats.f7F2Attacks
+  # We don't evaluate this in the endgame, since there pieces move very freely anyway
+  if numPieces >= 16:
+    # Central pawn breaks
+    if movingPieceType == pawn and fileNumber(move.source) in [3, 4] and
+        rankNumber(move.target) == 4 and numPieces >= 20:
+      inc stats.centralPawnBreaks
+
+    # Advanced pieces
+    if movingPieceType != pawn:
+      let targetRank = rankNumber(move.target)
+      if targetRank >= 4:
+        inc stats.advancedPieces
+
+    # Rook lifts
+    if movingPieceType == rook:
+      let
+        sourceRank = rankNumber(move.source)
+        targetRank = rankNumber(move.target)
+      if sourceRank <= 2 and targetRank >= 6:
+        inc stats.rookLifts
+
+    # Knight outposts
+    if movingPieceType == knight:
+      let targetRank = rankNumber(move.target)
+      if targetRank >= 4 and
+          not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
+        inc stats.knightOutposts
+
+  # Only important during opening
+  if numPieces >= 26:
+    # F7/F2 attacks (now always f7 in normalized view)
+    if move.target == f7 or position.attacksFrom(move.target).isSet(f7):
+      inc stats.f7F2Attacks
 
 func analyzeForcingMoves(
-    position: Position,
-    move: Move,
-    playerColor: Color,
-    materialBalance: int,
-    stats: var AttackingStats,
+    position: Position, move: Move, materialBalance: int, stats: var AttackingStats
 ) =
   if move.isCapture:
     inc stats.forcingMoves
 
   let newPosition = position.doMove(move)
-  if newPosition.inCheck(playerColor.opposite):
+  if newPosition.inCheck(position.enemy):
     inc stats.forcingMoves
     inc stats.totalChecks
 
 func analyzeCoordinatedAttacks(
-    position: Position,
-    playerColor: Color,
-    materialBalance: int,
-    stats: var AttackingStats,
+    position: Position, materialBalance: int, stats: var AttackingStats
 ) =
-  let enemyKingSquare = position.kingSquare(playerColor.opposite)
+  let enemyKingSquare = position.kingSquare(position.enemy)
 
   # Count attacking pieces in 3x3 area around king
   var attacks = 0.Bitboard
 
   for square in mask3x3(enemyKingSquare):
-    attacks |= position.attackers(attacker = playerColor, target = square)
+    attacks |= position.attackers(attacker = position.us, target = square)
 
-  let uniqueAttackers = countSetBits(attacks and position[playerColor])
+  let uniqueAttackers = countSetBits(attacks and position[position.us])
 
   if uniqueAttackers >= 3:
     inc stats.coordinatedAttacks
@@ -335,8 +300,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
     if game.headers.getOrDefault("White") == playerName: white else: black
   var
     position = game.startPosition
-    usCastledSide = ""
-    themCastledSide = ""
+    usCastledSide = none CastlingSide
+    themCastledSide = none CastlingSide
 
   let
     termination = game.headers.getOrDefault("Termination", "").toLower()
@@ -369,26 +334,19 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         continue
 
       # Update sacrifice tracking
-      updateSacrificeTracking(position, move, playerColor, sacrificeState, isWin, stats)
+      updateSacrificeTracking(position, move, sacrificeState, isWin, stats)
 
       # Only analyze attacking if we don't have winning material advantage
       if not hasWinningAdvantage(materialBalance):
-        analyzeKingProximity(
-          position, move, move.isCapture, playerColor, materialBalance, stats
-        )
+        analyzeKingProximity(position, move, materialBalance, stats)
 
-        analyzePieceThreats(
-          position, move, movingPieceType, playerColor, materialBalance, stats
-        )
+        analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
 
-        analyzeTacticalMoves(
-          position, move, movingPieceType, themCastledSide, playerColor,
-          materialBalance, stats,
-        )
+        analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
 
-        analyzeForcingMoves(position, move, playerColor, materialBalance, stats)
+        analyzeForcingMoves(position, move, materialBalance, stats)
 
-        analyzeCoordinatedAttacks(position, playerColor, materialBalance, stats)
+        analyzeCoordinatedAttacks(position, materialBalance, stats)
 
     position = position.doMove(move)
 
@@ -401,7 +359,7 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
   finalizeSacrificeTracking(sacrificeState, isWin, stats)
 
   # Check for forfeited castling
-  if usCastledSide.len == 0 and game.moves.len >= 40:
+  if usCastledSide.isNone and game.moves.len >= 40:
     inc stats.forfeitedCastlingGames
 
   # Update game results
@@ -487,7 +445,6 @@ func getAttackingScore*(rawScores: array[AttackingFeature, float]): float =
 
 func getAttackingScore(stats: AttackingStats): float =
   getAttackingScore(getRawFeatureScores(stats))
-# --- Utility Functions ---
 
 func shouldIncludeGame(game: Game, args: AnalysisArgs): bool =
   # Apply event filter if specified
@@ -681,28 +638,12 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo "Attacking ranking for ",
         playerResults.len, " players with at least ", args.minGames, " games:"
       echo "-".repeat(80)
-      echo "Rank".alignLeft(5),
-        " ",
-        "Player".alignLeft(30),
-        " ",
-        "Agg. Score".alignLeft(15),
-        " ",
-        "Games".alignLeft(10),
-        " ",
-        "Record (W/D/L)"
+      echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"Games":<10} Record (W/D/L)"""
       echo "-".repeat(80)
 
       for i, (player, score, stats) in playerResults.pairs:
         let record = $stats.numWins & " / " & $stats.numDraws & " / " & $stats.numLosses
-        echo alignLeft($(i + 1), 5),
-          " ",
-          player.alignLeft(30),
-          " ",
-          score.formatFloat(ffDecimal, 2).alignLeft(15),
-          " ",
-          alignLeft($(stats.numGames), 10),
-          " ",
-          record
+        echo fmt"{$(i + 1):<5} {player:<30} {score.formatFloat(ffDecimal, 2):<15} {$(stats.numGames):<10} {record}"
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games (All Players) ---"
     for (game, score, player, stats) in topAggressiveGames:

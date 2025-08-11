@@ -120,7 +120,7 @@ proc calculateLoss(
 
   for data in trainingData:
     let predictedScore = calculateScoreWithWeights(data.rawScores, weights)
-    totalError += abs(predictedScore - data.targetLabel)
+    totalError += pow(predictedScore - data.targetLabel, 2)
 
   return totalError / trainingData.len.float
 
@@ -195,10 +195,10 @@ proc estimateGradientSPSA(
 proc updateWeights(
     optimizer: var SPSAOptimizer, gradient: array[AttackingFeature, float]
 ) =
+  # Learning rate decay
   let ak =
     optimizer.learningRate /
     (optimizer.iteration.float + optimizer.maxIterations.float / 10.0).pow(0.602)
-    # Learning rate decay
 
   for feature in AttackingFeature:
     # Update momentum
@@ -207,9 +207,6 @@ proc updateWeights(
 
     # Update weights
     optimizer.weights[feature] -= optimizer.momentum[feature]
-
-    # # Ensure weights stay non-negative
-    # optimizer.weights[feature] = max(0.0, optimizer.weights[feature])
 
   optimizer.iteration += 1
 
