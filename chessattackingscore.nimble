@@ -1,10 +1,11 @@
 # Package
 
-version = "0.1.0"
+version = "0.2.0"
 author = "Jost Triller"
 description = "A tool to analyze PGNs and score players for attacking style"
 license = "MIT"
 srcDir = "src"
+installExt = @["nim"]
 bin = @["chessattackingscore"]
 
 requires "nim >= 2.2.4"
