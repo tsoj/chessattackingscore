@@ -29,6 +29,10 @@ type
     movesNearKingDist: array[8, int]
     capturesNearKingDist: array[8, int]
     totalSacrificeScore: float
+    totalChecks: int
+    forcingMoves: int
+    f7F2Attacks: int
+    shortGameBonus: float
 
   SacrificeState = object
     active: bool
@@ -243,6 +247,23 @@ func analyzeTacticalMoves(
           not empty(attackMaskPawnCapture(move.target, black) and position[pawn, white]):
         inc stats.knightOutposts
 
+  # Only important during opening
+  if numPieces >= 26:
+    # F7/F2 attacks (now always f7 in normalized view)
+    if move.target == f7 or position.attacksFrom(move.target).isSet(f7):
+      inc stats.f7F2Attacks
+
+func analyzeForcingMoves(
+    position: Position, move: Move, materialBalance: int, stats: var AttackingStats
+) =
+  if move.isCapture:
+    inc stats.forcingMoves
+
+  let newPosition = position.doMove(move)
+  if newPosition.inCheck(position.enemy):
+    inc stats.forcingMoves
+    inc stats.totalChecks
+
 func analyzeCoordinatedAttacks(
     position: Position, materialBalance: int, stats: var AttackingStats
 ) =
@@ -258,6 +279,18 @@ func analyzeCoordinatedAttacks(
 
   if uniqueAttackers >= 3:
     inc stats.coordinatedAttacks
+
+func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): float =
+  let finalBalance = getMaterialBalance(position, playerColor)
+
+  if hasWinningAdvantage(finalBalance):
+    return 0.0
+
+  let gameLength = (ply + 1) div 2
+  # Don't give a high bonus for games that are too short
+  if gameLength in 20 .. 60:
+    return max(0.0, (60 - max(30, gameLength)).float / 30.0)
+  return 0.0
 
 # --- Main Analysis Function ---
 func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
@@ -311,6 +344,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
 
           analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
 
+          analyzeForcingMoves(position, move, materialBalance, stats)
+
           analyzeCoordinatedAttacks(position, materialBalance, stats)
 
     position = position.doMove(move)
@@ -335,6 +370,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
     inc stats.numDraws
   elif isWin:
     inc stats.numWins
+    stats.shortGameBonus +=
+      calculateShortGameBonus(position, playerColor, game.moves.len)
   else:
     inc stats.numLosses
 
@@ -376,6 +413,10 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   result[rookLiftsPerMove] = stats.rookLifts.float / numNonDrawMovesDivider
   result[knightOutpostsPerMove] = stats.knightOutposts.float / numNonDrawMovesDivider
   result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / numNonDrawMovesDivider
+  result[forcingMovesPerMove] = stats.forcingMoves.float / numNonDrawMovesDivider
+  result[checksPerMove] = stats.totalChecks.float / numNonDrawMovesDivider
+  result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / numNonDrawMovesDivider
+  result[shortGameBonusPerWin] = if stats.numWins > 0: stats.shortGameBonus / stats.numWins.float else: 0.0
   #!fmt: on
 
 func getAttackingScore*(
@@ -629,7 +670,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo "-".repeat(110)
 
       for i, res in playerResults.pairs:
-        echo fmt"{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 2):<15} {res.stderr.formatFloat(ffDecimal, 2):<15} {res.stdev.formatFloat(ffDecimal, 2):<15} {$(res.numGames):<10} {res.record:<20}"
+        echo fmt"{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stderr.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games (All Players) ---"
     for (game, score, player) in topAggressiveGames:

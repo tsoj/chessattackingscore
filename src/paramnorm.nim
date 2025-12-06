@@ -2,7 +2,7 @@
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculate_normalization script on 2025-12-06T19:40:18Z.
+This file is automatically updated by the calculate_normalization script on 2025-12-06T20:11:11Z.
 ]##
 
 import features
@@ -12,7 +12,10 @@ const normalizationParams* = [
   bishopQueenThreatsPerMove: (mean: 0.09781389, std: 0.08483257),
   capturesNearKing: (mean: 0.38025744, std: 0.23248973),
   centralPawnBreaksPerMove: (mean: 0.01693447, std: 0.02360516),
+  checksPerMove: (mean: 0.03718889, std: 0.05174182),
   coordinatedAttacksPerMove: (mean: 0.02747498, std: 0.06233869),
+  f7F2AttacksPerMove: (mean: 0.00560029, std: 0.01467909),
+  forcingMovesPerMove: (mean: 0.20606422, std: 0.13241573),
   forfeitedCastlingGames: (mean: 0.10216457, std: 0.30286631),
   knightOutpostsPerMove: (mean: 0.01010631, std: 0.01924513),
   movesNearKing: (mean: 0.30101110, std: 0.17798105),
@@ -21,4 +24,5 @@ const normalizationParams* = [
   rookLiftsPerMove: (mean: 0.00524064, std: 0.01263657),
   rookQueenThreatsPerMove: (mean: 0.07830653, std: 0.08111849),
   sacrificeScorePerWinMove: (mean: 0.03873187, std: 0.14277139),
+  shortGameBonusPerWin: (mean: 0.12920070, std: 0.30864804),
 ]
