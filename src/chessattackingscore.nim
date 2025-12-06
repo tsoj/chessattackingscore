@@ -9,15 +9,14 @@ const
   WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
 
 type
+  GameResult* = enum
+    Loss, Draw, Win
+
   AttackingStats* = object
-    numWins: int
-    numDraws: int
-    numLosses: int
+    result: GameResult
     totalMoves: int
-    numWinMoves: int
-    numNonDrawMoves: int
-    oppositeSideCastlingGames: int
-    forfeitedCastlingGames: int
+    oppositeSideCastling: bool
+    forfeitedCastling: bool
     pawnStormsVsKing: int
     centralPawnBreaks: int
     advancedPieces: int
@@ -157,7 +156,7 @@ func analyzeCastling(
     usCastledSide = some side
     if themCastledSide.isSome and usCastledSide != themCastledSide:
       if not materialBalance.hasWinningAdvantage:
-        inc stats.oppositeSideCastlingGames
+        stats.oppositeSideCastling = true
   else:
     themCastledSide = some side
 
@@ -331,9 +330,8 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
         position = position.doMove(move)
         continue
 
-      if isWin:
-        # Update sacrifice tracking
-        updateSacrificeTracking(position, move, sacrificeState, stats)
+      # Update sacrifice tracking
+      updateSacrificeTracking(position, move, sacrificeState, stats)
 
       if not isDraw:
         # Only analyze attacking if we don't have winning material advantage
@@ -352,28 +350,23 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
 
     if isOurTurn:
       inc stats.totalMoves
-      if isWin:
-        inc stats.numWinMoves
-      if not isDraw:
-        inc stats.numNonDrawMoves
 
   # Finalize sacrifice tracking
-  if isWin:
-    finalizeSacrificeTracking(sacrificeState, stats)
+  finalizeSacrificeTracking(sacrificeState, stats)
 
   # Check for forfeited castling
   if usCastledSide.isNone and game.moves.len >= 40:
-    inc stats.forfeitedCastlingGames
+    stats.forfeitedCastling = true
 
   # Update game results
   if isDraw:
-    inc stats.numDraws
+    stats.result = Draw
   elif isWin:
-    inc stats.numWins
-    stats.shortGameBonus +=
+    stats.result = Win
+    stats.shortGameBonus =
       calculateShortGameBonus(position, playerColor, game.moves.len)
   else:
-    inc stats.numLosses
+    stats.result = Loss
 
 func getProximityScore(distances: array[8, int]): float =
   let weights = [0, 8, 6, 4, 2, 1, 0, 0]
@@ -397,26 +390,32 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
     return
 
   #!fmt: off
-  result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.numWinMoves).float
-  result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float
-  result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float
+  result[oppositeSideCastlingGames] = (if stats.oppositeSideCastling: 1.0 else: 0.0)
+  result[forfeitedCastlingGames] = (if stats.forfeitedCastling: 1.0 else: 0.0)
 
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
 
-  let numNonDrawMovesDivider = max(1, stats.numNonDrawMoves).float
-  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / numNonDrawMovesDivider
-  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / numNonDrawMovesDivider
-  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / numNonDrawMovesDivider
-  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / numNonDrawMovesDivider
-  result[advancedPiecesPerMove] = stats.advancedPieces.float / numNonDrawMovesDivider
-  result[rookLiftsPerMove] = stats.rookLifts.float / numNonDrawMovesDivider
-  result[knightOutpostsPerMove] = stats.knightOutposts.float / numNonDrawMovesDivider
-  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / numNonDrawMovesDivider
-  result[forcingMovesPerMove] = stats.forcingMoves.float / numNonDrawMovesDivider
-  result[checksPerMove] = stats.totalChecks.float / numNonDrawMovesDivider
-  result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / numNonDrawMovesDivider
-  result[shortGameBonusPerWin] = if stats.numWins > 0: stats.shortGameBonus / stats.numWins.float else: 0.0
+  if stats.result == Win:
+
+    result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.totalMoves).float
+    result[shortGameBonusPerWin] = stats.shortGameBonus
+
+
+  if stats.result != Draw:
+    let movesDivider = max(1, stats.totalMoves).float
+    result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / movesDivider
+    result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / movesDivider
+    result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / movesDivider
+    result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / movesDivider
+    result[advancedPiecesPerMove] = stats.advancedPieces.float / movesDivider
+    result[rookLiftsPerMove] = stats.rookLifts.float / movesDivider
+    result[knightOutpostsPerMove] = stats.knightOutposts.float / movesDivider
+    result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / movesDivider
+    result[forcingMovesPerMove] = stats.forcingMoves.float / movesDivider
+    result[checksPerMove] = stats.totalChecks.float / movesDivider
+    result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / movesDivider
+
   #!fmt: on
 
 func getAttackingScore*(
@@ -599,11 +598,12 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
         allPlayerScores[player].add(score)
 
-        if tempStats.numWins > 0:
+        case tempStats.result
+        of Win:
           inc allPlayerRecords[player].wins
-        elif tempStats.numDraws > 0:
+        of Draw:
           inc allPlayerRecords[player].draws
-        elif tempStats.numLosses > 0:
+        of Loss:
           inc allPlayerRecords[player].losses
 
 
