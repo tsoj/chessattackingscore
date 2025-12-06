@@ -5,7 +5,7 @@ This analyzes a large set of games to determine mean and standard deviation
 for each raw score feature, enabling better normalization.
 ]##
 
-import std/[os, strutils, sequtils, tables, strformat, math, parseopt, algorithm, times]
+import std/[os, strutils, tables, strformat, math, parseopt, times]
 import nimchess
 from chessattackingscore import
   AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature

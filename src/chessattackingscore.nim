@@ -10,7 +10,6 @@ const
 
 type
   AttackingStats* = object
-    numGames: int
     numWins: int
     numDraws: int
     numLosses: int
@@ -332,7 +331,6 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
     inc stats.forfeitedCastlingGames
 
   # Update game results
-  inc stats.numGames
   if isDraw:
     inc stats.numDraws
   elif isWin:
@@ -358,22 +356,13 @@ func getProximityScore(distances: array[8, int]): float =
 
 # --- Score Calculation Functions ---
 func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float] =
-  if stats.numGames == 0 or stats.totalMoves == 0:
+  if stats.totalMoves == 0:
     return
-
-  result[sacrificeScorePerWinMove] =
-    if stats.numWinMoves > 0:
-      stats.totalSacrificeScore / stats.numWinMoves.float
-    else:
-      0.0
-
-  let numNonDraws = stats.numGames - stats.numDraws
-  assert numNonDraws >= 0
 
   #!fmt: off
   result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.numWinMoves).float
-  result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float / stats.numGames.float
-  result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float / stats.numGames.float
+  result[oppositeSideCastlingGames] = stats.oppositeSideCastlingGames.float
+  result[forfeitedCastlingGames] = stats.forfeitedCastlingGames.float
 
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
@@ -413,7 +402,8 @@ func getAttackingScore*(
   if totalWeight == 0:
     return 0.0
 
-  return totalWeightedScore / totalWeight
+  let score = totalWeightedScore / totalWeight
+  return 1.0 / (1.0 + exp(-score))
 
 func getAttackingScore(stats: AttackingStats): float =
   getAttackingScore(getRawFeatureScores(stats))
@@ -529,9 +519,10 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
 
 proc processAllPlayersMode(args: AnalysisArgs) =
   var
-    allPlayerStats = initTable[string, AttackingStats]()
-    topAggressiveGames: seq[(Game, float, string, AttackingStats)] = @[]
-    leastAggressiveGames: seq[(Game, float, string, AttackingStats)] = @[]
+    allPlayerScores = initTable[string, seq[float]]()
+    allPlayerRecords = initTable[string, tuple[wins: int, draws: int, losses: int]]()
+    topAggressiveGames: seq[(Game, float, string)] = @[]
+    leastAggressiveGames: seq[(Game, float, string)] = @[]
     gamesProcessed = 0
     gamesFilteredByRating = 0
 
@@ -554,31 +545,37 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
       # Analyze for both players
       for player in [whitePlayer, blackPlayer]:
-        if not allPlayerStats.hasKey(player):
-          allPlayerStats[player] = AttackingStats()
+        if "?" in player:
+          continue
 
-        analyseGame(game, player, allPlayerStats[player])
-
-        # Track top/least aggressive games across all players
         var tempStats = AttackingStats()
         analyseGame(game, player, tempStats)
         let score = getAttackingScore(tempStats)
 
+        if not allPlayerScores.hasKey(player):
+          allPlayerScores[player] = @[]
+          allPlayerRecords[player] = (0, 0, 0)
+
+        allPlayerScores[player].add(score)
+
+        if tempStats.numWins > 0:
+          inc allPlayerRecords[player].wins
+        elif tempStats.numDraws > 0:
+          inc allPlayerRecords[player].draws
+        elif tempStats.numLosses > 0:
+          inc allPlayerRecords[player].losses
+
+
+        # Track top/least aggressive games across all players
         if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
-          topAggressiveGames.add((game, score, player, tempStats))
-          topAggressiveGames.sort(
-            proc(a, b: (Game, float, string, AttackingStats)): int =
-              cmp(b[1], a[1])
-          )
+          topAggressiveGames.add((game, score, player))
+          topAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(b[1], a[1]))
           if topAggressiveGames.len > args.topN:
             topAggressiveGames.setLen(args.topN)
 
         if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
-          leastAggressiveGames.add((game, score, player, tempStats))
-          leastAggressiveGames.sort(
-            proc(a, b: (Game, float, string, AttackingStats)): int =
-              cmp(a[1], b[1])
-          )
+          leastAggressiveGames.add((game, score, player))
+          leastAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(a[1], b[1]))
           if leastAggressiveGames.len > args.topN:
             leastAggressiveGames.setLen(args.topN)
 
@@ -593,32 +590,49 @@ proc processAllPlayersMode(args: AnalysisArgs) =
         args.minRating, ")"
 
     # Output results for all players mode
-    var playerResults: seq[(string, float, AttackingStats)] = @[]
-    for player, stats in allPlayerStats.pairs:
-      if stats.numGames >= args.minGames:
-        let score = getAttackingScore(stats)
-        playerResults.add((player, score, stats))
+    type
+      PlayerResult = tuple[
+        player: string,
+        score: float,
+        stdev: float,
+        stderr: float,
+        numGames: int,
+        record: string,
+      ]
+    var playerResults: seq[PlayerResult] = @[]
+
+    for player, scores in allPlayerScores.pairs:
+      if scores.len >= args.minGames:
+        let
+          numGames = scores.len
+          mean = scores.sum / numGames.float
+          stdev =
+            if numGames > 1:
+              sqrt(scores.map(proc (x: float): float = (x - mean) ^ 2).sum / (numGames - 1).float)
+            else:
+              0.0
+          stderr = if numGames > 0: stdev / sqrt(numGames.float) else: 0.0
+          record = $allPlayerRecords[player].wins & " / " & $allPlayerRecords[player].draws &
+            " / " & $allPlayerRecords[player].losses
+
+        playerResults.add((player, mean, stdev, stderr, numGames, record))
 
     if playerResults.len == 0:
       echo "No players found with at least ", args.minGames, " games."
     else:
-      playerResults.sort(
-        proc(a, b: (string, float, AttackingStats)): int =
-          cmp(b[1], a[1])
-      )
+      playerResults.sort(proc (a, b: PlayerResult): int = cmp(b.score, a.score))
 
       echo "Attacking ranking for ",
         playerResults.len, " players with at least ", args.minGames, " games:"
-      echo "-".repeat(80)
-      echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"Games":<10} Record (W/D/L)"""
-      echo "-".repeat(80)
+      echo "-".repeat(110)
+      echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"StdErr":<15} {"StdDev":<15} {"Games":<10} {"Record (W/D/L)":<20}"""
+      echo "-".repeat(110)
 
-      for i, (player, score, stats) in playerResults.pairs:
-        let record = $stats.numWins & " / " & $stats.numDraws & " / " & $stats.numLosses
-        echo fmt"{$(i + 1):<5} {player:<30} {score.formatFloat(ffDecimal, 2):<15} {$(stats.numGames):<10} {record}"
+      for i, res in playerResults.pairs:
+        echo fmt"{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 2):<15} {res.stderr.formatFloat(ffDecimal, 2):<15} {res.stdev.formatFloat(ffDecimal, 2):<15} {$(res.numGames):<10} {res.record:<20}"
 
     echo "\n--- Top ", args.topN, " Most Aggressive Games (All Players) ---"
-    for (game, score, player, stats) in topAggressiveGames:
+    for (game, score, player) in topAggressiveGames:
       echo "-".repeat(50)
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2),
@@ -633,7 +647,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo game.toPgnString()
 
     echo "\n--- Top ", args.topN, " Least Aggressive Games (All Players) ---"
-    for (game, score, player, stats) in leastAggressiveGames:
+    for (game, score, player) in leastAggressiveGames:
       echo "-".repeat(50)
       echo "\nScore: ",
         score.formatFloat(ffDecimal, 2),

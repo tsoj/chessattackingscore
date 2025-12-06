@@ -16,6 +16,10 @@ type
     iteration: int
     maxIterations: int
 
+const
+    attackingTarget = 1.0
+    normalTarget = 0.5
+
 proc preprocessGamesFromFolder(
     folderPath: string, targetLabel: float, maxGamesPerClass: int
 ): seq[GameData] =
@@ -193,7 +197,7 @@ proc evaluatePerformance(
 
   for data in dataset:
     let score = getAttackingScore(data.rawScores, weights)
-    if data.targetLabel == 0.0:
+    if data.targetLabel == normalTarget:
       normalScores.add(score)
     else:
       attackingScores.add(score)
@@ -201,15 +205,13 @@ proc evaluatePerformance(
   echo "\n--- ", datasetName, " Performance ---"
   if normalScores.len > 0:
     let avgNormal = normalScores.foldl(a + b, 0.0) / normalScores.len.float
-    echo "Average score for 'normal' games:   ",
-      avgNormal.formatFloat(ffDecimal, 4), " (Target: 0.0)"
+    echo fmt"Average score for 'normal' games:   {avgNormal.formatFloat(ffDecimal, 4)} (Target: {normalTarget})"
   else:
     echo "No 'normal' games in this set."
 
   if attackingScores.len > 0:
     let avgAttacking = attackingScores.foldl(a + b, 0.0) / attackingScores.len.float
-    echo "Average score for 'attacking' games: ",
-      avgAttacking.formatFloat(ffDecimal, 4), " (Target: 1.0)"
+    echo fmt"Average score for 'attacking' games: {avgAttacking.formatFloat(ffDecimal, 4)} (Target: {attackingTarget})"
   else:
     echo "No 'attacking' games in this set."
 
@@ -318,9 +320,9 @@ proc main() =
   randomize()
 
   # Pre-process all data
-  let normalData = preprocessGamesFromFolder(normalGamesDir, 0.0, maxGamesPerClass)
+  let normalData = preprocessGamesFromFolder(normalGamesDir, normalTarget, maxGamesPerClass)
   let attackingData =
-    preprocessGamesFromFolder(attackingGamesDir, 1.0, maxGamesPerClass)
+    preprocessGamesFromFolder(attackingGamesDir, attackingTarget, maxGamesPerClass)
 
   # Create train/test splits
   if testSplit == 0.0:
