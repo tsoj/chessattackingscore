@@ -423,7 +423,6 @@ func getAttackingScore*(
     weights: array[AttackingFeature, float] = featureWeights,
 ): float =
   var totalWeightedScore = 0.0
-  var totalWeight = 0.0
 
   for feature in AttackingFeature:
     let rawValue = rawScores[feature]
@@ -437,12 +436,8 @@ func getAttackingScore*(
       normalizedValue = 0.0
 
     totalWeightedScore += weight * normalizedValue
-    totalWeight += weight.abs
 
-  if totalWeight == 0:
-    return 0.0
-
-  let score = totalWeightedScore / totalWeight
+  let score = totalWeightedScore
   return 1.0 / (1.0 + exp(-score))
 
 func getAttackingScore(stats: AttackingStats): float =
