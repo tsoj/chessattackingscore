@@ -57,14 +57,14 @@ proc collectRawScores(
 
       # Analyze both players
       for player in [whitePlayer, blackPlayer]:
-        var stats = AttackingStats()
-        analyseGame(game, player, stats)
-        let rawScores = getRawFeatureScores(stats)
+        let statOpt = analyseGame(game, player)
+        if statOpt.isSome:
+          let rawScores = getRawFeatureScores(statOpt.get)
 
-        # Collect all raw scores
-        for feature in AttackingFeature:
-          let score = rawScores[feature]
-          rawScoreCollections[feature].add(score)
+          # Collect all raw scores
+          for feature in AttackingFeature:
+            let score = rawScores[feature]
+            rawScoreCollections[feature].add(score)
 
       inc gamesProcessed
       if gamesProcessed mod 100 == 0:

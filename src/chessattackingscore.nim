@@ -1,4 +1,4 @@
-import std/[tables, sequtils, strutils, math, algorithm, parseopt, strformat]
+import std/[tables, sequtils, strutils, math, algorithm, parseopt, strformat, options]
 import nimchess
 import features, paramfeatures, paramnorm
 
@@ -179,12 +179,6 @@ func analyzePieceThreats(
 ) =
   let enemyKingSquare = position.kingSquare(position.enemy)
 
-  let
-    toFile = fileNumber(move.target)
-    toRank = rankNumber(move.target)
-    kingFile = fileNumber(enemyKingSquare)
-    kingRank = rankNumber(enemyKingSquare)
-
   if movingPieceType in [rook, queen] and
       not empty(rook.attackMask(move.target, 0.Bitboard) and mask3x3(enemyKingSquare)):
     inc stats.rookQueenThreats
@@ -291,25 +285,30 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
+func isGameWonBy*(game: Game, playerName: string): bool =
+  let playerColor =
+    if game.headers.getOrDefault("White") == playerName: white else: black
+  let
+    termination = game.headers.getOrDefault("Termination", "").toLower()
+    isDraw =
+      "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
+
+  return ((game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
+          (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)) and not isDraw
+
 # --- Main Analysis Function ---
-func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
+func analyseGame*(game: Game, playerName: string): Option[AttackingStats] =
+  if not isGameWonBy(game, playerName):
+    return none(AttackingStats)
+
+  var stats = AttackingStats(result: Win)
+
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
   var
     position = game.startPosition
     usCastledSide = none CastlingSide
     themCastledSide = none CastlingSide
-
-  let
-    termination = game.headers.getOrDefault("Termination", "").toLower()
-    isDraw =
-      "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
-    isWin =
-      (
-        (game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
-        (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)
-      ) and not isDraw
-
   var sacrificeState = SacrificeState()
 
   for move in game.moves:
@@ -333,18 +332,17 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
       # Update sacrifice tracking
       updateSacrificeTracking(position, move, sacrificeState, stats)
 
-      if not isDraw:
-        # Only analyze attacking if we don't have winning material advantage
-        if not hasWinningAdvantage(materialBalance):
-          analyzeKingProximity(position, move, materialBalance, stats)
+      # Only analyze attacking if we don't have winning material advantage
+      if not hasWinningAdvantage(materialBalance):
+        analyzeKingProximity(position, move, materialBalance, stats)
 
-          analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
+        analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
 
-          analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
+        analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
 
-          analyzeForcingMoves(position, move, materialBalance, stats)
+        analyzeForcingMoves(position, move, materialBalance, stats)
 
-          analyzeCoordinatedAttacks(position, materialBalance, stats)
+        analyzeCoordinatedAttacks(position, materialBalance, stats)
 
     position = position.doMove(move)
 
@@ -354,19 +352,14 @@ func analyseGame*(game: Game, playerName: string, stats: var AttackingStats) =
   # Finalize sacrifice tracking
   finalizeSacrificeTracking(sacrificeState, stats)
 
+  stats.shortGameBonus =
+    calculateShortGameBonus(position, playerColor, game.moves.len)
+
   # Check for forfeited castling
   if usCastledSide.isNone and game.moves.len >= 40:
     stats.forfeitedCastling = true
 
-  # Update game results
-  if isDraw:
-    stats.result = Draw
-  elif isWin:
-    stats.result = Win
-    stats.shortGameBonus =
-      calculateShortGameBonus(position, playerColor, game.moves.len)
-  else:
-    stats.result = Loss
+  return some(stats)
 
 func getProximityScore(distances: array[8, int]): float =
   let weights = [0, 8, 6, 4, 2, 1, 0, 0]
@@ -396,25 +389,24 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   result[capturesNearKing] = getProximityScore(stats.capturesNearKingDist)
   result[movesNearKing] = getProximityScore(stats.movesNearKingDist)
 
-  if stats.result == Win:
-
+  if stats.result != Loss:
     result[sacrificeScorePerWinMove] = stats.totalSacrificeScore / max(1, stats.totalMoves).float
+
+  if stats.result == Win:
     result[shortGameBonusPerWin] = stats.shortGameBonus
 
-
-  if stats.result != Draw:
-    let movesDivider = max(1, stats.totalMoves).float
-    result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / movesDivider
-    result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / movesDivider
-    result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / movesDivider
-    result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / movesDivider
-    result[advancedPiecesPerMove] = stats.advancedPieces.float / movesDivider
-    result[rookLiftsPerMove] = stats.rookLifts.float / movesDivider
-    result[knightOutpostsPerMove] = stats.knightOutposts.float / movesDivider
-    result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / movesDivider
-    result[forcingMovesPerMove] = stats.forcingMoves.float / movesDivider
-    result[checksPerMove] = stats.totalChecks.float / movesDivider
-    result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / movesDivider
+  let movesDivider = max(1, stats.totalMoves).float
+  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / movesDivider
+  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / movesDivider
+  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / movesDivider
+  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / movesDivider
+  result[advancedPiecesPerMove] = stats.advancedPieces.float / movesDivider
+  result[rookLiftsPerMove] = stats.rookLifts.float / movesDivider
+  result[knightOutpostsPerMove] = stats.knightOutposts.float / movesDivider
+  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / movesDivider
+  result[forcingMovesPerMove] = stats.forcingMoves.float / movesDivider
+  result[checksPerMove] = stats.totalChecks.float / movesDivider
+  result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / movesDivider
 
   #!fmt: on
 
@@ -502,10 +494,11 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
         blackPlayer = game.headers.getOrDefault("Black", "?")
 
       if args.player in [whitePlayer, blackPlayer]:
-        var stats = AttackingStats()
-        analyseGame(game, args.player, stats)
-        let score = getAttackingScore(stats)
-        gameScoresForPlayer.add((game, score))
+        let statsOpt = analyseGame(game, args.player)
+        if statsOpt.isSome:
+          let stats = statsOpt.get
+          let score = getAttackingScore(stats)
+          gameScoresForPlayer.add((game, score))
 
       inc gamesProcessed
       if gamesProcessed mod 1000 == 0:
@@ -583,37 +576,31 @@ proc processAllPlayersMode(args: AnalysisArgs) =
         if "?" in player:
           continue
 
-        var tempStats = AttackingStats()
-        analyseGame(game, player, tempStats)
-        let score = getAttackingScore(tempStats)
+        let tempStatsOpt = analyseGame(game, player)
+        if tempStatsOpt.isSome:
+          let tempStats = tempStatsOpt.get
+          let score = getAttackingScore(tempStats)
 
-        if not allPlayerScores.hasKey(player):
-          allPlayerScores[player] = @[]
-          allPlayerRecords[player] = (0, 0, 0)
+          if not allPlayerScores.hasKey(player):
+            allPlayerScores[player] = @[]
+            allPlayerRecords[player] = (0, 0, 0)
 
-        allPlayerScores[player].add(score)
+          allPlayerScores[player].add(score)
 
-        case tempStats.result
-        of Win:
           inc allPlayerRecords[player].wins
-        of Draw:
-          inc allPlayerRecords[player].draws
-        of Loss:
-          inc allPlayerRecords[player].losses
 
+          # Track top/least aggressive games across all players
+          if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
+            topAggressiveGames.add((game, score, player))
+            topAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(b[1], a[1]))
+            if topAggressiveGames.len > args.topN:
+              topAggressiveGames.setLen(args.topN)
 
-        # Track top/least aggressive games across all players
-        if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
-          topAggressiveGames.add((game, score, player))
-          topAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(b[1], a[1]))
-          if topAggressiveGames.len > args.topN:
-            topAggressiveGames.setLen(args.topN)
-
-        if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
-          leastAggressiveGames.add((game, score, player))
-          leastAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(a[1], b[1]))
-          if leastAggressiveGames.len > args.topN:
-            leastAggressiveGames.setLen(args.topN)
+          if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
+            leastAggressiveGames.add((game, score, player))
+            leastAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(a[1], b[1]))
+            if leastAggressiveGames.len > args.topN:
+              leastAggressiveGames.setLen(args.topN)
 
       inc gamesProcessed
       if gamesProcessed mod 100 == 0:

@@ -1,8 +1,8 @@
 import std/[os, parseopt, strutils, sequtils, tables, math, random, strformat, times]
 import nimchess
 from chessattackingscore import
-  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature, getAttackingScore
-import paramnorm
+  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature,
+  getAttackingScore
 
 type
   GameData = tuple[rawScores: array[AttackingFeature, float], targetLabel: float]
@@ -65,12 +65,12 @@ proc preprocessGamesFromFolder(
             winnerPlayerName = game.headers.getOrDefault("Black", "")
 
           if winnerPlayerName != "" and winnerPlayerName != "?":
-            var stats = AttackingStats()
-            analyseGame(game, winnerPlayerName, stats)
-            let rawScores = getRawFeatureScores(stats)
-            processedData.add((rawScores, targetLabel))
+            let statsOpt = analyseGame(game, winnerPlayerName)
+            if statsOpt.isSome:
+              let rawScores = getRawFeatureScores(statsOpt.get)
+              processedData.add((rawScores, targetLabel))
         else:
-          # For normal games, analyze both players
+          # For normal games, analyze only the winner's perspective
           let whiteName = game.headers.getOrDefault("White", "?")
           let blackName = game.headers.getOrDefault("Black", "?")
 
@@ -78,11 +78,10 @@ proc preprocessGamesFromFolder(
             if playerName == "?" or processedData.len >= maxGamesPerClass:
               continue
 
-            var stats = AttackingStats()
-            analyseGame(game, playerName, stats)
-            let rawScores = getRawFeatureScores(stats)
-
-            processedData.add((rawScores, targetLabel))
+            let statsOpt = analyseGame(game, playerName)
+            if statsOpt.isSome:
+              let rawScores = getRawFeatureScores(statsOpt.get)
+              processedData.add((rawScores, targetLabel))
     except Exception as e:
       echo "Could not process file ", pgnPath, ": ", e.msg
 
