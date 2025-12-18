@@ -511,7 +511,7 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
     gamesSaved = 0
 
   echo "Analyzing games for player '", args.player, "'..."
-  
+
   # If we are outputting to a file, maybe clear it first or announce it
   if args.outputPgnPath.len > 0:
     echo "High attacking score games (>= ", args.saveThreshold, ") will be saved to: ", args.outputPgnPath
@@ -619,7 +619,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       let
         whitePlayer = game.headers.getOrDefault("White", "?")
         blackPlayer = game.headers.getOrDefault("Black", "?")
-      
+
       var gameSavedThisLoop = false
 
       # Analyze for both players
@@ -668,7 +668,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo "Filtered out ",
         gamesFilteredByRating, " games due to rating requirements (min rating: ",
         args.minRating, ")"
-    
+
     if args.outputPgnPath.len > 0:
       echo "Total games saved to ", args.outputPgnPath, ": ", gamesSaved
 
@@ -813,21 +813,21 @@ A tool to analyze PGNs and score players for attacking style
 Usage: chessattackingscore [options]
 
 Options:
-  --pgn PATH              Path to the PGN file (required)
-  --player NAME           Name of a specific player to analyze
-  --games N               Maximum number of games to process
-  --min_games N           Minimum games for a player to be included (default: 10)
-  --min_rating N          Minimum rating for the lower-rated player (default: 0)
-  --top_n N               Number of top/bottom games to display (default: 10)
-  --event_filter TYPE     Filter games by event types (can be used multiple times)
-  --output_pgn PATH       Path to save PGNs of aggressive games
-  --save_threshold N      Score threshold (0.0 - 1.0) to consider a game aggressive (default: 0.7)
+  --pgn=PATH              Path to the PGN file (required)
+  --player=NAME           Name of a specific player to analyze
+  --games=N               Maximum number of games to process
+  --min_games=N           Minimum games for a player to be included (default: 10)
+  --min_rating=N          Minimum rating for the lower-rated player (default: 0)
+  --top_n=N               Number of top/bottom games to display (default: 10)
+  --event_filter=TYPE     Filter games by event types (can be used multiple times)
+  --output_pgn=PATH       Path to save PGNs of aggressive games
+  --save_threshold=N      Score threshold (0.0 - 1.0) to consider a game aggressive (default: 0.7)
   --help, -h              Show this help message
 
 Examples:
-  chessattackingscore --pgn games.pgn --player "Magnus Carlsen"
-  chessattackingscore --pgn games.pgn --min_rating 2400 --top_n 5
-  chessattackingscore --pgn games.pgn --output_pgn aggressive.pgn --save_threshold 0.8
+  chessattackingscore --pgn=games.pgn --player="Magnus Carlsen"
+  chessattackingscore --pgn=games.pgn --min_rating=2400 --top_n=5
+  chessattackingscore --pgn=games.pgn --output_pgn=aggressive.pgn --save_threshold=0.8
 """
         quit(0)
       else:
