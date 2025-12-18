@@ -45,6 +45,8 @@ type
     minRating: int
     topN: int
     eventFilter: seq[string]
+    outputPgnPath: string
+    saveThreshold: float
 
 func hasWinningAdvantage(balance: int): bool =
   balance >= WINNING_MATERIAL_ADVANTAGE
@@ -470,13 +472,49 @@ func shouldIncludeGame(game: Game, args: AnalysisArgs): bool =
 
   return true
 
+proc writeGameToPgn(game: Game, score: float, player: string, path: string) =
+  try:
+    let f = open(path, fmAppend)
+    defer: f.close()
+    var outputGame = game
+
+    const canonicalOrder = [
+      "Event", "Site", "Date", "Round",
+      "White", "Black", "Result"
+    ]
+
+    for key in canonicalOrder:
+      if outputGame.headers.hasKey(key):
+        f.writeLine("[" & key & " \"" & outputGame.headers[key] & "\"]")
+
+    for k, v in outputGame.headers.pairs:
+      if k notin canonicalOrder:
+        f.writeLine("[" & k & " \"" & v & "\"]")
+
+    f.writeLine("")
+
+    let fullPgn = outputGame.toPgnString()
+    let parts = fullPgn.split("\n\n", maxsplit = 1)
+    if parts.len == 2:
+      f.writeLine(parts[1])
+
+    f.writeLine("")
+
+  except IOError:
+    echo "Warning: Failed to append game to ", path
+
 proc processSinglePlayerMode(args: AnalysisArgs) =
   var
     gameScoresForPlayer: seq[(Game, float)] = @[]
     gamesProcessed = 0
     gamesFilteredByRating = 0
+    gamesSaved = 0
 
   echo "Analyzing games for player '", args.player, "'..."
+  
+  # If we are outputting to a file, maybe clear it first or announce it
+  if args.outputPgnPath.len > 0:
+    echo "High attacking score games (>= ", args.saveThreshold, ") will be saved to: ", args.outputPgnPath
 
   try:
     for game in readPgnFileIter(args.pgnPath):
@@ -528,6 +566,14 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
         cmp(a[1], b[1])
     )
 
+    # Save games if requested
+    if args.outputPgnPath.len > 0:
+      for (game, score) in gameScoresForPlayer:
+        if score >= args.saveThreshold:
+          writeGameToPgn(game, score, args.player, args.outputPgnPath)
+          inc gamesSaved
+      echo "Saved ", gamesSaved, " games to ", args.outputPgnPath
+
     echo "\n--- Top ", args.topN, " Most Aggressive Games ---"
     for i in 0 ..< min(args.topN, gameScoresForPlayer.len):
       let (game, score) = gameScoresForPlayer[gameScoresForPlayer.len - 1 - i]
@@ -553,8 +599,11 @@ proc processAllPlayersMode(args: AnalysisArgs) =
     leastAggressiveGames: seq[(Game, float, string)] = @[]
     gamesProcessed = 0
     gamesFilteredByRating = 0
+    gamesSaved = 0
 
   echo "Analyzing all players..."
+  if args.outputPgnPath.len > 0:
+    echo "High attacking score games (>= ", args.saveThreshold, ") will be saved to: ", args.outputPgnPath
 
   try:
     for game in readPgnFileIter(args.pgnPath):
@@ -570,6 +619,8 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       let
         whitePlayer = game.headers.getOrDefault("White", "?")
         blackPlayer = game.headers.getOrDefault("Black", "?")
+      
+      var gameSavedThisLoop = false
 
       # Analyze for both players
       for player in [whitePlayer, blackPlayer]:
@@ -588,6 +639,12 @@ proc processAllPlayersMode(args: AnalysisArgs) =
           allPlayerScores[player].add(score)
 
           inc allPlayerRecords[player].wins
+
+          # Check if we should save this game
+          if args.outputPgnPath.len > 0 and score >= args.saveThreshold and not gameSavedThisLoop:
+             writeGameToPgn(game, score, player, args.outputPgnPath)
+             inc gamesSaved
+             gameSavedThisLoop = true
 
           # Track top/least aggressive games across all players
           if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
@@ -611,6 +668,9 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo "Filtered out ",
         gamesFilteredByRating, " games due to rating requirements (min rating: ",
         args.minRating, ")"
+    
+    if args.outputPgnPath.len > 0:
+      echo "Total games saved to ", args.outputPgnPath, ": ", gamesSaved
 
     # Output results for all players mode
     type
@@ -696,6 +756,8 @@ proc parseArguments(): AnalysisArgs =
     minRating: 0,
     topN: 1,
     eventFilter: @[],
+    outputPgnPath: "",
+    saveThreshold: 0.7, # Default threshold for "aggressive"
   )
 
   var p = initOptParser()
@@ -736,6 +798,14 @@ proc parseArguments(): AnalysisArgs =
           quit(1)
       of "event_filter", "event-filter":
         result.eventFilter.add(p.val)
+      of "output_pgn", "output-pgn":
+        result.outputPgnPath = p.val
+      of "save_threshold", "save-threshold":
+        try:
+          result.saveThreshold = parseFloat(p.val)
+        except ValueError:
+          echo "Error: --save_threshold must be a number"
+          quit(1)
       of "help", "h":
         echo """
 A tool to analyze PGNs and score players for attacking style
@@ -750,11 +820,14 @@ Options:
   --min_rating N          Minimum rating for the lower-rated player (default: 0)
   --top_n N               Number of top/bottom games to display (default: 10)
   --event_filter TYPE     Filter games by event types (can be used multiple times)
+  --output_pgn PATH       Path to save PGNs of aggressive games
+  --save_threshold N      Score threshold (0.0 - 1.0) to consider a game aggressive (default: 0.7)
   --help, -h              Show this help message
 
 Examples:
   chessattackingscore --pgn games.pgn --player "Magnus Carlsen"
   chessattackingscore --pgn games.pgn --min_rating 2400 --top_n 5
+  chessattackingscore --pgn games.pgn --output_pgn aggressive.pgn --save_threshold 0.8
 """
         quit(0)
       else:
