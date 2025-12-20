@@ -287,23 +287,31 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
-func isGameWonBy*(game: Game, playerName: string): bool =
+func getGameResultForAnalysis*(game: Game, playerName: string): Option[GameResult] =
+  let termination = game.headers.getOrDefault("Termination", "").toLower()
+  if "time forfeit" in termination:
+    return none(GameResult)
+
+  let resultStr = game.headers.getOrDefault("Result")
+  if resultStr == "1/2-1/2":
+    return some(Draw)
+
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
-  let
-    termination = game.headers.getOrDefault("Termination", "").toLower()
-    isDraw =
-      "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
 
-  return ((game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
-          (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)) and not isDraw
+  if (resultStr == "1-0" and playerColor == white) or
+     (resultStr == "0-1" and playerColor == black):
+    return some(Win)
+
+  return none(GameResult)
 
 # --- Main Analysis Function ---
 func analyseGame*(game: Game, playerName: string): Option[AttackingStats] =
-  if not isGameWonBy(game, playerName):
+  let resOpt = getGameResultForAnalysis(game, playerName)
+  if resOpt.isNone:
     return none(AttackingStats)
 
-  var stats = AttackingStats(result: Win)
+  var stats = AttackingStats(result: resOpt.get)
 
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
@@ -638,7 +646,10 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
           allPlayerScores[player].add(score)
 
-          inc allPlayerRecords[player].wins
+          if tempStats.result == Win:
+            inc allPlayerRecords[player].wins
+          else:
+            inc allPlayerRecords[player].draws
 
           # Check if we should save this game
           if args.outputPgnPath.len > 0 and score >= args.saveThreshold and not gameSavedThisLoop:
