@@ -10,7 +10,9 @@ const
 
 type
   GameResult* = enum
-    Loss, Draw, Win
+    Loss
+    Draw
+    Win
 
   AttackingStats* = object
     result: GameResult
@@ -287,7 +289,7 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
-func isGameWonBy*(game: Game, playerName: string): bool =
+func resultForPlayer*(game: Game, playerName: string): GameResult =
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
   let
@@ -295,15 +297,17 @@ func isGameWonBy*(game: Game, playerName: string): bool =
     isDraw =
       "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
 
-  return ((game.headers.getOrDefault("Result") == "1-0" and playerColor == white) or
-          (game.headers.getOrDefault("Result") == "0-1" and playerColor == black)) and not isDraw
+  if isDraw:
+    Draw
+  elif game.headers.getOrDefault("Result") ==
+      (if playerColor == white: "1-0" else: "0-1"):
+    Win
+  else:
+    Loss
 
 # --- Main Analysis Function ---
-func analyseGame*(game: Game, playerName: string): Option[AttackingStats] =
-  if not isGameWonBy(game, playerName):
-    return none(AttackingStats)
-
-  var stats = AttackingStats(result: Win)
+func analyseGame*(game: Game, playerName: string): AttackingStats =
+  var stats = AttackingStats(result: resultForPlayer(game, playerName))
 
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
@@ -354,14 +358,13 @@ func analyseGame*(game: Game, playerName: string): Option[AttackingStats] =
   # Finalize sacrifice tracking
   finalizeSacrificeTracking(sacrificeState, stats)
 
-  stats.shortGameBonus =
-    calculateShortGameBonus(position, playerColor, game.moves.len)
+  stats.shortGameBonus = calculateShortGameBonus(position, playerColor, game.moves.len)
 
   # Check for forfeited castling
   if usCastledSide.isNone and game.moves.len >= 40:
     stats.forfeitedCastling = true
 
-  return some(stats)
+  stats
 
 func getProximityScore(distances: array[8, int]): float =
   let weights = [0, 8, 6, 4, 2, 1, 0, 0]
@@ -397,41 +400,40 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   if stats.result == Win:
     result[shortGameBonusPerWin] = stats.shortGameBonus
 
-  let movesDivider = max(1, stats.totalMoves).float
-  result[bishopQueenThreatsPerMove] = stats.bishopQueenThreats.float / movesDivider
-  result[rookQueenThreatsPerMove] = stats.rookQueenThreats.float / movesDivider
-  result[centralPawnBreaksPerMove] = stats.centralPawnBreaks.float / movesDivider
-  result[pawnStormsPerMove] = stats.pawnStormsVsKing.float / movesDivider
-  result[advancedPiecesPerMove] = stats.advancedPieces.float / movesDivider
-  result[rookLiftsPerMove] = stats.rookLifts.float / movesDivider
-  result[knightOutpostsPerMove] = stats.knightOutposts.float / movesDivider
-  result[coordinatedAttacksPerMove] = stats.coordinatedAttacks.float / movesDivider
-  result[forcingMovesPerMove] = stats.forcingMoves.float / movesDivider
-  result[checksPerMove] = stats.totalChecks.float / movesDivider
-  result[f7F2AttacksPerMove] = stats.f7F2Attacks.float / movesDivider
+  result[bishopQueenThreats] = stats.bishopQueenThreats.float
+  result[rookQueenThreats] = stats.rookQueenThreats.float
+  result[centralPawnBreaks] = stats.centralPawnBreaks.float
+  result[pawnStorms] = stats.pawnStormsVsKing.float
+  result[advancedPieces] = stats.advancedPieces.float
+  result[rookLifts] = stats.rookLifts.float
+  result[knightOutposts] = stats.knightOutposts.float
+  result[coordinatedAttacks] = stats.coordinatedAttacks.float
+  result[forcingMoves] = stats.forcingMoves.float
+  result[checks] = stats.totalChecks.float
+  result[f7F2Attacks] = stats.f7F2Attacks.float
 
   #!fmt: on
 
+func getNormalizedFeatureScores*(
+    rawScores: array[AttackingFeature, float]
+): array[AttackingFeature, float] =
+  for feature in AttackingFeature:
+    let params = normalizationParams[feature]
+    if params.std > 0:
+      result[feature] = (rawScores[feature] - params.mean) / params.std
+    else:
+      result[feature] = 0.0
+
 func getAttackingScore*(
-    rawScores: array[AttackingFeature, float],
-    weights: array[AttackingFeature, float] = featureWeights,
+    rawScores: array[AttackingFeature, float], weights: FeatureWeights = featureWeights
 ): float =
   var totalWeightedScore = 0.0
+  let normalizedScores = getNormalizedFeatureScores(rawScores)
 
   for feature in AttackingFeature:
-    let rawValue = rawScores[feature]
-    let weight = weights[feature]
-    let params = normalizationParams[feature]
+    totalWeightedScore += weights.weights[feature] * normalizedScores[feature]
 
-    var normalizedValue: float
-    if params.std > 0:
-      normalizedValue = (rawValue - params.mean) / params.std
-    else:
-      normalizedValue = 0.0
-
-    totalWeightedScore += weight * normalizedValue
-
-  let score = totalWeightedScore
+  let score = totalWeightedScore + weights.bias
   return 1.0 / (1.0 + exp(-score))
 
 func getAttackingScore(stats: AttackingStats): float =
@@ -475,13 +477,12 @@ func shouldIncludeGame(game: Game, args: AnalysisArgs): bool =
 proc writeGameToPgn(game: Game, score: float, player: string, path: string) =
   try:
     let f = open(path, fmAppend)
-    defer: f.close()
+    defer:
+      f.close()
     var outputGame = game
 
-    const canonicalOrder = [
-      "Event", "Site", "Date", "Round",
-      "White", "Black", "Result"
-    ]
+    const canonicalOrder =
+      ["Event", "Site", "Date", "Round", "White", "Black", "Result"]
 
     for key in canonicalOrder:
       if outputGame.headers.hasKey(key):
@@ -499,7 +500,6 @@ proc writeGameToPgn(game: Game, score: float, player: string, path: string) =
       f.writeLine(parts[1])
 
     f.writeLine("")
-
   except IOError:
     echo "Warning: Failed to append game to ", path
 
@@ -514,7 +514,8 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
 
   # If we are outputting to a file, maybe clear it first or announce it
   if args.outputPgnPath.len > 0:
-    echo "High attacking score games (>= ", args.saveThreshold, ") will be saved to: ", args.outputPgnPath
+    echo "High attacking score games (>= ",
+      args.saveThreshold, ") will be saved to: ", args.outputPgnPath
 
   try:
     for game in readPgnFileIter(args.pgnPath):
@@ -532,11 +533,9 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
         blackPlayer = game.headers.getOrDefault("Black", "?")
 
       if args.player in [whitePlayer, blackPlayer]:
-        let statsOpt = analyseGame(game, args.player)
-        if statsOpt.isSome:
-          let stats = statsOpt.get
-          let score = getAttackingScore(stats)
-          gameScoresForPlayer.add((game, score))
+        let stats = analyseGame(game, args.player)
+        let score = getAttackingScore(stats)
+        gameScoresForPlayer.add((game, score))
 
       inc gamesProcessed
       if gamesProcessed mod 1000 == 0:
@@ -603,7 +602,8 @@ proc processAllPlayersMode(args: AnalysisArgs) =
 
   echo "Analyzing all players..."
   if args.outputPgnPath.len > 0:
-    echo "High attacking score games (>= ", args.saveThreshold, ") will be saved to: ", args.outputPgnPath
+    echo "High attacking score games (>= ",
+      args.saveThreshold, ") will be saved to: ", args.outputPgnPath
 
   try:
     for game in readPgnFileIter(args.pgnPath):
@@ -627,37 +627,42 @@ proc processAllPlayersMode(args: AnalysisArgs) =
         if "?" in player:
           continue
 
-        let tempStatsOpt = analyseGame(game, player)
-        if tempStatsOpt.isSome:
-          let tempStats = tempStatsOpt.get
-          let score = getAttackingScore(tempStats)
+        let tempStats = analyseGame(game, player)
+        let score = getAttackingScore(tempStats)
 
-          if not allPlayerScores.hasKey(player):
-            allPlayerScores[player] = @[]
-            allPlayerRecords[player] = (0, 0, 0)
+        if not allPlayerScores.hasKey(player):
+          allPlayerScores[player] = @[]
+          allPlayerRecords[player] = (0, 0, 0)
 
-          allPlayerScores[player].add(score)
+        allPlayerScores[player].add(score)
 
-          inc allPlayerRecords[player].wins
+        inc allPlayerRecords[player].wins
 
-          # Check if we should save this game
-          if args.outputPgnPath.len > 0 and score >= args.saveThreshold and not gameSavedThisLoop:
-             writeGameToPgn(game, score, player, args.outputPgnPath)
-             inc gamesSaved
-             gameSavedThisLoop = true
+        # Check if we should save this game
+        if args.outputPgnPath.len > 0 and score >= args.saveThreshold and
+            not gameSavedThisLoop:
+          writeGameToPgn(game, score, player, args.outputPgnPath)
+          inc gamesSaved
+          gameSavedThisLoop = true
 
-          # Track top/least aggressive games across all players
-          if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
-            topAggressiveGames.add((game, score, player))
-            topAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(b[1], a[1]))
-            if topAggressiveGames.len > args.topN:
-              topAggressiveGames.setLen(args.topN)
+        # Track top/least aggressive games across all players
+        if topAggressiveGames.len < args.topN or score > topAggressiveGames[^1][1]:
+          topAggressiveGames.add((game, score, player))
+          topAggressiveGames.sort(
+            proc(a, b: (Game, float, string)): int =
+              cmp(b[1], a[1])
+          )
+          if topAggressiveGames.len > args.topN:
+            topAggressiveGames.setLen(args.topN)
 
-          if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
-            leastAggressiveGames.add((game, score, player))
-            leastAggressiveGames.sort(proc (a, b: (Game, float, string)): int = cmp(a[1], b[1]))
-            if leastAggressiveGames.len > args.topN:
-              leastAggressiveGames.setLen(args.topN)
+        if leastAggressiveGames.len < args.topN or score < leastAggressiveGames[^1][1]:
+          leastAggressiveGames.add((game, score, player))
+          leastAggressiveGames.sort(
+            proc(a, b: (Game, float, string)): int =
+              cmp(a[1], b[1])
+          )
+          if leastAggressiveGames.len > args.topN:
+            leastAggressiveGames.setLen(args.topN)
 
       inc gamesProcessed
       if gamesProcessed mod 100 == 0:
@@ -673,8 +678,8 @@ proc processAllPlayersMode(args: AnalysisArgs) =
       echo "Total games saved to ", args.outputPgnPath, ": ", gamesSaved
 
     # Output results for all players mode
-    type
-      PlayerResult = tuple[
+    type PlayerResult =
+      tuple[
         player: string,
         score: float,
         stdev: float,
@@ -682,6 +687,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
         numGames: int,
         record: string,
       ]
+
     var playerResults: seq[PlayerResult] = @[]
 
     for player, scores in allPlayerScores.pairs:
@@ -691,11 +697,21 @@ proc processAllPlayersMode(args: AnalysisArgs) =
           mean = scores.sum / numGames.float
           stdev =
             if numGames > 1:
-              sqrt(scores.map(proc (x: float): float = (x - mean) ^ 2).sum / (numGames - 1).float)
+              sqrt(
+                scores.map(
+                  proc(x: float): float =
+                    (x - mean) ^ 2
+                ).sum / (numGames - 1).float
+              )
             else:
               0.0
-          stderr = if numGames > 0: stdev / sqrt(numGames.float) else: 0.0
-          record = $allPlayerRecords[player].wins & " / " & $allPlayerRecords[player].draws &
+          stderr =
+            if numGames > 0:
+              stdev / sqrt(numGames.float)
+            else:
+              0.0
+          record =
+            $allPlayerRecords[player].wins & " / " & $allPlayerRecords[player].draws &
             " / " & $allPlayerRecords[player].losses
 
         playerResults.add((player, mean, stdev, stderr, numGames, record))
@@ -703,7 +719,10 @@ proc processAllPlayersMode(args: AnalysisArgs) =
     if playerResults.len == 0:
       echo "No players found with at least ", args.minGames, " games."
     else:
-      playerResults.sort(proc (a, b: PlayerResult): int = cmp(b.score, a.score))
+      playerResults.sort(
+        proc(a, b: PlayerResult): int =
+          cmp(b.score, a.score)
+      )
 
       echo "Attacking ranking for ",
         playerResults.len, " players with at least ", args.minGames, " games:"

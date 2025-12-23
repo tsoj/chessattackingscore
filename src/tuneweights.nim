@@ -1,24 +1,14 @@
-import std/[os, parseopt, strutils, sequtils, tables, math, random, strformat, times]
+import std/[os, strutils, sequtils, tables, math, random, strformat, times]
 import nimchess
 from chessattackingscore import
-  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature,
-  getAttackingScore
+  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature, FeatureWeights,
+  getAttackingScore, getNormalizedFeatureScores
 
-type
-  GameData = tuple[rawScores: array[AttackingFeature, float], targetLabel: float]
-
-  SPSAOptimizer = object
-    weights: array[AttackingFeature, float]
-    momentum: array[AttackingFeature, float]
-    learningRate: float
-    momentumCoeff: float
-    c: float # SPSA perturbation magnitude
-    iteration: int
-    maxIterations: int
+type GameData = tuple[rawScores: array[AttackingFeature, float], targetLabel: float]
 
 const
-    attackingTarget = 1.0
-    normalTarget = 0.5
+  attackingTarget = 1.0
+  normalTarget = 0.5
 
 proc preprocessGamesFromFolder(
     folderPath: string, targetLabel: float, maxGamesPerClass: int
@@ -41,49 +31,31 @@ proc preprocessGamesFromFolder(
     echo "Warning: No .pgn files found in ", folderPath
     return processedData
 
-  let isAttackingSet = (targetLabel == 1.0)
+  # let isAttackingSet = (targetLabel == 1.0)
 
   for pgnPath in pgnFiles:
     if processedData.len >= maxGamesPerClass:
       echo "\nReached max_games_per_class limit of ", maxGamesPerClass, " for this set."
       break
 
-    try:
-      echo "path: ", pgnPath
-      for game in readPgnFileIter(pgnPath):
-        if processedData.len >= maxGamesPerClass:
-          break
+    echo "path: ", pgnPath
+    for game in readPgnFileIter(pgnPath):
+      if processedData.len >= maxGamesPerClass:
+        break
 
-        if isAttackingSet:
-          # For attacking games, find the winner and analyze only their play
-          let gameResult = game.headers.getOrDefault("Result", "*")
-          var winnerPlayerName = ""
+      let gameResult = game.headers.getOrDefault("Result", "*")
 
-          if gameResult == "1-0":
-            winnerPlayerName = game.headers.getOrDefault("White", "")
-          elif gameResult == "0-1":
-            winnerPlayerName = game.headers.getOrDefault("Black", "")
+      if gameResult notin ["1-0", "0-1"]:
+        continue
 
-          if winnerPlayerName != "" and winnerPlayerName != "?":
-            let statsOpt = analyseGame(game, winnerPlayerName)
-            if statsOpt.isSome:
-              let rawScores = getRawFeatureScores(statsOpt.get)
-              processedData.add((rawScores, targetLabel))
-        else:
-          # For normal games, analyze only the winner's perspective
-          let whiteName = game.headers.getOrDefault("White", "?")
-          let blackName = game.headers.getOrDefault("Black", "?")
+      # For attacking games, find the winner and analyze only their play
+      let winnerPlayerName =
+        game.headers.getOrDefault(if gameResult == "1-0": "White" else: "Black", "")
 
-          for playerName in [whiteName, blackName]:
-            if playerName == "?" or processedData.len >= maxGamesPerClass:
-              continue
-
-            let statsOpt = analyseGame(game, playerName)
-            if statsOpt.isSome:
-              let rawScores = getRawFeatureScores(statsOpt.get)
-              processedData.add((rawScores, targetLabel))
-    except Exception as e:
-      echo "Could not process file ", pgnPath, ": ", e.msg
+      if winnerPlayerName != "" and winnerPlayerName != "?":
+        let stats = analyseGame(game, winnerPlayerName)
+        let rawScores = getRawFeatureScores(stats)
+        processedData.add((rawScores, targetLabel))
 
   # Shuffle the data
   shuffle(processedData)
@@ -91,117 +63,83 @@ proc preprocessGamesFromFolder(
   echo "Found ", processedData.len, " valid player-perspectives in ", folderPath, "."
   return processedData
 
-proc calculateLoss(
-    trainingData: seq[GameData], weights: array[AttackingFeature, float]
-): float =
+proc calculateLoss(trainingData: seq[GameData], weights: FeatureWeights): float =
   var totalError = 0.0
 
   for data in trainingData:
     let predictedScore = getAttackingScore(data.rawScores, weights)
-    totalError += (predictedScore - data.targetLabel)^2
+    totalError += (predictedScore - data.targetLabel) ^ 2
 
   return totalError / trainingData.len.float
 
-proc createBalancedDataset(
-    normalData: seq[GameData], attackingData: seq[GameData]
-): seq[GameData] =
-  let maxClassSize = max(normalData.len, attackingData.len)
-  var balancedData: seq[GameData] = @[]
+proc calculateGradient(
+    weights: FeatureWeights, trainingData: seq[GameData]
+): FeatureWeights =
+  if trainingData.len == 0:
+    return
+  let invCount = 1.0 / trainingData.len.float
 
-  # Add all data from both classes
-  balancedData.add(normalData)
-  balancedData.add(attackingData)
+  for data in trainingData:
+    let normalizedScores = getNormalizedFeatureScores(data.rawScores)
+    var linearScore = 0.0
+    for feature in AttackingFeature:
+      linearScore += weights.weights[feature] * normalizedScores[feature]
 
-  # Oversample the minority class to match the majority class
-  let minorityClass =
-    if normalData.len < attackingData.len: normalData else: attackingData
-  let oversampleCount = maxClassSize - minorityClass.len
+    let predicted = 1.0 / (1.0 + exp(-linearScore))
+    let error = predicted - data.targetLabel
+    let dLossDz = 2.0 * error * predicted * (1.0 - predicted)
 
-  for i in 0 ..< oversampleCount:
-    balancedData.add(minorityClass[i mod minorityClass.len])
-
-  shuffle(balancedData)
-  return balancedData
-
-proc initSPSAOptimizer(
-    initialWeights: array[AttackingFeature, float],
-    maxIterations: int,
-    learningRate: float = 0.01,
-    momentumCoeff: float = 0.9,
-    c: float = 0.1,
-): SPSAOptimizer =
-  result.weights = initialWeights
-  for feature in AttackingFeature:
-    result.momentum[feature] = 0.0
-  result.learningRate = learningRate
-  result.momentumCoeff = momentumCoeff
-  result.c = c
-  result.iteration = 1
-  result.maxIterations = maxIterations
-
-proc estimateGradientSPSA(
-    optimizer: var SPSAOptimizer, trainingData: seq[GameData]
-): array[AttackingFeature, float] =
-  let ck = optimizer.c / optimizer.iteration.float.pow(0.167) # SPSA coefficient decay
-
-  # Generate random perturbation vector
-  var delta: array[AttackingFeature, float]
-  for feature in AttackingFeature:
-    delta[feature] = if rand(1.0) < 0.5: -1.0 else: 1.0
-
-  # Compute weights with positive and negative perturbations
-  var weightsPlus: array[AttackingFeature, float]
-  var weightsMinus: array[AttackingFeature, float]
+    for feature in AttackingFeature:
+      result.weights[feature] += dLossDz * normalizedScores[feature]
 
   for feature in AttackingFeature:
-    let weight = optimizer.weights[feature]
-    weightsPlus[feature] = weight + ck * delta[feature]
-    weightsMinus[feature] = weight - ck * delta[feature]
+    result.weights[feature] *= invCount
 
-  # Evaluate loss at both points
-  let lossPlus = calculateLoss(trainingData, weightsPlus)
-  let lossMinus = calculateLoss(trainingData, weightsMinus)
+proc calibrateBiasForNormalMean(
+    weights: var FeatureWeights,
+    normalData: seq[GameData],
+    targetMean: float = normalTarget,
+) =
+  ## Adjusts only `weights[bias]` so mean prediction on `normalData` equals `targetMean`.
+  doAssert normalData.len > 0
 
-  # Estimate gradient using SPSA
-  for feature in AttackingFeature:
-    result[feature] = (lossPlus - lossMinus) / (2.0 * ck * delta[feature])
+  # Calculate current mean prediction
+  var currentMean = 0.0
+  for data in normalData:
+    currentMean += getAttackingScore(data.rawScores, weights)
+  currentMean /= normalData.len.float
+
+  # Simple iterative adjustment
+  let error = targetMean - currentMean
+  weights.bias += error * 2.0 # Scale factor to speed up convergence
 
 proc updateWeights(
-    optimizer: var SPSAOptimizer, gradient: array[AttackingFeature, float]
+    currentWeights: var FeatureWeights, gradient: FeatureWeights, lr: float
 ) =
-  # Learning rate decay
-  let ak =
-    optimizer.learningRate /
-    (optimizer.iteration.float + optimizer.maxIterations.float / 10.0).pow(0.602)
-
   for feature in AttackingFeature:
-    # Update momentum
-    optimizer.momentum[feature] =
-      optimizer.momentumCoeff * optimizer.momentum[feature] + ak * gradient[feature]
-
-    # Update weights
-    optimizer.weights[feature] -= optimizer.momentum[feature]
-
-  optimizer.iteration += 1
+    currentWeights.weights[feature] -= lr * gradient.weights[feature]
 
 proc evaluatePerformance(
-    dataset: seq[GameData], weights: array[AttackingFeature, float], datasetName: string
+    normalDataset: seq[GameData],
+    attackingDataset: seq[GameData],
+    weights: FeatureWeights,
+    datasetName: string,
 ) =
-  if dataset.len == 0:
-    echo "\n", datasetName, " is empty. Skipping evaluation."
-    return
+  doAssert normalDataset.len > 0 and attackingDataset.len > 0
 
   var normalScores: seq[float] = @[]
   var attackingScores: seq[float] = @[]
 
-  for data in dataset:
+  for data in normalDataset:
     let score = getAttackingScore(data.rawScores, weights)
-    if data.targetLabel == normalTarget:
-      normalScores.add(score)
-    else:
-      attackingScores.add(score)
+    normalScores.add(score)
+
+  for data in attackingDataset:
+    let score = getAttackingScore(data.rawScores, weights)
+    attackingScores.add(score)
 
   echo "\n--- ", datasetName, " Performance ---"
+
   if normalScores.len > 0:
     let avgNormal = normalScores.foldl(a + b, 0.0) / normalScores.len.float
     echo fmt"Average score for 'normal' games:   {avgNormal.formatFloat(ffDecimal, 4)} (Target: {normalTarget})"
@@ -220,12 +158,15 @@ proc createTrainTestSplit(
   if testSplit == 0.0:
     return (data, @[])
 
+  var data = data
+  data.shuffle
+
   let splitIdx = int(data.len.float * (1.0 - testSplit))
   let trainData = data[0 ..< splitIdx]
   let testData = data[splitIdx ..^ 1]
   return (trainData, testData)
 
-proc writeFeatureWeightsFile(weights: array[AttackingFeature, float]) =
+proc writeFeatureWeightsFile(weights: FeatureWeights) =
   ##[
   Write the feature weights directly to the source file.
   ]##
@@ -236,18 +177,24 @@ proc writeFeatureWeightsFile(weights: array[AttackingFeature, float]) =
 Feature weights for chess attacking score calculation.
 These weights determine the relative importance of each attacking feature.
 
-This file is automatically updated by the tune_weights script on {now().utc}.
+This file is automatically updated by the tuneweights.nim script on {now().utc}.
 ]##
+
 
 import features
 
-const featureWeights* = [
+const featureWeights* = FeatureWeights(
+  weights: [
 """
 
   for feature in AttackingFeature:
-    content.add(fmt"  {feature}: {weights[feature]:.6f}," & "\n")
+    content.add(fmt"  {feature}: {weights.weights[feature]:.6f}," & "\n")
 
-  content.add("]\n")
+  content.add(fmt"""
+  ],
+  bias: {weights.bias:.6f},
+)
+""")
 
   try:
     writeFile(filePath, content)
@@ -260,68 +207,20 @@ proc main() =
   var attackingGamesDir = "./data/attacking_games"
   var maxGamesPerClass = 500000
   var maxIterations = 5000
-  var testSplit = 0.0
+  var testSplit = 0.1
   var learningRate = 10.0
-  var momentumCoeff = 0.5
-  var spsa_c = 0.1
-
-  # Parse command line arguments
-  var p = initOptParser()
-  while true:
-    p.next()
-    case p.kind
-    of cmdEnd:
-      break
-    of cmdShortOption, cmdLongOption:
-      case p.key
-      of "normal-games-dir":
-        normalGamesDir = p.val
-      of "attacking-games-dir":
-        attackingGamesDir = p.val
-      of "max-games-per-class":
-        maxGamesPerClass = parseInt(p.val)
-      of "iterations":
-        maxIterations = parseInt(p.val)
-      of "test-split":
-        testSplit = parseFloat(p.val)
-      of "learning-rate":
-        learningRate = parseFloat(p.val)
-      of "momentum":
-        momentumCoeff = parseFloat(p.val)
-      of "spsa-c":
-        spsa_c = parseFloat(p.val)
-      of "help", "h":
-        echo "Usage: tune_weights [options]"
-        echo "Options:"
-        echo "  --normal-games-dir DIR       Path to folder with 'normal' PGNs (default: ",
-          normalGamesDir, ")"
-        echo "  --attacking-games-dir DIR    Path to folder with 'attacking' PGNs (default: ",
-          attackingGamesDir, ")"
-        echo "  --max-games-per-class N      Maximum games per class (default: ",
-          maxGamesPerClass, ")"
-        echo "  --iterations N               Number of optimization iterations (default: ",
-          maxIterations, ")"
-        echo "  --test-split F               Fraction for test set (default: ",
-          testSplit, ")"
-        echo "  --learning-rate F            Learning rate (default: ",
-          learningRate, ")"
-        echo "  --momentum F                 Momentum coefficient (default: ",
-          momentumCoeff, ")"
-        echo "  --spsa-c F                   SPSA perturbation magnitude (default: ",
-          spsa_c, ")"
-        return
-      else:
-        echo "Unknown option: ", p.key
-        return
-    of cmdArgument:
-      discard
 
   randomize()
 
   # Pre-process all data
-  let normalData = preprocessGamesFromFolder(normalGamesDir, normalTarget, maxGamesPerClass)
-  let attackingData =
+  let normalData =
+    preprocessGamesFromFolder(normalGamesDir, normalTarget, maxGamesPerClass)
+  var attackingData =
     preprocessGamesFromFolder(attackingGamesDir, attackingTarget, maxGamesPerClass)
+
+  attackingData.add preprocessGamesFromFolder(
+    attackingGamesDir & "/draws", attackingTarget, maxGamesPerClass
+  )
 
   # Create train/test splits
   if testSplit == 0.0:
@@ -333,55 +232,42 @@ proc main() =
   let (normalTrain, normalTest) = createTrainTestSplit(normalData, testSplit)
   let (attackingTrain, attackingTest) = createTrainTestSplit(attackingData, testSplit)
 
-  # Keep training data separated by class for balanced sampling
-  let normalTrainData = normalTrain
-  let attackingTrainData = attackingTrain
-  var allTrainingData = normalTrain & attackingTrain
-  let allTestingData = normalTest & attackingTest
-
-  # Create balanced dataset for loss evaluation (oversampling minority class)
-  let balancedTrainingData = createBalancedDataset(normalTrainData, attackingTrainData)
-
-  shuffle(allTrainingData)
-
-  echo "Total training examples: ",
-    allTrainingData.len, " (", normalTrain.len, " normal, ", attackingTrain.len,
-    " attacking)"
+  echo "Training examples: ",
+    normalTrain.len, " normal, ", attackingTrain.len, " attacking"
   if testSplit > 0.0:
-    echo "Total testing examples:  ",
-      allTestingData.len, " (", normalTest.len, " normal, ", attackingTest.len,
-      " attacking)"
+    echo "Testing examples: ",
+      normalTest.len, " normal, ", attackingTest.len, " attacking"
   else:
-    echo "Total testing examples:  0 (no test set)"
+    echo "Tsting examples:  0 (no test set)"
 
-  if allTrainingData.len == 0:
-    echo "\nError: Training data is empty. Cannot proceed with optimization."
-    return
+  doAssert attackingTrain.len > 0,
+    "No attacking training data. Cannot compute attacking-only gradients."
+  doAssert normalTrain.len > 0, "No normal training data. Bias cannot be recalibrated."
 
   # Initialize optimizer with all weights set to 1.0
-  var initialWeights: array[AttackingFeature, float]
-  for feature in AttackingFeature:
-    initialWeights[feature] = 1.0
-  var optimizer = initSPSAOptimizer(
-    initialWeights, maxIterations, learningRate, momentumCoeff, spsa_c
-  )
+  var currentWeights: FeatureWeights
 
   # Training loop
-  echo "\nStarting SPSA optimization with ", maxIterations, " iterations..."
+  echo "\nStarting attacking-only full-batch gradient descent with ",
+    maxIterations, " iterations..."
+  if normalTrain.len > 0:
+    echo "Bias is recalibrated each iteration so mean 'normal' prediction is ",
+      normalTarget.formatFloat(ffDecimal, 3)
   var bestLoss = Inf
-  var bestWeights = optimizer.weights
+  var bestWeights = currentWeights
 
   for iteration in 1 .. maxIterations:
-    let gradient = estimateGradientSPSA(optimizer, balancedTrainingData)
-    updateWeights(optimizer, gradient)
+    let gradient = calculateGradient(currentWeights, attackingTrain)
+    updateWeights(currentWeights, gradient, learningRate)
+    calibrateBiasForNormalMean(currentWeights, normalTrain)
 
-    let currentLoss = calculateLoss(balancedTrainingData, optimizer.weights)
+    let currentLoss = calculateLoss(attackingTrain, currentWeights)
 
     if currentLoss < bestLoss:
       bestLoss = currentLoss
-      bestWeights = optimizer.weights
+      bestWeights = currentWeights
 
-    if iteration mod 50 == 0 or iteration == maxIterations:
+    if iteration mod 500 == 0 or iteration == maxIterations:
       echo "Iteration ",
         iteration,
         ", Loss: ",
@@ -390,7 +276,7 @@ proc main() =
         bestLoss.formatFloat(ffDecimal, 6)
 
   echo "\n\n--- Optimization Complete ---"
-  echo "Best Mean Absolute Error on Training Set: ", bestLoss.formatFloat(ffDecimal, 6)
+  echo "Best MSE on Training Set: ", bestLoss.formatFloat(ffDecimal, 6)
 
   # Write to file
   writeFeatureWeightsFile(bestWeights)
@@ -398,9 +284,9 @@ proc main() =
   echo "\nOptimized feature weights have been written to src/paramfeatures.nim"
 
   # Evaluate final model
-  evaluatePerformance(allTrainingData, bestWeights, "Training Set")
+  evaluatePerformance(normalTrain, attackingTrain, bestWeights, "Training Set")
   if testSplit > 0.0:
-    evaluatePerformance(allTestingData, bestWeights, "Test Set")
+    evaluatePerformance(normalTest, attackingTest, bestWeights, "Test Set")
 
 when isMainModule:
   main()

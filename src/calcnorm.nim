@@ -57,14 +57,13 @@ proc collectRawScores(
 
       # Analyze both players
       for player in [whitePlayer, blackPlayer]:
-        let statOpt = analyseGame(game, player)
-        if statOpt.isSome:
-          let rawScores = getRawFeatureScores(statOpt.get)
+        let stats = analyseGame(game, player)
+        let rawScores = getRawFeatureScores(stats)
 
-          # Collect all raw scores
-          for feature in AttackingFeature:
-            let score = rawScores[feature]
-            rawScoreCollections[feature].add(score)
+        # Collect all raw scores
+        for feature in AttackingFeature:
+          let score = rawScores[feature]
+          rawScoreCollections[feature].add(score)
 
       inc gamesProcessed
       if gamesProcessed mod 100 == 0:
@@ -135,7 +134,7 @@ proc writeNormalizationParamsFile(
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculate_normalization script on {now().utc}.
+This file is automatically updated by the calculatenormalization.nim script on {now().utc}.
 ]##
 
 import features
@@ -157,74 +156,19 @@ const normalizationParams* = [
   except Exception as e:
     echo fmt"Error writing to {filePath}: {e.msg}"
 
-proc parseArguments(): NormalizationArgs =
-  var
+proc main() =
+
+  const
     pgnPath = "data/non_attacking_games/classical_rapid_2300_elo_plus.pgn"
     maxGames = 200000
     minRating = 2000
 
-  var p = initOptParser()
-  while true:
-    p.next()
-    case p.kind
-    of cmdEnd:
-      break
-    of cmdShortOption, cmdLongOption:
-      case p.key
-      of "pgn":
-        pgnPath = p.val
-      of "games":
-        maxGames = parseInt(p.val)
-      of "min_rating":
-        minRating = parseInt(p.val)
-      of "help", "h":
-        echo fmt"""
-Calculate normalization parameters for chess attacking analysis.
-
-Usage:
-  calculate_normalization --pgn <path> [options]
-
-Options:
-  --pgn <path>           Path to the PGN file (default: {pgnPath})
-  --games <n>            Maximum number of games to process (default: {maxGames})
-  --min_rating <rating>  Minimum rating for players (default: {minRating})
-  --help, -h             Show this help message
-"""
-        quit(0)
-      else:
-        echo fmt"Unknown option: {p.key}"
-        quit(1)
-    of cmdArgument:
-      if pgnPath == "":
-        pgnPath = p.key
-
-  if pgnPath == "":
-    echo "Error: PGN path is required. Use --pgn <path>"
-    quit(1)
-
-  return NormalizationArgs(pgnPath: pgnPath, maxGames: maxGames, minRating: minRating)
-
-proc main() =
-  let args = parseArguments()
-
-  if not fileExists(args.pgnPath):
-    echo fmt"Error: PGN file not found: {args.pgnPath}"
-    quit(1)
+  doAssert fileExists(pgnPath)
 
   try:
     # Collect raw scores
     let rawScoreCollections =
-      collectRawScores(args.pgnPath, args.maxGames, args.minRating)
-
-    # Check if we have any meaningful data
-    var hasData = false
-    for feature in AttackingFeature:
-      if rawScoreCollections[feature].len > 0:
-        hasData = true
-        break
-    if not hasData:
-      echo "No raw scores collected. Check your PGN file and parameters."
-      quit(1)
+      collectRawScores(pgnPath, maxGames, minRating)
 
     # Calculate normalization parameters
     let normalizationParams = calculateNormalizationParameters(rawScoreCollections)

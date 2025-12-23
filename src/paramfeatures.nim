@@ -2,27 +2,31 @@
 Feature weights for chess attacking score calculation.
 These weights determine the relative importance of each attacking feature.
 
-This file is automatically updated by the tune_weights script on 2025-12-11T13:57:51Z.
+This file is automatically updated by the tuneweights.nim script on 2025-12-23T22:55:06Z.
 ]##
+
 
 import features
 
-const featureWeights* = [
-  advancedPiecesPerMove: 0.296666,
-  bishopQueenThreatsPerMove: 0.121637,
-  capturesNearKing: 0.135566,
-  centralPawnBreaksPerMove: 0.027781,
-  checksPerMove: 0.248602,
-  coordinatedAttacksPerMove: 0.082598,
-  f7F2AttacksPerMove: -0.056582,
-  forcingMovesPerMove: -0.306880,
-  forfeitedCastlingGames: -0.031728,
-  knightOutpostsPerMove: -0.007663,
-  movesNearKing: -0.011248,
-  oppositeSideCastlingGames: 0.027417,
-  pawnStormsPerMove: 0.197002,
-  rookLiftsPerMove: -0.045003,
-  rookQueenThreatsPerMove: 0.235805,
-  sacrificeScorePerWinMove: 0.284897,
-  shortGameBonusPerWin: 0.302574,
-]
+const featureWeights* = FeatureWeights(
+  weights: [
+  advancedPieces: 1.343023,
+  bishopQueenThreats: -0.113447,
+  capturesNearKing: 0.742420,
+  centralPawnBreaks: 0.160848,
+  checks: 1.434042,
+  coordinatedAttacks: -0.043600,
+  f7F2Attacks: -0.250530,
+  forcingMoves: -2.254135,
+  forfeitedCastlingGames: -0.152967,
+  knightOutposts: -0.211797,
+  movesNearKing: -0.062543,
+  oppositeSideCastlingGames: 0.063332,
+  pawnStorms: 0.351138,
+  rookLifts: -0.261247,
+  rookQueenThreats: 0.253611,
+  sacrificeScorePerWinMove: 0.817292,
+  shortGameBonusPerWin: 1.155006,
+  ],
+  bias: -0.736559,
+)
