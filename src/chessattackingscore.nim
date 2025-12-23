@@ -47,6 +47,7 @@ type
     eventFilter: seq[string]
     outputPgnPath: string
     saveThreshold: float
+    includeDraws: bool
 
 func hasWinningAdvantage(balance: int): bool =
   balance >= WINNING_MATERIAL_ADVANTAGE
@@ -287,14 +288,17 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
-func getGameResultForAnalysis*(game: Game, playerName: string): Option[GameResult] =
+func getGameResultForAnalysis*(game: Game, playerName: string, includeDraws: bool = true): Option[GameResult] =
   let termination = game.headers.getOrDefault("Termination", "").toLower()
   if "time forfeit" in termination:
     return none(GameResult)
 
   let resultStr = game.headers.getOrDefault("Result")
   if resultStr == "1/2-1/2":
-    return some(Draw)
+    if includeDraws:
+      return some(Draw)
+    else:
+      return none(GameResult)
 
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
@@ -306,8 +310,8 @@ func getGameResultForAnalysis*(game: Game, playerName: string): Option[GameResul
   return none(GameResult)
 
 # --- Main Analysis Function ---
-func analyseGame*(game: Game, playerName: string): Option[AttackingStats] =
-  let resOpt = getGameResultForAnalysis(game, playerName)
+func analyseGame*(game: Game, playerName: string, includeDraws: bool = true): Option[AttackingStats] =
+  let resOpt = getGameResultForAnalysis(game, playerName, includeDraws)
   if resOpt.isNone:
     return none(AttackingStats)
 
@@ -540,7 +544,7 @@ proc processSinglePlayerMode(args: AnalysisArgs) =
         blackPlayer = game.headers.getOrDefault("Black", "?")
 
       if args.player in [whitePlayer, blackPlayer]:
-        let statsOpt = analyseGame(game, args.player)
+        let statsOpt = analyseGame(game, args.player, args.includeDraws)
         if statsOpt.isSome:
           let stats = statsOpt.get
           let score = getAttackingScore(stats)
@@ -635,7 +639,7 @@ proc processAllPlayersMode(args: AnalysisArgs) =
         if "?" in player:
           continue
 
-        let tempStatsOpt = analyseGame(game, player)
+        let tempStatsOpt = analyseGame(game, player, args.includeDraws)
         if tempStatsOpt.isSome:
           let tempStats = tempStatsOpt.get
           let score = getAttackingScore(tempStats)
@@ -769,6 +773,7 @@ proc parseArguments(): AnalysisArgs =
     eventFilter: @[],
     outputPgnPath: "",
     saveThreshold: 0.7, # Default threshold for "aggressive"
+    includeDraws: false,
   )
 
   var p = initOptParser()
@@ -817,6 +822,8 @@ proc parseArguments(): AnalysisArgs =
         except ValueError:
           echo "Error: --save_threshold must be a number"
           quit(1)
+      of "include_draws", "include-draws":
+        result.includeDraws = true
       of "help", "h":
         echo """
 A tool to analyze PGNs and score players for attacking style
@@ -833,6 +840,7 @@ Options:
   --event_filter=TYPE     Filter games by event types (can be used multiple times)
   --output_pgn=PATH       Path to save PGNs of aggressive games
   --save_threshold=N      Score threshold (0.0 - 1.0) to consider a game aggressive (default: 0.7)
+  --include_draws         Include drawn games in the analysis (default: false)
   --help, -h              Show this help message
 
 Examples:
