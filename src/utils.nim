@@ -9,10 +9,7 @@ type GameResult* = enum
 func resultForPlayer*(game: Game, playerName: string): GameResult =
   let playerColor =
     if game.headers.getOrDefault("White") == playerName: white else: black
-  let
-    termination = game.headers.getOrDefault("Termination", "").toLower()
-    isDraw =
-      "time forfeit" in termination or game.headers.getOrDefault("Result") == "1/2-1/2"
+  let isDraw = game.headers.getOrDefault("Result") == "1/2-1/2"
 
   if isDraw:
     Draw
@@ -46,8 +43,12 @@ func shouldIncludeGame*(
 
   # Check player names
   let
+    termination = game.headers.getOrDefault("Termination", "").toLower()
     whitePlayer = game.headers.getOrDefault("White", "?")
     blackPlayer = game.headers.getOrDefault("Black", "?")
+
+  if "time forfeit" in termination:
+    return false
 
   if "?" in [whitePlayer, blackPlayer]:
     return false

@@ -6,7 +6,6 @@ export nimchess, core
 
 #----------- CLI -----------#
 
-
 type AnalysisArgs = object
   pgnPath: string
   player: string
@@ -201,7 +200,6 @@ proc processGames(args: AnalysisArgs) =
         # Collect stats
         if res == Win or (res == Loss and args.includeLosses) or
             (res == Draw and args.includeDraws):
-
           if not allPlayerScores.hasKey(player):
             allPlayerScores[player] = @[]
             allPlayerRecords[player] = (0, 0, 0)
@@ -229,7 +227,6 @@ proc processGames(args: AnalysisArgs) =
 
     if gamesSaved > 0:
       echo "Total games saved to PGN files: ", gamesSaved
-
 
     # Top and Least aggressive games
     if gameScores.len > 0:
@@ -304,7 +301,6 @@ proc processGames(args: AnalysisArgs) =
         echo "-".repeat(110)
         for i, res in playerResults.pairs:
           echo fmt"""{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stderr.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"""
-
   except IOError as e:
     echo "Error: ", e.msg
     quit(1)

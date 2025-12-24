@@ -43,7 +43,7 @@ proc preprocessGamesFromFolder(
 
       let winnerOpt = getWinner(game)
 
-      if winnerOpt.isSome:
+      if game.shouldIncludeGame and winnerOpt.isSome:
         let winnerPlayerName = winnerOpt.get()
         if winnerPlayerName != "?":
           let stats = analyseGame(game, winnerPlayerName)
@@ -172,7 +172,6 @@ These weights determine the relative importance of each attacking feature.
 
 This file is automatically updated by the tuneweights.nim script on {now().utc}.
 ]##
-
 
 import features
 

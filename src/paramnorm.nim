@@ -2,27 +2,27 @@
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculatenormalization.nim script on 2025-12-24T14:16:46Z.
+This file is automatically updated by the calculatenormalization.nim script on 2025-12-24T14:22:59Z.
 ]##
 
 import features
 
 const normalizationParams* = [
-  advancedPieces: (mean: 0.12779905, std: 0.08282749),
-  bishopQueenThreats: (mean: 0.12493464, std: 0.07720045),
-  capturesNearKing: (mean: 0.49029898, std: 0.12949206),
-  centralPawnBreaks: (mean: 0.02039151, std: 0.02385794),
-  checks: (mean: 0.05097479, std: 0.05653066),
-  coordinatedAttacks: (mean: 0.04120736, std: 0.07382315),
-  f7F2Attacks: (mean: 0.00672670, std: 0.01543616),
-  forcingMoves: (mean: 0.26368249, std: 0.08476835),
-  forfeitedCastlingGames: (mean: 0.10216457, std: 0.30286631),
-  knightOutposts: (mean: 0.01234175, std: 0.02023166),
-  movesNearKing: (mean: 0.39573376, std: 0.09277501),
-  oppositeSideCastlingGames: (mean: 0.05369800, std: 0.22542203),
-  pawnStorms: (mean: 0.17095325, std: 0.09601913),
-  rookLifts: (mean: 0.00658065, std: 0.01347176),
-  rookQueenThreats: (mean: 0.10521201, std: 0.08233216),
-  sacrificeScorePerWinMove: (mean: 0.10284874, std: 0.30707767),
-  shortGameBonusPerWin: (mean: 0.12920070, std: 0.30864804),
+  advancedPieces: (mean: 0.13049901, std: 0.08393417),
+  bishopQueenThreats: (mean: 0.12526134, std: 0.07734092),
+  capturesNearKing: (mean: 0.48926713, std: 0.13030547),
+  centralPawnBreaks: (mean: 0.02091860, std: 0.02421268),
+  checks: (mean: 0.04987512, std: 0.05633870),
+  coordinatedAttacks: (mean: 0.03902794, std: 0.07234428),
+  f7F2Attacks: (mean: 0.00695190, std: 0.01582372),
+  forcingMoves: (mean: 0.26514586, std: 0.08543799),
+  forfeitedCastlingGames: (mean: 0.10298103, std: 0.30393602),
+  knightOutposts: (mean: 0.01254343, std: 0.02055312),
+  movesNearKing: (mean: 0.39226766, std: 0.09247007),
+  oppositeSideCastlingGames: (mean: 0.05398526, std: 0.22599004),
+  pawnStorms: (mean: 0.17479289, std: 0.09540642),
+  rookLifts: (mean: 0.00671349, std: 0.01375433),
+  rookQueenThreats: (mean: 0.10315446, std: 0.08145553),
+  sacrificeScorePerWinMove: (mean: 0.06863919, std: 0.21900333),
+  shortGameBonusPerWin: (mean: 0.14543137, std: 0.32383739),
 ]
