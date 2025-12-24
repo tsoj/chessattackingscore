@@ -11,30 +11,29 @@ const
 
 type
   AttackingStats* = object
-    result*: GameResult
-    totalMoves*: int
-    oppositeSideCastling*: bool
-    forfeitedCastling*: bool
-    pawnStormsVsKing*: int
-    centralPawnBreaks*: int
-    advancedPieces*: int
-    rookLifts*: int
-    knightOutposts*: int
-    rookQueenThreats*: int
-    bishopQueenThreats*: int
-    coordinatedAttacks*: int
-    movesNearKingDist*: array[8, int]
-    capturesNearKingDist*: array[8, int]
-    totalSacrificeScore*: float
-    totalChecks*: int
-    forcingMoves*: int
-    f7F2Attacks*: int
-    shortGameBonus*: float
-    # --- NEW FIELDS ---
-    shieldDestruction*: int # Capturing pawns immediately around King
-    kingLinePressure*: int # R/B/Q on same rank/file/diag as King (even if blocked)
-    rookOpenFileAttacks*: int # R/Q on open files adjacent to King
-    earlyQueenExchange*: bool
+    result: GameResult
+    totalMoves: int
+    oppositeSideCastling: bool
+    forfeitedCastling: bool
+    pawnStormsVsKing: int
+    centralPawnBreaks: int
+    advancedPieces: int
+    rookLifts: int
+    knightOutposts: int
+    rookQueenThreats: int
+    bishopQueenThreats: int
+    coordinatedAttacks: int
+    movesNearKingDist: array[8, int]
+    capturesNearKingDist: array[8, int]
+    totalSacrificeScore: float
+    totalChecks: int
+    forcingMoves: int
+    f7F2Attacks: int
+    shortGameBonus: float
+    shieldDestruction: int
+    kingLinePressure: int
+    rookOpenFileAttacks: int
+    earlyQueenExchange: bool
 
   SacrificeState = object
     active: bool
@@ -386,16 +385,10 @@ func analyseGame*(game: Game, playerName: string): AttackingStats =
       # Only analyze attacking if we don't have winning material advantage
       if not hasWinningAdvantage(materialBalance):
         analyzeKingProximity(position, move, materialBalance, stats)
-
         analyzePieceThreats(position, move, movingPieceType, materialBalance, stats)
-
         analyzeTacticalMoves(position, move, movingPieceType, materialBalance, stats)
-
         analyzeForcingMoves(position, move, materialBalance, stats)
-
         analyzeCoordinatedAttacks(position, materialBalance, stats)
-
-        # --- NEW CALLS ---
         analyzeShieldDestruction(position, move, stats)
         analyzeRookOpenFiles(position, move, movingPieceType, stats)
 
@@ -466,8 +459,6 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   result[forcingMoves] = stats.forcingMoves.float / stats.totalMoves.float
   result[checks] = stats.totalChecks.float / stats.totalMoves.float
   result[f7F2Attacks] = stats.f7F2Attacks.float / stats.totalMoves.float
-
-
   result[shieldDestruction] = stats.shieldDestruction.float / stats.totalMoves.float
   result[kingLinePressure] = stats.kingLinePressure.float / stats.totalMoves.float
   result[rookOpenFileAttacks] = stats.rookOpenFileAttacks.float / stats.totalMoves.float

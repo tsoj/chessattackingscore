@@ -260,14 +260,7 @@ proc processGames(args: AnalysisArgs) =
     else:
       # All players mode ranking
       type PlayerResult =
-        tuple[
-          player: string,
-          score: float,
-          stdev: float,
-          stderr: float,
-          numGames: int,
-          record: string,
-        ]
+        tuple[player: string, score: float, stdev: float, numGames: int, record: string]
 
       var playerResults: seq[PlayerResult] = @[]
 
@@ -277,18 +270,10 @@ proc processGames(args: AnalysisArgs) =
             numGames = scores.len
             mean = scores.sum / numGames.float
             stdev =
-              if numGames > 1:
-                sqrt(scores.mapIt((it - mean) ^ 2).sum / (numGames - 1).float)
-              else:
-                0.0
-            stderr =
-              if numGames > 0:
-                stdev / sqrt(numGames.float)
-              else:
-                0.0
+              sqrt(scores.mapIt((it - mean) ^ 2).sum / max(1, (numGames - 1)).float)
             rec = allPlayerRecords[player]
             recordStr = $rec.wins & " / " & $rec.draws & " / " & $rec.losses
-          playerResults.add((player, mean, stdev, stderr, numGames, recordStr))
+          playerResults.add((player, mean, stdev, numGames, recordStr))
 
       if playerResults.len == 0:
         echo "No players found with at least ", args.minGames, " games."
@@ -297,10 +282,10 @@ proc processGames(args: AnalysisArgs) =
         echo "\nAttacking ranking for ",
           playerResults.len, " players with at least ", args.minGames, " games:"
         echo "-".repeat(110)
-        echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"StdErr":<15} {"StdDev":<15} {"Games":<10} {"Record (W/D/L)":<20}"""
+        echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"StdDev":<15} {"Games":<10} {"Record (W/D/L)":<20}"""
         echo "-".repeat(110)
         for i, res in playerResults.pairs:
-          echo fmt"""{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stderr.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"""
+          echo fmt"""{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"""
   except IOError as e:
     echo "Error: ", e.msg
     quit(1)

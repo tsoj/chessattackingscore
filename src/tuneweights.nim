@@ -198,6 +198,7 @@ const featureWeights* = FeatureWeights(
 
 proc main() =
   const
+    logInterval = 500
     normalGamesDir = "./data/non_attacking_games"
     attackingGamesDir = "./data/attacking_games"
     maxGamesPerClass = 500000
@@ -236,7 +237,9 @@ proc main() =
   doAssert normalTrain.len > 0, "No normal training data. Bias cannot be recalibrated."
 
   # Initialize optimizer with all weights set to 1.0
-  var currentWeights: FeatureWeights
+  var
+    currentWeights: FeatureWeights
+    runningLoss = 0.0
 
   # Training loop
   echo "\nStarting attacking-only full-batch gradient descent with ",
@@ -244,40 +247,38 @@ proc main() =
   if normalTrain.len > 0:
     echo "Bias is recalibrated each iteration so mean 'normal' prediction is ",
       normalTarget.formatFloat(ffDecimal, 3)
-  var bestLoss = Inf
-  var bestWeights = currentWeights
 
   for iteration in 1 .. maxIterations:
-    let gradient = calculateGradient(currentWeights, attackingTrain)
+    var currentTrain = normalTrain
+    currentTrain.shuffle
+    currentTrain.setLen min(currentTrain.len, attackingTrain.len)
+    currentTrain.add attackingTrain
+
+    let gradient = calculateGradient(currentWeights, currentTrain)
     updateWeights(currentWeights, gradient, learningRate)
     calibrateBiasForNormalMean(currentWeights, normalTrain)
 
-    let currentLoss = calculateLoss(attackingTrain, currentWeights)
+    let currentLoss = calculateLoss(currentTrain, currentWeights)
+    runningLoss += currentLoss
 
-    if currentLoss < bestLoss:
-      bestLoss = currentLoss
-      bestWeights = currentWeights
-
-    if iteration mod 500 == 0 or iteration == maxIterations:
+    if iteration mod logInterval == 0 or iteration == maxIterations:
       echo "Iteration ",
         iteration,
         ", Loss: ",
-        currentLoss.formatFloat(ffDecimal, 6),
-        ", Best Loss: ",
-        bestLoss.formatFloat(ffDecimal, 6)
+        formatFloat(runningLoss / logInterval.float, ffDecimal, 6)
+      runningLoss = 0.0
 
   echo "\n\n--- Optimization Complete ---"
-  echo "Best MSE on Training Set: ", bestLoss.formatFloat(ffDecimal, 6)
 
   # Write to file
-  writeFeatureWeightsFile(bestWeights)
+  writeFeatureWeightsFile(currentWeights)
 
   echo "\nOptimized feature weights have been written to src/paramfeatures.nim"
 
   # Evaluate final model
-  evaluatePerformance(normalTrain, attackingTrain, bestWeights, "Training Set")
+  evaluatePerformance(normalTrain, attackingTrain, currentWeights, "Training Set")
   if testSplit > 0.0:
-    evaluatePerformance(normalTest, attackingTest, bestWeights, "Test Set")
+    evaluatePerformance(normalTest, attackingTest, currentWeights, "Test Set")
 
 when isMainModule:
   main()
