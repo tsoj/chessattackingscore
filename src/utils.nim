@@ -1,11 +1,10 @@
-import std/[strutils, options]
+import std/[strutils, options, strformat]
 import nimchess
 
-type
-  GameResult* = enum
-    Loss
-    Draw
-    Win
+type GameResult* = enum
+  Loss
+  Draw
+  Win
 
 func resultForPlayer*(game: Game, playerName: string): GameResult =
   let playerColor =
@@ -69,34 +68,13 @@ func shouldIncludeGame*(
   return true
 
 proc writeGameToPgn*(game: Game, score: float, player: string, path: string) =
-  try:
-    let f = open(path, fmAppend)
-    defer:
-      f.close()
-    var outputGame = game
+  let f = open(path, fmAppend)
+  defer:
+    f.close()
 
-    const canonicalOrder =
-      ["Event", "Site", "Date", "Round", "White", "Black", "Result"]
+  var gameWithNewHeaders = game
+  gameWithNewHeaders.headers["AttackingPlayer"] = player
+  gameWithNewHeaders.headers["AttackingScore"] = fmt"{score:.6f}"
 
-    for key in canonicalOrder:
-      if outputGame.headers.hasKey(key):
-        f.writeLine(&"[{key} \"{outputGame.headers[key]}\"]")
-
-    f.writeLine(fmt"[AttackingScore \"" & $score & "\"")
-    f.writeLine(&"[AttackingScore \"{score:.6f}\"]")
-    f.writeLine(&"[AttackingPlayer \"{player}\"]")
-
-    for k, v in outputGame.headers.pairs:
-      if k notin canonicalOrder:
-        f.writeLine(&"[{k} \"{v}\"]")
-
-    f.writeLine("")
-
-    let fullPgn = outputGame.toPgnString()
-    let parts = fullPgn.split("\n\n", maxsplit = 1)
-    if parts.len == 2:
-      f.writeLine(parts[1])
-
-    f.writeLine("")
-  except IOError:
-    echo "Warning: Failed to append game to ", path
+  f.writeLine gameWithNewHeaders.toPgnString
+  f.writeLine("")

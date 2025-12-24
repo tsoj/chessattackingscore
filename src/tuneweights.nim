@@ -181,13 +181,15 @@ const featureWeights* = FeatureWeights(
 """
 
   for feature in AttackingFeature:
-    content.add(fmt"  {feature}: {weights.weights[feature]:.6f}," & "\n")
+    content.add(fmt"    {feature}: {weights.weights[feature]:.6f}," & "\n")
 
-  content.add(fmt"""
+  content.add(
+    fmt"""
   ],
   bias: {weights.bias:.6f},
 )
-""")
+"""
+  )
 
   try:
     writeFile(filePath, content)
@@ -204,7 +206,7 @@ proc main() =
     testSplit = 0.0
     learningRate = 0.5
 
-  randomize()
+  randomize(8767128)
 
   # Pre-process all data
   let normalData =

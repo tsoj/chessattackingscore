@@ -1,33 +1,37 @@
-import std/[tables, sequtils, strutils, math, algorithm, parseopt, strformat, sugar]
+import std/[os, tables, sequtils, strutils, math, algorithm, parseopt, strformat, sugar]
 import nimchess
 import utils, core
 
-type
-  AnalysisArgs* = object
-    pgnPath*: string
-    player*: string
-    maxGames*: int
-    minGames*: int
-    minRating*: int
-    topN*: int
-    eventFilter*: seq[string]
-    includeLosses*: bool
-    includeDraws*: bool
-    winPgnPath*: string
-    lossPgnPath*: string
-    drawPgnPath*: string
-    winThreshold*: float
-    lossThreshold*: float
-    drawThreshold*: float
+export nimchess, core
 
-proc parseArguments*(): AnalysisArgs =
+#----------- CLI -----------#
+
+
+type AnalysisArgs = object
+  pgnPath: string
+  player: string
+  maxGames: int
+  minGames: int
+  minRating: int
+  topN: int
+  eventFilter: seq[string]
+  includeLosses: bool
+  includeDraws: bool
+  winPgnPath: string
+  lossPgnPath: string
+  drawPgnPath: string
+  winThreshold: float
+  lossThreshold: float
+  drawThreshold: float
+
+proc parseArguments(): AnalysisArgs =
   result = AnalysisArgs(
     pgnPath: "",
     player: "",
     maxGames: 0,
     minGames: 10,
     minRating: 0,
-    topN: 10,
+    topN: 1,
     eventFilter: @[],
     includeLosses: false,
     includeDraws: false,
@@ -47,21 +51,36 @@ proc parseArguments*(): AnalysisArgs =
       break
     of cmdShortOption, cmdLongOption:
       case p.key
-      of "pgn": result.pgnPath = p.val
-      of "player": result.player = p.val
-      of "games": result.maxGames = p.val.parseInt
-      of "min_games", "min-games": result.minGames = p.val.parseInt
-      of "min_rating", "min-rating": result.minRating = p.val.parseInt
-      of "top_n", "top-n": result.topN = p.val.parseInt
-      of "event_filter", "event-filter": result.eventFilter.add(p.val)
-      of "losses": result.includeLosses = true
-      of "draws": result.includeDraws = true
-      of "win_pgn", "win-pgn": result.winPgnPath = p.val
-      of "loss_pgn", "loss-pgn": result.lossPgnPath = p.val
-      of "draw_pgn", "draw-pgn": result.drawPgnPath = p.val
-      of "win_threshold", "win-threshold": result.winThreshold = p.val.parseFloat
-      of "loss_threshold", "loss-threshold": result.lossThreshold = p.val.parseFloat
-      of "draw_threshold", "draw-threshold": result.drawThreshold = p.val.parseFloat
+      of "pgn":
+        result.pgnPath = p.val
+      of "player":
+        result.player = p.val
+      of "games":
+        result.maxGames = p.val.parseInt
+      of "min_games", "min-games":
+        result.minGames = p.val.parseInt
+      of "min_rating", "min-rating":
+        result.minRating = p.val.parseInt
+      of "top_n", "top-n":
+        result.topN = p.val.parseInt
+      of "event_filter", "event-filter":
+        result.eventFilter.add(p.val)
+      of "losses":
+        result.includeLosses = true
+      of "draws":
+        result.includeDraws = true
+      of "win_pgn", "win-pgn":
+        result.winPgnPath = p.val
+      of "loss_pgn", "loss-pgn":
+        result.lossPgnPath = p.val
+      of "draw_pgn", "draw-pgn":
+        result.drawPgnPath = p.val
+      of "win_threshold", "win-threshold":
+        result.winThreshold = p.val.parseFloat
+      of "loss_threshold", "loss-threshold":
+        result.lossThreshold = p.val.parseFloat
+      of "draw_threshold", "draw-threshold":
+        result.drawThreshold = p.val.parseFloat
       of "output_pgn", "output-pgn":
         # Legacy support
         result.winPgnPath = p.val
@@ -119,8 +138,10 @@ proc processGames(args: AnalysisArgs) =
 
   let isSinglePlayer = args.player.len > 0
 
-  echo if isSinglePlayer: fmt"Analyzing games for player '{args.player}'..."
-       else: "Analyzing all players..."
+  echo if isSinglePlayer:
+    fmt"Analyzing games for player '{args.player}'..."
+  else:
+    "Analyzing all players..."
 
   try:
     for game in readPgnFileIter(args.pgnPath):
@@ -133,61 +154,69 @@ proc processGames(args: AnalysisArgs) =
           inc gamesFilteredByRating
         continue
 
-      let playersToAnalyze = if isSinglePlayer:
-        let
-          white = game.headers.getOrDefault("White", "?")
-          black = game.headers.getOrDefault("Black", "?")
-        if args.player == white or args.player == black: @[args.player]
-        else: @[]
-      else:
-        let
-          white = game.headers.getOrDefault("White", "?")
-          black = game.headers.getOrDefault("Black", "?")
-        @[white, black]
+      let playersToAnalyze =
+        if isSinglePlayer:
+          let
+            white = game.headers.getOrDefault("White", "?")
+            black = game.headers.getOrDefault("Black", "?")
+          if args.player == white or args.player == black:
+            @[args.player]
+          else:
+            @[]
+        else:
+          let
+            white = game.headers.getOrDefault("White", "?")
+            black = game.headers.getOrDefault("Black", "?")
+          @[white, black]
 
       for player in playersToAnalyze:
-        if "?" in player: continue
+        if "?" in player:
+          continue
 
         let res = resultForPlayer(game, player)
 
         # Apply result filter
-        if res == Loss and not args.includeLosses: continue
-        if res == Draw and not args.includeDraws: continue
+        if res == Loss and not (args.includeLosses or args.lossPgnPath.len > 0):
+          continue
+        if res == Draw and not (args.includeDraws or args.drawPgnPath.len > 0):
+          continue
 
         let stats = analyseGame(game, player)
         let score = getAttackingScore(stats)
 
-        # Collect stats
-        if not allPlayerScores.hasKey(player):
-          allPlayerScores[player] = @[]
-          allPlayerRecords[player] = (0, 0, 0)
-
-        allPlayerScores[player].add(score)
-        case res:
-          of Win: inc allPlayerRecords[player].wins
-          of Draw: inc allPlayerRecords[player].draws
-          of Loss: inc allPlayerRecords[player].losses
-
-        # Save to game list for top_n reporting
-        gameScores.add((game, score, player))
-
         # PGN Writing
-        var pgnPath = ""
-        var threshold = 0.0
-        case res:
+        let (outPgnPath, threshold) =
+          case res
           of Win:
-            pgnPath = args.winPgnPath
-            threshold = args.winThreshold
+            (args.winPgnPath, args.winThreshold)
           of Loss:
-            pgnPath = args.lossPgnPath
-            threshold = args.lossThreshold
+            (args.lossPgnPath, args.lossThreshold)
           of Draw:
-            pgnPath = args.drawPgnPath
-            threshold = args.drawThreshold
+            (args.drawPgnPath, args.drawThreshold)
 
-        if pgnPath.len > 0 and score >= threshold:
-          writeGameToPgn(game, score, player, pgnPath)
+        if outPgnPath.len > 0 and score >= threshold:
+          writeGameToPgn(game, score, player, outPgnPath)
           inc gamesSaved
+
+        # Collect stats
+        if res == Win or (res == Loss and args.includeLosses) or
+            (res == Draw and args.includeDraws):
+
+          if not allPlayerScores.hasKey(player):
+            allPlayerScores[player] = @[]
+            allPlayerRecords[player] = (0, 0, 0)
+
+          allPlayerScores[player].add(score)
+          case res
+          of Win:
+            inc allPlayerRecords[player].wins
+          of Draw:
+            inc allPlayerRecords[player].draws
+          of Loss:
+            inc allPlayerRecords[player].losses
+
+          # Save to game list for top_n reporting
+          gameScores.add((game, score, player))
 
       inc gamesProcessed
       if gamesProcessed mod 1000 == 0:
@@ -201,41 +230,6 @@ proc processGames(args: AnalysisArgs) =
     if gamesSaved > 0:
       echo "Total games saved to PGN files: ", gamesSaved
 
-    if isSinglePlayer:
-      if not allPlayerScores.hasKey(args.player):
-        echo "No games found for player '", args.player, "'"
-        return
-      let
-        scores = allPlayerScores[args.player]
-        avgScore = scores.sum / scores.len.float
-      echo "\nOverall Stats for ", scores.len, " games:"
-      echo "Average Attacking Score: ", avgScore.formatFloat(ffDecimal, 2), " / 100.0"
-    else:
-      # All players mode ranking
-      type PlayerResult = tuple[player: string, score: float, stdev: float, stderr: float, numGames: int, record: string]
-      var playerResults: seq[PlayerResult] = @[]
-
-      for player, scores in allPlayerScores.pairs:
-        if scores.len >= args.minGames:
-          let
-            numGames = scores.len
-            mean = scores.sum / numGames.float
-            stdev = if numGames > 1: sqrt(scores.mapIt((it - mean) ^ 2).sum / (numGames - 1).float) else: 0.0
-            stderr = if numGames > 0: stdev / sqrt(numGames.float) else: 0.0
-            rec = allPlayerRecords[player]
-            recordStr = $rec.wins & " / " & $rec.draws & " / " & $rec.losses
-          playerResults.add((player, mean, stdev, stderr, numGames, recordStr))
-
-      if playerResults.len == 0:
-        echo "No players found with at least ", args.minGames, " games."
-      else:
-        playerResults.sort((a, b) => cmp(b.score, a.score))
-        echo "\nAttacking ranking for ", playerResults.len, " players with at least ", args.minGames, " games:"
-        echo "-".repeat(110)
-        echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"StdErr":<15} {"StdDev":<15} {"Games":<10} {"Record (W/D/L)":<20}"""
-        echo "-".repeat(110)
-        for i, res in playerResults.pairs:
-          echo fmt"""{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stderr.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"""
 
     # Top and Least aggressive games
     if gameScores.len > 0:
@@ -257,6 +251,60 @@ proc processGames(args: AnalysisArgs) =
         echo fmt"""White: {game.headers.getOrDefault("White", "?")}, Black: {game.headers.getOrDefault("Black", "?")}"""
         echo game.toPgnString()
 
+    if isSinglePlayer:
+      if not allPlayerScores.hasKey(args.player):
+        echo "No games found for player '", args.player, "'"
+        return
+      let
+        scores = allPlayerScores[args.player]
+        avgScore = scores.sum / scores.len.float
+      echo "\nOverall Stats for ", scores.len, " games:"
+      echo "Average Attacking Score: ", avgScore.formatFloat(ffDecimal, 2), " / 100.0"
+    else:
+      # All players mode ranking
+      type PlayerResult =
+        tuple[
+          player: string,
+          score: float,
+          stdev: float,
+          stderr: float,
+          numGames: int,
+          record: string,
+        ]
+
+      var playerResults: seq[PlayerResult] = @[]
+
+      for player, scores in allPlayerScores.pairs:
+        if scores.len >= args.minGames:
+          let
+            numGames = scores.len
+            mean = scores.sum / numGames.float
+            stdev =
+              if numGames > 1:
+                sqrt(scores.mapIt((it - mean) ^ 2).sum / (numGames - 1).float)
+              else:
+                0.0
+            stderr =
+              if numGames > 0:
+                stdev / sqrt(numGames.float)
+              else:
+                0.0
+            rec = allPlayerRecords[player]
+            recordStr = $rec.wins & " / " & $rec.draws & " / " & $rec.losses
+          playerResults.add((player, mean, stdev, stderr, numGames, recordStr))
+
+      if playerResults.len == 0:
+        echo "No players found with at least ", args.minGames, " games."
+      else:
+        playerResults.sort((a, b) => cmp(b.score, a.score))
+        echo "\nAttacking ranking for ",
+          playerResults.len, " players with at least ", args.minGames, " games:"
+        echo "-".repeat(110)
+        echo fmt"""{"Rank":<5} {"Player":<30} {"Agg. Score":<15} {"StdErr":<15} {"StdDev":<15} {"Games":<10} {"Record (W/D/L)":<20}"""
+        echo "-".repeat(110)
+        for i, res in playerResults.pairs:
+          echo fmt"""{$(i + 1):<5} {res.player:<30} {res.score.formatFloat(ffDecimal, 4):<15} {res.stderr.formatFloat(ffDecimal, 4):<15} {res.stdev.formatFloat(ffDecimal, 4):<15} {$(res.numGames):<10} {res.record:<20}"""
+
   except IOError as e:
     echo "Error: ", e.msg
     quit(1)
@@ -266,6 +314,12 @@ proc main() =
   if args.pgnPath.len == 0:
     echo "Error: --pgn is required\nUse --help for usage information"
     quit(1)
+
+  for outFile in [args.winPgnPath, args.lossPgnPath, args.drawPgnPath]:
+    if outFile.len > 0 and fileExists(outFile):
+      echo "Error: File already exists: ", outfile
+      quit(1)
+
   processGames(args)
 
 when isMainModule:

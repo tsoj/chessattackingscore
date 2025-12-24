@@ -141,7 +141,6 @@ const normalizationParams* = [
     echo fmt"Error writing to {filePath}: {e.msg}"
 
 proc main() =
-
   const
     pgnPath = "data/non_attacking_games/classical_rapid_2300_elo_plus.pgn"
     maxGames = 200000
@@ -151,8 +150,7 @@ proc main() =
 
   try:
     # Collect raw scores
-    let rawScoreCollections =
-      collectRawScores(pgnPath, maxGames, minRating)
+    let rawScoreCollections = collectRawScores(pgnPath, maxGames, minRating)
 
     # Calculate normalization parameters
     let normalizationParams = calculateNormalizationParameters(rawScoreCollections)
