@@ -26,7 +26,7 @@ Analyze a specific player:
 ./chessattackingscore --pgn=games.pgn --player="Glaurung"
 ```
 
-You can also write the most aggressive games into a new pgn
+You can also write the most aggressive winning games into a new pgn
 ```bash
-./chessattackingscore --pgn=games.pgn --output_pgn=aggressive.pgn --save_threshold=0.8
+./chessattackingscore --pgn=games.pgn --win_pgn=aggressive.pgn --win_threshold=0.8
 ```
