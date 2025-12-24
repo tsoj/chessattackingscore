@@ -203,7 +203,7 @@ proc main() =
     maxGamesPerClass = 500000
     maxIterations = 5000
     testSplit = 0.0
-    learningRate = 0.5
+    learningRate = 0.1
 
   randomize(8767128)
 

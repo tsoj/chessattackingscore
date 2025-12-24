@@ -2,7 +2,7 @@
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculatenormalization.nim script on 2025-12-24T14:22:59Z.
+This file is automatically updated by the calculatenormalization.nim script on 2025-12-24T22:40:46Z.
 ]##
 
 import features
@@ -25,4 +25,8 @@ const normalizationParams* = [
   rookQueenThreats: (mean: 0.10315446, std: 0.08145553),
   sacrificeScorePerWinMove: (mean: 0.06863919, std: 0.21900333),
   shortGameBonusPerWin: (mean: 0.14543137, std: 0.32383739),
+  shieldDestruction: (mean: 0.00497427, std: 0.01253848),
+  kingLinePressure: (mean: 0.14513735, std: 0.16679538),
+  rookOpenFileAttacks: (mean: 0.01747075, std: 0.03351492),
+  earlyQueenExchange: (mean: 0.11080718, std: 0.31389520),
 ]

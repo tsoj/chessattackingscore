@@ -1,0 +1,224 @@
+[Event "Hoogovens"]
+[Site "Wijk aan Zee NED"]
+[Date "1976.01.18"]
+[EventDate "1976.01.16"]
+[Round "3"]
+[Result "1-0"]
+[White "Ljubomir Ljubojevic"]
+[Black "Ulf Andersson"]
+[ECO "B47"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "67"]
+
+1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nc6 5.Nc3 Qc7 6.Be2 a6 7.O-O
+Nf6 8.Be3 Be7 9.f4 d6 10.Qe1 O-O 11.Qg3 Bd7 12.e5 dxe5 13.fxe5
+Nxe5 14.Bf4 Bd6 15.Rad1 Qb8 16.Rd3 Ne8 17.Ne4 Bc7 18.Rc3 Nc6
+19.Bxc7 Nxd4 20.Bd3 Qa7 21.Nc5 Bb5 22.Be5 Nc6 23.Bxh7+ Kxh7
+24.Rf4 f6 25.Rh4+ Kg8 26.Qh3 Nd8 27.Bd4 b6 28.Nxe6 Nxe6
+29.Qxe6+ Qf7 30.Qe4 g5 31.Rh6 Ra7 32.Rch3 Qg7 33.Rg6 Rff7
+34.c4 1-0
+
+[Event "Warsaw"]
+[Site "Warsaw POL"]
+[Date "1930.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "0-1"]
+[White "Glucksberg"]
+[Black "Miguel Najdorf"]
+[ECO "A85"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "44"]
+
+1.d4 f5 2.c4 Nf6 3.Nc3 e6 4.Nf3 d5 5.e3 c6 6.Bd3 Bd6 7.O-O O-O
+8.Ne2 Nbd7 9.Ng5 Bxh2+ 10.Kh1 Ng4 11.f4 Qe8 12.g3 Qh5 13.Kg2
+Bg1 14.Nxg1 Qh2+ 15.Kf3 e5 16.dxe5 Ndxe5+ 17.fxe5 Nxe5+ 18.Kf4
+Ng6+ 19.Kf3 f4 20.exf4 Bg4+ 21.Kxg4 Ne5+ 22.fxe5 h5# 0-1
+
+[Event "USSR Championship"]
+[Site "Leningrad URS"]
+[Date "1960.02.20"]
+[EventDate "1960.??.??"]
+[Round "16"]
+[Result "1-0"]
+[White "Boris Spassky"]
+[Black "David Bronstein"]
+[ECO "C36"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "45"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 d5 4. exd5 Bd6 5. Nc3 Ne7 6. d4 O-O
+7. Bd3 Nd7 8. O-O h6 9. Ne4 Nxd5 10. c4 Ne3 11. Bxe3 fxe3
+12. c5 Be7 13. Bc2 Re8 14. Qd3 e2 15. Nd6 {One of the deepest
+sacrifices this side of The Evergreen Game -- Soltis} Nf8
+16. Nxf7 exf1=Q+ 17. Rxf1 Bf5 18. Qxf5 Qd7 19. Qf4 Bf6
+20. N3e5 Qe7 21. Bb3 Bxe5 22. Nxe5+ Kh7 23. Qe4+ 1-0
+
+[Event "Casual game"]
+[Site "London ENG"]
+[Date "1864.12.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Hans Lindehn"]
+[Black "Wilhelm Steinitz"]
+[ECO "C21"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "55"]
+
+1.e4 e5 2.d4 exd4 3.c3 dxc3 4.Bc4 Nf6 5.Nxc3 Bb4 6.Ne2 O-O
+7.e5 Ne4 8.O-O Nxc3 9.bxc3 Bc5 10.Ng3 Nc6 11.Qh5 d6 12.Bg5 Qe8
+13.exd6 cxd6 14.Rfe1 Ne5 15.Re4 Be6 16.Rh4 h6 17.Bxh6 Ng6
+18.Bxg7 Kxg7 19.Qh6+ Kf6 20.Ne4+ Ke7 21.Bxe6 fxe6 22.Qg5+ Kd7
+23.Nxc5+ dxc5 24.Qxc5 Qc8 25.Rd1+ Ke8 26.Qh5 Rg8 27.Qh7 Ne7
+28.Rf4 1-0
+
+[Event "Ukrainian Championship"]
+[Site "Kiev URS"]
+[Date "1937.07.09"]
+[EventDate "1937.06.18"]
+[Round "17"]
+[Result "1-0"]
+[White "Efim Korchmar"]
+[Black "Evsey Poliak"]
+[ECO "C62"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "44"]
+
+1. e4 e5 2. Nf3 Nc6 3. Bb5 d6 4. d4 Bd7 5. Nc3 Nf6 6. O-O Nxd4
+7. Bxd7+ Qxd7 8. Nxd4 exd4 9. Qxd4 Be7 10. Rd1 O-O 11. e5 Ne8
+12. Bf4 a5 13. Rd3 Ra6 14. Re1 Qf5 15. Nd5 Bd8 16. exd6 Nxd6
+17. Rg3 f6 18. Bh6 Rf7 19. Nb4 axb4 20. Qxd6 Qd7 21. Qd5 Kf8
+22. Rxg7 Qxd5 23. Rg8+ {analysis: Kxg8 24. Re8+ Rf8 25. Rxf8#}
+1-0
+
+[Event "Botvinnik - Tal World Championship Match"]
+[Site "Moscow URS"]
+[Date "1960.03.26"]
+[EventDate "?"]
+[Round "6"]
+[Result "0-1"]
+[White "Mikhail Botvinnik"]
+[Black "Mikhail Tal"]
+[ECO "E69"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "93"]
+
+1.c4 Nf6 2.Nf3 g6 3.g3 Bg7 4.Bg2 O-O 5.d4 d6 6.Nc3 Nbd7 7.O-O
+e5 8.e4 c6 9.h3 Qb6 10.d5 cxd5 11.cxd5 Nc5 12.Ne1 Bd7 13.Nd3
+Nxd3 14.Qxd3 Rfc8 15.Rb1 Nh5 16.Be3 Qb4 17.Qe2 Rc4 18.Rfc1
+Rac8 19.Kh2 f5 20.exf5 Bxf5 21.Ra1 Nf4 22.gxf4 exf4 23.Bd2
+Qxb2 24.Rab1 f3 25.Rxb2 fxe2 26.Rb3 Rd4 27.Be1 Be5+ 28.Kg1 Bf4
+29.Nxe2 Rxc1 30.Nxd4 Rxe1+ 31.Bf1 Be4 32.Ne2 Be5 33.f4 Bf6
+34.Rxb7 Bxd5 35.Rc7 Bxa2 36.Rxa7 Bc4 37.Ra8+ Kf7 38.Ra7+ Ke6
+39.Ra3 d5 40.Kf2 Bh4+ 41.Kg2 Kd6 42.Ng3 Bxg3 43.Bxc4 dxc4
+44.Kxg3 Kd5 45.Ra7 c3 46.Rc7 Kd4 47.Rd7+ 0-1
+
+[Event "Vienna"]
+[Site "Vienna AUH"]
+[Date "1903.05.05"]
+[EventDate "1903.05.02"]
+[Round "3"]
+[Result "1-0"]
+[White "Geza Maroczy"]
+[Black "Mikhail Chigorin"]
+[ECO "C37"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "47"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. Bc4 g4 5. Nc3 gxf3 6. Qxf3 d6
+7. d4 Be6 8. Nd5 c6 9. O-O cxd5 10. exd5 Bf5 11. Bxf4 Bg6
+12. Bb5+ Nd7 13. Rae1+ Be7 14. Bxd6 Kf8 15. Rxe7 Nxe7 16. Re1
+Kg7 17. Bxe7 Qa5 18. Qe2 Nf8 19. Bf6+ Kg8 20. Qe5 h6 21. Bxh8
+f6 22. Qe7 Kxh8 23. Qxf6+ Kg8 24.Re7 1-0
+
+[Event "Sarajevo"]
+[Site "Sarajevo YUG"]
+[Date "1966.04.03"]
+[EventDate "?"]
+[Round "12"]
+[Result "1-0"]
+[White "Mikhail Tal"]
+[Black "Dragoljub M Ciric"]
+[ECO "B30"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "79"]
+
+1.e4 c5 2.Nf3 Nc6 3.Bb5 Qb6 4.Nc3 e6 5.O-O Nd4 6.Ba4 Qa5 7.a3
+b5 8.b4 Qb6 9.bxc5 Bxc5 10.Rb1 a6 11.Nxd4 Bxd4 12.Ne2 Nf6
+13.d3 Be5 14.c4 Bxh2+ 15.Kxh2 Qc7+ 16.Bf4 e5 17.Bg5 bxa4
+18.Bxf6 gxf6 19.Nc3 Bb7 20.Qf3 Rg8 21.Qxf6 Rg6 22.Qf5 Ke7
+23.g3 Rag8 24.Rxb7 Qxb7 25.Rb1 Qc8 26.Qxe5+ Re6 27.Nd5+ Kf8
+28.Qf4 Kg7 29.Kg2 Qc5 30.Rh1 Qxa3 31.Qg5+ Kf8 32.Qe3 Qd6
+33.Rxh7 a3 34.Rh1 Re5 35.d4 Rxd5 36.exd5 Qb4 37.c5 a2 38.Qe5
+Qb1 39.Rh8 a1=Q 40.Qd6+ 1-0
+
+[Event "Amsterdam IBM"]
+[Site "Amsterdam NED"]
+[Date "1974.07.18"]
+[EventDate "1974.07.16"]
+[Round "3"]
+[Result "1-0"]
+[White "Dragoljub Velimirovic"]
+[Black "Istvan Csom"]
+[ECO "B90"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "51"]
+
+1.e4 c5 2.Nf3 d6 3.d4 Nf6 4.Nc3 cxd4 5.Nxd4 a6 6.Bc4 e6 7.Bb3
+Be7 8.Be3 Nc6 9.Qe2 Qc7 10.O-O-O O-O 11.Kb1 b5 12.Nxc6 Qxc6
+13.Bd4 Bb7 14.Rhe1 Qc7 15.a3 Rac8 16.f4 e5 17.fxe5 dxe5 18.Nd5
+Bxd5 19.exd5 exd4 20.Qxe7 Qxh2 21.d6 Rce8 22.Bxf7+ Rxf7
+23.Qxe8+ Nxe8 24.Rxe8+ Rf8 25.d7 Qd6 26.Rf1 1-0
+
+[Event "World Team Championship"]
+[Site "Be'er Sheva ISR"]
+[Date "2005.11.08"]
+[EventDate "2005.11.01"]
+[Round "7"]
+[Result "0-1"]
+[White "Zhao Xue"]
+[Black "Levon Aronian"]
+[ECO "A56"]
+[WhiteElo "2478"]
+[BlackElo "2724"]
+[PlyCount "80"]
+
+1. d4 Nf6 2. c4 c5 3. d5 e5 4. Nc3 d6 5. e4 Be7 6. Bd3 Nbd7
+7. Nge2 h5 8. f3 h4 9. Be3 g6 10. Qd2 Kf8 11. a3 Kg7 12. b4 a6
+13. Na4 b6 14. Rb1 Nh7 15. bxc5 bxc5 16. O-O Bg5 17. f4 exf4
+18. Nxf4 Re8 19. Bc2 Kg8 20. h3 Ne5 21. Nb2 Nf6 22. Rf2 Rb8
+23. Qc3 Nfd7 24. Ba4 Qf6 25. Qc2 Qe7 26. Bd2 Bf6 27. Bc3 Bg7
+28. Rbf1 Qg5 29. Kh1 Re7 30. Nfd3 Qg3 31. Bxd7 Bxd7 32. Bd2 g5
+33. Be1 Bxh3 34. gxh3 Qxh3+ 35. Kg1 Ng4 36. e5 Nxf2 37. Qxf2
+Rxb2 38. Nxb2 Bxe5 39. Qd2 Bd4+ 40. Rf2 Re3 0-1
+
+[Event "Sousse Interzonal"]
+[Site "Sousse TUN"]
+[Date "1967.10.31"]
+[EventDate "1967.??.??"]
+[Round "12"]
+[Result "0-1"]
+[White "Robert Eugene Byrne"]
+[Black "Robert James Fischer"]
+[ECO "B87"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "56"]
+
+1. e4 c5 2. Nf3 d6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 a6 6. Bc4 e6
+7. Bb3 b5 8. f4 Bb7 9. f5 e5 10. Nde2 Nbd7 11. Bg5 Be7 12. Ng3
+Rc8 13. O-O h5 14. h4 b4 15. Bxf6 Bxf6 16. Nd5 Bxh4 17. Nxh5
+Qg5 18. f6 g6 19. Ng7+ Kd8 20. Rf3 Bg3 21. Qd3 Bh2+ 22. Kf1
+Nc5 23. Rh3 Rh4 24. Qf3 Nxb3 25. axb3 Rxh3 26. Qxh3 Bxd5
+27. exd5 Qxf6+ 28. Ke1 Qf4 0-1
+

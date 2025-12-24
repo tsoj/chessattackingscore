@@ -7,6 +7,7 @@ export features
 const
   PIECE_VALUES = [pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9]
   WINNING_MATERIAL_ADVANTAGE = PIECE_VALUES[pawn] * 3
+  EARLY_QUEEN_EXCHANGE_MAX_MOVES = 15
 
 type
   AttackingStats* = object
@@ -29,6 +30,11 @@ type
     forcingMoves*: int
     f7F2Attacks*: int
     shortGameBonus*: float
+    # --- NEW FIELDS ---
+    shieldDestruction*: int # Capturing pawns immediately around King
+    kingLinePressure*: int # R/B/Q on same rank/file/diag as King (even if blocked)
+    rookOpenFileAttacks*: int # R/Q on open files adjacent to King
+    earlyQueenExchange*: bool
 
   SacrificeState = object
     active: bool
@@ -273,6 +279,77 @@ func calculateShortGameBonus(position: Position, playerColor: Color, ply: int): 
     return max(0.0, (60 - max(30, gameLength)).float / 30.0)
   return 0.0
 
+func analyzeShieldDestruction(
+    position: Position, move: Move, stats: var AttackingStats
+) =
+  # If we capture a pawn that is part of the King's immediate protection
+  if move.isCapture:
+    let enemyKingSq = position.kingSquare(position.enemy)
+    # Check if the captured square is in the 3x3 box of the king
+    if not empty(mask3x3(enemyKingSq) and move.target.toBitboard):
+      # We need to know if the captured piece was a pawn.
+      # Since 'move' struct usually doesn't store captured piece type in all implementations,
+      # we check the board state *before* the move was applied.
+      if position.pieceAt(move.target) == pawn:
+        inc stats.shieldDestruction
+
+func analyzeLinePressure(position: Position, stats: var AttackingStats) =
+  # Checks if sliding pieces are "looking" at the King, even if blocked.
+  # This measures "X-Ray" pressure.
+  let
+    enemyKingSq = position.kingSquare(position.enemy)
+    us = position.us
+
+    # Rooks and Queens on same Rank or File
+    rooksQueens = position[us, rook] or position[us, queen]
+    # Bishops and Queens on same Diagonals
+    bishopsQueens = position[us, bishop] or position[us, queen]
+
+    # Get pseudo-attacks from the King's square as if the King was a Rook/Bishop
+    # to find aligned pieces.
+    kingRookLines = rook.attackMask(enemyKingSq, 0.Bitboard)
+    kingBishopLines = bishop.attackMask(enemyKingSq, 0.Bitboard)
+
+  # If our sliding pieces are on these lines, we are exerting pressure
+  if not empty(kingRookLines and rooksQueens):
+    inc stats.kingLinePressure
+
+  if not empty(kingBishopLines and bishopsQueens):
+    inc stats.kingLinePressure
+
+func analyzeRookOpenFiles(
+    position: Position, move: Move, movingPieceType: Piece, stats: var AttackingStats
+) =
+  # Checks if a Rook/Queen lands on an open/semi-open file near the King
+  if movingPieceType in [rook, queen]:
+    let
+      destFile = fileNumber(move.target)
+      enemyKingFile = fileNumber(position.kingSquare(position.enemy))
+
+    # Only care if reasonably close to the King (same file or adjacent)
+    if abs(destFile - enemyKingFile) <= 1:
+      # Create file mask (vertical line)
+      var fileMask = 0.Bitboard
+      for r in 0 .. 7:
+        fileMask = fileMask or (1.Bitboard shl (r * 8 + destFile))
+
+      let allPawns = position[white, pawn] or position[black, pawn]
+
+      # If no pawns on this file (Open) or only Enemy pawns (Semi-Open for us)
+      # Actually, standard attacking principle: "Open" means no pawns.
+      if empty(fileMask and allPawns):
+        inc stats.rookOpenFileAttacks
+
+func analyzeEarlyQueenExchange(
+    position: Position, fullMoveNumber: int, stats: var AttackingStats
+) =
+  if stats.earlyQueenExchange:
+    return
+  if fullMoveNumber > EARLY_QUEEN_EXCHANGE_MAX_MOVES:
+    return
+  if empty(position[white, queen]) and empty(position[black, queen]):
+    stats.earlyQueenExchange = true
+
 # --- Main Analysis Function ---
 func analyseGame*(game: Game, playerName: string): AttackingStats =
   var stats = AttackingStats(result: resultForPlayer(game, playerName))
@@ -285,7 +362,7 @@ func analyseGame*(game: Game, playerName: string): AttackingStats =
     themCastledSide = none CastlingSide
   var sacrificeState = SacrificeState()
 
-  for move in game.moves:
+  for ply, move in game.moves.pairs:
     let
       turn = position.us
       isOurTurn = (turn == playerColor)
@@ -318,10 +395,20 @@ func analyseGame*(game: Game, playerName: string): AttackingStats =
 
         analyzeCoordinatedAttacks(position, materialBalance, stats)
 
-    position = position.doMove(move)
+        # --- NEW CALLS ---
+        analyzeShieldDestruction(position, move, stats)
+        analyzeRookOpenFiles(position, move, movingPieceType, stats)
+
+    let newPosition = position.doMove(move)
+    analyzeEarlyQueenExchange(newPosition, (ply div 2) + 1, stats)
 
     if isOurTurn:
+      if not hasWinningAdvantage(materialBalance):
+        # Analyze pressure in the resulting position
+        analyzeLinePressure(newPosition, stats)
       inc stats.totalMoves
+
+    position = newPosition
 
   # Finalize sacrifice tracking
   finalizeSacrificeTracking(sacrificeState, stats)
@@ -379,6 +466,12 @@ func getRawFeatureScores*(stats: AttackingStats): array[AttackingFeature, float]
   result[forcingMoves] = stats.forcingMoves.float / stats.totalMoves.float
   result[checks] = stats.totalChecks.float / stats.totalMoves.float
   result[f7F2Attacks] = stats.f7F2Attacks.float / stats.totalMoves.float
+
+
+  result[shieldDestruction] = stats.shieldDestruction.float / stats.totalMoves.float
+  result[kingLinePressure] = stats.kingLinePressure.float / stats.totalMoves.float
+  result[rookOpenFileAttacks] = stats.rookOpenFileAttacks.float / stats.totalMoves.float
+  result[earlyQueenExchange] = (if stats.earlyQueenExchange: 1.0 else: 0.0)
 
   #!fmt: on
 

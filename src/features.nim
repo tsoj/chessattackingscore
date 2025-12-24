@@ -17,6 +17,10 @@ type
     rookQueenThreats
     sacrificeScorePerWinMove
     shortGameBonusPerWin
+    shieldDestruction
+    kingLinePressure
+    rookOpenFileAttacks
+    earlyQueenExchange
 
   FeatureWeights* = object
     weights*: array[AttackingFeature, float]

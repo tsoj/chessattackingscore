@@ -1,0 +1,688 @@
+[Event "Hilversum Zonal"]
+[Site "Hilversum NED"]
+[Date "1947.07.31"]
+[EventDate "?"]
+[Round "13"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Theo Daniel van Scheltinga"]
+[ECO "C53"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "53"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.c3 Qe7 5.O-O d6 6.d4 Bb6 7.h3
+Nf6 8.Re1 O-O 9.b4 a6 10.Na3 Kh8 11.Nc2 Nd8 12.Be3 Nxe4
+13.dxe5 d5 14.Qxd5 Nxc3 15.Qd3 Bxe3 16.Nxe3 Qxb4 17.Rac1 Nb5
+18.Ng5 g6 19.Nd5 Qa3 20.Bxb5 axb5 21.Rc3 Qa5 22.e6 Nxe6
+23.Rxe6 Bxe6 24.Qd4+ f6 25.Nxf6 Qb6 26.Qe5 Qd6 27.Rxc7 1-0
+
+[Event "Zagreb"]
+[Site "Zagreb YUG"]
+[Date "1964.06.07"]
+[EventDate "1964.05.25"]
+[Round "11"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Enrico Paoli"]
+[ECO "B63"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "37"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 d6 6.Bg5 e6 7.Qd2
+Be7 8.O-O-O Bd7 9.f4 Qc7 10.f5 O-O-O 11.fxe6 fxe6 12.Bc4 Nxd4
+13.Qxd4 a6 14.Bb3 h6 15.Bh4 g5 16.Bg3 Ng4 17.Na4 Bf6 18.Nb6+
+Kb8 19.Qxd6 1-0
+
+[Event "Zagreb"]
+[Site "Zagreb YUG"]
+[Date "1964.05.25"]
+[EventDate "1964.05.25"]
+[Round "1"]
+[Result "0-1"]
+[White "Ivan Nemet"]
+[Black "Laszlo Szabo"]
+[ECO "C84"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "62"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bb5 a6 4.Ba4 Nf6 5.O-O Be7 6.Re1 b5 7.Bb3
+O-O 8.a4 b4 9.d4 d6 10.h3 Bb7 11.c3 bxc3 12.Nxc3 Rb8 13.Be3
+exd4 14.Nxd4 Nxd4 15.Bxd4 c5 16.Bxf6 Bxf6 17.Bc4 Bd4 18.Qd3
+Kh8 19.Re2 Qa5 20.Rc1 Rbe8 21.b3 Re5 22.b4 Qd8 23.bxc5 dxc5
+24.Bxa6 f5 25.Kh1 Qg5 26.Rcc2 Ba8 27.Qd2 Qg6 28.Bd3 fxe4
+29.Rxe4 Rxe4 30.f3 Rxf3 31.Nxe4 Rxh3+ 0-1
+
+[Event "Zagreb"]
+[Site "Zagreb YUG"]
+[Date "1964.06.06"]
+[EventDate "1964.05.25"]
+[Round "10"]
+[Result "0-1"]
+[White "Drazen Marovic"]
+[Black "Laszlo Szabo"]
+[ECO "A62"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "94"]
+
+1.d4 Nf6 2.c4 c5 3.d5 e6 4.Nc3 exd5 5.cxd5 d6 6.g3 g6 7.Bg2
+Bg7 8.Nf3 O-O 9.O-O Na6 10.Bf4 Nc7 11.e4 Bg4 12.h3 Bxf3
+13.Bxf3 Qd7 14.e5 dxe5 15.Bxe5 Rad8 16.Qb3 b6 17.Kg2 Nfe8
+18.Rfe1 Bxe5 19.Rxe5 Nd6 20.Rae1 Rfe8 21.a4 Rxe5 22.Rxe5 Re8
+23.Ne4 Nxe4 24.Rxe4 Rxe4 25.Bxe4 Ne8 26.Qc2 Nd6 27.b3 Qe7
+28.Bf3 Qe1 29.Be2 Kg7 30.Qb2+ f6 31.Qc2 Qa1 32.Bf3 Qe1 33.Be2
+Kf7 34.h4 f5 35.Bf3 Ne4 36.h5 Ke7 37.hxg6 hxg6 38.g4 Kd6
+39.gxf5 gxf5 40.Qb2 Qd2 41.Qxd2 Nxd2 42.Bd1 Kxd5 43.Bc2 f4
+44.Kh3 a6 45.Kg4 Ke5 46.Bd1 b5 47.axb5 axb5 0-1
+
+[Event "Budapest"]
+[Site "Budapest HUN"]
+[Date "1965.02.14"]
+[EventDate "1965.02.14"]
+[Round "1"]
+[Result "0-1"]
+[White "Dragoljub Janosevic"]
+[Black "Laszlo Szabo"]
+[ECO "B06"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "98"]
+
+1.e4 c5 2.Nf3 g6 3.d4 Bg7 4.dxc5 Qa5+ 5.Bd2 Qxc5 6.Bc3 Nf6
+7.Bd3 Nc6 8.O-O d6 9.Nbd2 O-O 10.Nb3 Qb6 11.a4 e5 12.Re1 Qc7
+13.Bc4 Be6 14.Bd5 Rad8 15.Bxc6 Qxc6 16.Qe2 h6 17.Na5 Qc7
+18.Qb5 b6 19.Qc6 Qb8 20.Nb3 Rc8 21.Qb5 Bc4 22.Qb4 a5 23.Qa3
+Rfe8 24.Nbd2 Be6 25.b4 Qc7 26.Re3 Ng4 27.Rd3 f5 28.bxa5 bxa5
+29.Nh4 fxe4 30.Nxe4 d5 31.Nd6 e4 32.Rg3 Bxc3 33.Nxe8 Qf7
+34.Rxg4 Bxg4 35.Nd6+ Qf6 36.Nxc8 Bb4 37.Qa2 Bxc8 38.c3 Bxc3
+39.Qxd5+ Be6 40.Qa8+ Kg7 41.Rc1 Bd4 42.g3 g5 43.Qb7+ Bf7
+44.Ng2 Qxf2+ 45.Kh1 e3 46.Qc7 e2 47.h4 Qf1+ 48.Kh2 Bg1+ 49.Kh3
+g4 0-1
+
+[Event "Budapest"]
+[Site "Budapest HUN"]
+[Date "1965.02.22"]
+[EventDate "1965.02.14"]
+[Round "8"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Vasja Pirc"]
+[ECO "A54"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "59"]
+
+1.d4 Nf6 2.c4 d6 3.Nc3 e5 4.Nf3 e4 5.Ng5 Bf5 6.g4 Bxg4 7.Bg2
+c6 8.Ngxe4 Nxe4 9.Nxe4 Bf5 10.Qb3 Bxe4 11.Bxe4 Qb6 12.Qe3 Be7
+13.Bd2 Nd7 14.Bf5 g6 15.Bd3 Nf6 16.O-O-O Qc7 17.Qf3 O-O-O
+18.Kb1 h6 19.e4 Rdf8 20.Bc3 Nd7 21.Qh3 Bf6 22.f4 c5 23.e5 cxd4
+24.Bxd4 dxe5 25.fxe5 Bg7 26.Bc2 Kb8 27.Bxa7+ Kxa7 28.Rxd7 Qxc4
+29.Qe3+ Kb8 30.Be4 1-0
+
+[Event "?"]
+[Site "?"]
+[Date "1966.??.??"]
+[EventDate "1966.00.00"]
+[Round "?"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Aleksandar Matanovic"]
+[ECO "E59"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "65"]
+
+1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 c5 5.Nf3 O-O 6.Bd3 d5 7.O-O
+Nc6 8.a3 Bxc3 9.bxc3 dxc4 10.Bxc4 Qc7 11.Bb2 e5 12.Be2 Bg4
+13.dxe5 Nxe5 14.c4 Ned7 15.Nh4 Be6 16.f4 Nb6 17.Qc2 Qe7 18.Rf3
+Ne8 19.f5 Bd7 20.f6 Nxf6 21.Bxf6 gxf6 22.Bd3 f5 23.Nxf5 Bxf5
+24.Bxf5 h6 25.Raf1 Rae8 26.Rh3 Kg7 27.Rf4 Rg8 28.Bh7 Qe6
+29.Rg3+ Kh8 30.Bxg8 Rxg8 31.Qb2+ Kh7 32.Rf6 Qe8 33.Rxh6+ 1-0
+
+[Event "Budapest"]
+[Site "Budapest HUN"]
+[Date "1965.02.16"]
+[EventDate "1965.02.14"]
+[Round "3"]
+[Result "0-1"]
+[White "Nikola Padevsky"]
+[Black "Laszlo Szabo"]
+[ECO "B35"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "104"]
+
+1.e4 c5 2.Nf3 Nc6 3.d4 cxd4 4.Nxd4 g6 5.Nc3 Bg7 6.Be3 Nf6
+7.Bc4 d6 8.f3 Qb6 9.Bb5 Qc7 10.g4 Bd7 11.Qd2 O-O 12.Be2 Rfc8
+13.h4 b5 14.Ncxb5 Qb7 15.Nxc6 Bxc6 16.c4 d5 17.g5 Nh5 18.exd5
+Bxb5 19.cxb5 Ng3 20.Rh2 Nxe2 21.Rxe2 Qxb5 22.Rd1 Rd8 23.Kf2
+Rd7 24.Qc2 Rb8 25.b3 Rxd5 26.Rxd5 Qxd5 27.Rd2 Qe5 28.f4 Qe6
+29.Qc7 Rf8 30.Rd8 Rxd8 31.Qxd8+ Bf8 32.Qd4 Qh3 33.Qxa7 Qxh4+
+34.Ke2 h5 35.gxh6 Bxh6 36.Qa8+ Kh7 37.Qf3 Qh2+ 38.Qf2 Qh1
+39.Qf1 Qe4 40.Kd2 e5 41.Qd3 Qg2+ 42.Qe2 Qd5+ 43.Kc2 exf4
+44.Bf2 Qg2 45.a4 Bg5 46.Kd3 Qh3+ 47.Kc2 Qg2 48.Kd3 Bf6 49.Qe1
+Qd5+ 50.Kc2 Qf5+ 51.Kc1 Qd3 52.Qd1 Bb2+ 0-1
+
+[Event "Bosna 15th"]
+[Site "Sarajevo YUG"]
+[Date "1972.03.21"]
+[EventDate "1972.03.20"]
+[Round "2"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Vlastimil Hort"]
+[ECO "D86"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "63"]
+
+1.d4 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.e4 Nxc3 6.bxc3 Bg7
+7.Bc4 c5 8.Ne2 Nc6 9.Be3 O-O 10.O-O Qc7 11.Rc1 Rd8 12.f4 Bg4
+13.f5 Na5 14.Bd3 Qd7 15.d5 gxf5 16.c4 b5 17.h3 fxe4 18.Bxe4
+Bh5 19.cxb5 Rac8 20.Qe1 Qxb5 21.Nf4 Bg6 22.Nxg6 fxg6 23.Bg5
+Bf6 24.Bxf6 exf6 25.Bxg6 Rf8 26.Qg3 Kh8 27.Bxh7 Qb2 28.Bf5
+Qd4+ 29.Kh1 Rg8 30.Qf3 Rce8 31.Qh5+ Kg7 32.Qh7+ 1-0
+
+[Event "Bosna 15th"]
+[Site "Sarajevo YUG"]
+[Date "1972.03.27"]
+[EventDate "1972.03.20"]
+[Round "7"]
+[Result "0-1"]
+[White "Bozidar Ivanovic"]
+[Black "Laszlo Szabo"]
+[ECO "B98"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "86"]
+
+1.e4 c5 2.Nf3 d6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 a6 6.Bg5 e6 7.f4
+Be7 8.Qf3 h6 9.Bh4 Nbd7 10.O-O-O Qc7 11.Bd3 g5 12.fxg5 Ne5
+13.Qe2 Nfg4 14.h3 hxg5 15.Bg3 Nf6 16.Rhf1 Bd7 17.Nf3 Nh5
+18.Bh2 f6 19.Nd4 O-O-O 20.Kb1 Kb8 21.Qe3 Qc5 22.Bg1 Nf4
+23.Nce2 Nexd3 24.cxd3 e5 25.Rc1 exd4 26.Nxd4 Nxg2 27.Qf2 Nf4
+28.Rxc5 dxc5 29.Nb3 Bb5 30.Ka1 Nxd3 31.Qf5 Nf4 32.Bh2 Bxf1
+33.Bxf4+ Ka8 34.Bc1 Bxh3 35.Qf2 Be6 36.Kb1 Rh1 37.Kc2 Bg4
+38.Be3 Bd1+ 39.Kc3 Rh3 40.Nc1 f5 41.exf5 Bf6+ 42.Kc4 Rh4+
+43.Kxc5 Be7+ 0-1
+
+[Event "Hastings 1973/74"]
+[Site "Hastings ENG"]
+[Date "1974.01.09"]
+[EventDate "1973.12.27"]
+[Round "12"]
+[Result "0-1"]
+[White "Pal Benko"]
+[Black "Laszlo Szabo"]
+[ECO "A15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "81"]
+
+1.Nf3 Nf6 2.c4 g6 3.Nc3 d5 4.cxd5 Nxd5 5.Qa4+ Bd7 6.Qc2 Nb6
+7.d4 Bg7 8.e4 O-O 9.Be3 Nc6 10.d5 Ne5 11.Nxe5 Bxe5 12.Rd1 Qc8
+13.f4 Bg7 14.Be2 c6 15.d6 exd6 16.Rxd6 Bg4 17.O-O Bxe2 18.Qxe2
+Qc7 19.Rfd1 Bxc3 20.bxc3 Nd5 21.R1xd5 cxd5 22.Rxd5 Qxc3 23.Rc5
+Qb4 24.Rc4 Qb1+ 25.Kf2 Rfc8 26.a4 Qb3 27.Rd4 Rc2 28.Bd2 Qb6
+29.Qd3 Rd8 30.Qxc2 Qxd4+ 31.Be3 Qd3 32.Qc7 Qd7 33.Qxd7 Rxd7
+34.a5 a6 35.Ke2 Kf8 36.g4 f5 37.exf5 gxf5 38.gxf5 Kf7 39.Kf3
+Rd5 40.Bb6 Rxf5 41.h4 0-1
+
+[Event "Hastings 1973/74"]
+[Site "Hastings ENG"]
+[Date "1973.12.30"]
+[EventDate "1973.12.27"]
+[Round "4"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Duncan Suttles"]
+[ECO "A42"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "91"]
+
+1.d4 d6 2.c4 g6 3.Nc3 Bg7 4.e4 Nc6 5.Be3 e5 6.Nge2 Nh6 7.d5
+Ne7 8.f3 f5 9.Qd2 Nf7 10.Nc1 O-O 11.Nd3 c6 12.Be2 cxd5 13.cxd5
+Bd7 14.a4 Kh8 15.a5 Ng8 16.O-O f4 17.Bf2 g5 18.a6 b6 19.Nb4 h5
+20.Nc6 Qf6 21.Nb5 g4 22.Nbxa7 Bh6 23.Bxb6 g3 24.Kh1 Qh4 25.Bg1
+Ng5 26.Bd3 Rf6 27.Nb5 Rg6 28.Nxd6 Rxd6 29.Nxe5 Bg7 30.Nxd7
+Rxd7 31.Bb5 Rd6 32.Bc6 Ra7 33.e5 Rg6 34.d6 Nh3 35.gxh3 g2
+36.Qxg2 Rxg2 37.Kxg2 Rf7 38.Bd4 Nh6 39.a7 Nf5 40.a8=Q+ Rf8
+41.Bf2 Qg5+ 42.Kh1 Ng3+ 43.hxg3 fxg3 44.Rg1 h4 45.d7 Qf5
+46.Bxg3 1-0
+
+[Event "Budapest"]
+[Site "Budapest HUN"]
+[Date "1936.06.21"]
+[EventDate "?"]
+[Round "15"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Janos Balogh"]
+[ECO "D45"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "77"]
+
+1.c4 Nf6 2.Nf3 c6 3.d4 d5 4.Nc3 e6 5.e3 Be7 6.Bd3 O-O 7.O-O
+Nbd7 8.e4 dxe4 9.Nxe4 Qc7 10.Bg5 Re8 11.Re1 h6 12.Bd2 c5
+13.Bc3 Nxe4 14.Rxe4 Nf6 15.Re1 Bd7 16.Ne5 Rad8 17.dxc5 Bxc5
+18.b4 Be7 19.Re3 Bc6 20.Qe2 b6 21.Rg3 Bd6 22.Re1 Bb7 23.Qe3
+Kf8 24.Rxg7 Kxg7 25.Ng4 Bf4 26.Nxf6 Kf8 27.Qh3 Rxd3 28.Qxd3
+Rd8 29.Qh7 Qxc4 30.Ne4 e5 31.Qh8+ Ke7 32.Qf6+ Ke8 33.Bxe5 Qxe4
+34.Qh8+ Kd7 35.Rxe4 Rxh8 36.Rd4+ Ke6 37.Bxh8 Bg5 38.f4 Be7
+39.f5+ 1-0
+
+[Event "Groningen"]
+[Site "Groningen NED"]
+[Date "1946.08.24"]
+[EventDate "1946.08.13"]
+[Round "10"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Alexander Kotov"]
+[ECO "D32"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "59"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 d5 4.Nc3 c5 5.e3 Nc6 6.a3 Be7 7.dxc5
+Bxc5 8.b4 Bb6 9.Bb2 O-O 10.Be2 dxc4 11.Bxc4 Qe7 12.O-O a6
+13.Qc2 Bc7 14.Ng5 Bxh2+ 15.Kh1 h6 16.Nd5 exd5 17.Bxf6 Bf5
+18.Qxf5 g6 19.Qxg6+ fxg6 20.Bxd5+ Rf7 21.Bxe7 hxg5 22.Kxh2
+Nxe7 23.Bxf7+ Kxf7 24.Rac1 Nc6 25.Rfd1 Ke6 26.Rc5 Rh8+ 27.Kg3
+Rh5 28.Rdd5 Ne7 29.Rxg5 Rh1 30.Rge5+ 1-0
+
+[Event "Przepiorka Memorial"]
+[Site "Szczawno-Zdroj POL"]
+[Date "1950.07.11"]
+[EventDate "?"]
+[Round "17"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Cenek Kottnauer"]
+[ECO "D47"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "81"]
+
+1.d4 d5 2.c4 c6 3.Nf3 Nf6 4.Nc3 e6 5.e3 Nbd7 6.Bd3 dxc4 7.Bxc4
+b5 8.Bd3 b4 9.Ne4 Be7 10.Nxf6+ Nxf6 11.e4 Bb7 12.Qe2 Nd7
+13.O-O O-O 14.Rd1 Qa5 15.Bf4 c5 16.d5 exd5 17.exd5 Rfe8 18.Qc2
+h6 19.Bh7+ Kf8 20.Bf5 Nb6 21.Bc8 Nxc8 22.Qh7 f6 23.Nh4 Rd8
+24.Bxh6 gxh6 25.Re1 Ke8 26.Nf5 Kd7 27.Nxe7 Kc7 28.Nc6 Rd7
+29.Qxd7+ Kxd7 30.Nxa5 Bxd5 31.Rac1 Nb6 32.Rxc5 Rg8 33.g3 Rg4
+34.f4 h5 35.Rb5 h4 36.Kf2 hxg3 37.hxg3 Rg7 38.Rd1 Ke6 39.f5+
+Kd6 40.Nc4+ Kc6 41.Nxb6 1-0
+
+[Event "Zurich Candidates"]
+[Site "Zuerich SUI"]
+[Date "1953.09.06"]
+[EventDate "1953.08.30"]
+[Round "5"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "David Bronstein"]
+[ECO "A53"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "83"]
+
+1. d4 Nf6 2. c4 d6 3. Nf3 Nbd7 4. g3 e5 5. Bg2 c6 6. dxe5 dxe5
+7. O-O Bc5 8. Nc3 O-O 9. Qc2 Qe7 10. Nh4 Re8 11. Na4 e4
+12. Nf5 Qe5 13. Bh3 Bf8 14. Bd2 Qc7 15. Bg2 g6 16. Ne3 Qe5
+17. f4 Qh5 18. h3 Qxe2 19. Rad1 Qd3 20. Qc1 Qd6 21. g4 Qc7
+22. Bc3 Bg7 23. g5 b5 24. gxf6 Bf8 25. cxb5 cxb5 26. Nd5 Qc6
+27. f5 Bb7 28. fxg6 hxg6 29. Ne7+ Bxe7 30. fxe7 b4 31. Bxb4
+Qxa4 32. Bc3 Rxe7 33. Qh6 Ne5 34. Qg5 Qe8 35. Rf4 Rc8 36. Rh4
+Rxc3 37. Qh6 f6 38. bxc3 Rg7 39. Rd8 Qxd8 40. Qh8+ Kf7
+41. Qxd8 g5 42. Rh6 1-0
+
+[Event "Hastings 1960/61"]
+[Site "Hastings ENG"]
+[Date "1961.01.04"]
+[EventDate "1960.??.??"]
+[Round "7"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Leonard William Barden"]
+[ECO "E70"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "73"]
+
+1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Bg5 O-O 6.Bd3 c5 7.d5 h6
+8.Bh4 e5 9.Nge2 a6 10.f3 Qe8 11.O-O Nh7 12.Qc2 Nd7 13.a3 Ndf6
+14.b4 b6 15.Rfb1 Ng5 16.Na4 Nd7 17.Bf2 f5 18.Nec3 fxe4 19.Nxe4
+Nxe4 20.Bxe4 b5 21.Nc3 bxc4 22.Bxg6 Qd8 23.Ne4 cxb4 24.Rxb4
+Nc5 25.Rxc4 Nxe4 26.Bxe4 Bd7 27.Rb4 Rc8 28.Qd3 Bb5 29.Qb3 Rf7
+30.a4 Rfc7 31.Qb2 Qg5 32.h4 Rc1+ 33.Kh2 Qf4+ 34.g3 Rxa1
+35.gxf4 exf4 36.Qxg7+ Kxg7 37.Bd4+ 1-0
+
+[Event "Sunny Beach"]
+[Site "Sunny Beach BUL"]
+[Date "1974.09.??"]
+[EventDate "?"]
+[Round "2"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Nikola Spiridonov"]
+[ECO "A34"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "69"]
+
+1.c4 Nf6 2.Nc3 c5 3.g3 g6 4.Bg2 Bg7 5.e3 O-O 6.Nge2 d6 7.O-O
+Nc6 8.h3 Bd7 9.d3 a6 10.b3 Rb8 11.Bb2 b5 12.Qd2 Qa5 13.f4 bxc4
+14.dxc4 Rfd8 15.Rad1 Qb6 16.g4 a5 17.g5 Ne8 18.Nd5 Qa6 19.Bxg7
+Kxg7 20.Ng3 Be6 21.Qc3+ Kg8 22.f5 Bxd5 23.Bxd5 Ne5 24.fxg6
+hxg6 25.Rxf7 Nxf7 26.Rf1 e6 27.Bxe6 Rb7 28.Ne4 Qa7 29.Nf6+
+Nxf6 30.Qxf6 Re8 31.Qxg6+ Kf8 32.Qh6+ Ke7 33.Qf6+ Kf8 34.g6
+Rxe6 35.Qh8+ 1-0
+
+[Event "HUN"]
+[Site "HUN"]
+[Date "1982.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Gyula Sax"]
+[ECO "B20"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "75"]
+
+1.e4 c5 2.b3 Nc6 3.Bb2 d6 4.f4 e6 5.Nf3 Nf6 6.Nc3 Be7 7.Bd3 d5
+8.Ne5 O-O 9.Nxc6 bxc6 10.e5 Nd7 11.Qf3 Rb8 12.Nd1 f5 13.exf6
+Bxf6 14.Qh3 g6 15.O-O c4 16.Be2 Nc5 17.Bxf6 Qxf6 18.Ne3 e5
+19.Bg4 exf4 20.Bxc8 Rbxc8 21.bxc4 Qd4 22.c3 Qxd2 23.Ng4 Qd3
+24.Nf6+ Kg7 25.Qxh7+ Kxf6 26.Rxf4+ Ke6 27.Re1+ Ne4 28.Qxg6+
+Ke5 29.Qg5+ Kd6 30.Qh6+ Kc5 31.Rxf8 Qxc3 32.Ref1 Qd4+ 33.Kh1
+dxc4 34.Qf4 Rxf8 35.Qxf8+ Qd6 36.Qf7 c3 37.Qxa7+ Kc4 38.Qa4+
+1-0
+
+[Event "Hoogovens"]
+[Site "Beverwijk NED"]
+[Date "1967.01.14"]
+[EventDate "1967.01.11"]
+[Round "4"]
+[Result "0-1"]
+[White "Arturo Pomar Salamanca"]
+[Black "Laszlo Szabo"]
+[ECO "A69"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "84"]
+
+1.d4 Nf6 2.c4 g6 3.Nc3 Bg7 4.e4 d6 5.Be2 O-O 6.f4 c5 7.d5 e6
+8.Nf3 exd5 9.cxd5 Re8 10.Nd2 a6 11.a4 Ng4 12.Bxg4 Qh4+ 13.g3
+Qxg4 14.Qxg4 Bxg4 15.Kf2 Bd4+ 16.Kg2 Nd7 17.h3 Bxc3 18.bxc3
+Be2 19.Re1 Bd3 20.Re3 c4 21.Ba3 Nb6 22.Bxd6 Nxd5 23.Ree1 Nxc3
+24.Be5 Rxe5 25.fxe5 Rc8 26.Ra3 Ne2 27.Kf2 c3 28.Nb3 c2 29.Nc1
+Nxc1 30.Rxc1 Bxe4 31.Ke3 Rc4 32.a5 h5 33.Kd2 Rc5 34.Re1 Rxe5
+35.Kc1 f5 36.Rb3 Rxa5 37.Rxe4 fxe4 38.Rxb7 Ra3 39.g4 h4 40.Rb6
+Kf7 41.Kxc2 Rxh3 42.g5 Rg3 0-1
+
+[Event "Saltsjobaden Interzonal"]
+[Site "Stockholm SWE"]
+[Date "1948.08.02"]
+[EventDate "1948.07.16"]
+[Round "12"]
+[Result "0-1"]
+[White "Miguel Najdorf"]
+[Black "Laszlo Szabo"]
+[ECO "E17"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "140"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.g3 Bb7 5.Bg2 Be7 6.O-O O-O 7.Qc2
+c5 8.dxc5 bxc5 9.Nc3 Nc6 10.Rd1 d6 11.b3 a6 12.Bb2 Nb4 13.Qb1
+Qc7 14.a3 Nc6 15.Qc2 Rab8 16.Rab1 Ba8 17.Ba1 h6 18.e3 Na5
+19.e4 Nc6 20.Qe2 Nd7 21.Na2 Nde5 22.b4 Bf6 23.Bxe5 Bxe5 24.b5
+Nd4 25.Nxd4 Bxd4 26.Nb4 cxb4 27.Rxd4 bxa3 28.Qd3 a2 29.Ra1
+Rfd8 30.Qe2 Qc5 31.Rdd1 axb5 32.cxb5 Rxb5 33.Rxa2 Rb4 34.Rb2
+Rdb8 35.Rxb4 Rxb4 36.Qa6 Bb7 37.Qxd6 Qxd6 38.Rxd6 Rb1+ 39.Bf1
+Bxe4 40.f4 Kf8 41.Rd2 Ke7 42.Kf2 g5 43.Bg2 Bxg2 44.Kxg2 gxf4
+45.gxf4 Kf6 46.Rd7 Rb3 47.Ra7 Rd3 48.Rb7 Kg7 49.Ra7 h5 50.Ra5
+Rd5 51.Ra3 Kg6 52.Kf3 Kf5 53.h3 h4 54.Rb3 f6 55.Ra3 Rb5 56.Rc3
+Rb2 57.Rc5+ e5 58.fxe5 fxe5 59.Rc4 Rb3+ 60.Kg2 Rg3+ 61.Kh2 e4
+62.Rc8 e3 63.Rh8 Rg6 64.Rh5+ Rg5 65.Rh8 Kf4 66.Rxh4+ Kf3
+67.Rh8 e2 68.Re8 Rg2+ 69.Kh1 Rf2 70.Rf8+ Kg3 0-1
+
+[Event "HUN"]
+[Site "HUN"]
+[Date "1933.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "0-1"]
+[White "Zakar"]
+[Black "Laszlo Szabo"]
+[ECO "B22"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "18"]
+
+1.e4 c5 2.c3 d5 3.e5 Nc6 4.d4 cxd4 5.cxd4 Qb6 6.Ne2 Bf5 7.Nbc3
+Nb4 8.f3 Bc2 9.Qd2 Nd3+ 0-1
+
+[Event "Warsaw Olympiad"]
+[Site "Warsaw POL"]
+[Date "1935.08.18"]
+[EventDate "1935.08.16"]
+[Round "3.4"]
+[Result "1/2-1/2"]
+[White "Laszlo Szabo"]
+[Black "Arthur William Dake"]
+[ECO "B40"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "106"]
+
+1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Bb4 6.Nb5 d5
+7.exd5 a6 8.Qd4 Be7 9.d6 axb5 10.Nxb5 Nc6 11.Qd1 Bf8 12.Be3
+Nd5 13.Bc5 b6 14.c4 bxc5 15.cxd5 Qa5+ 16.Qd2 Nd4 17.b4 Qa4
+18.Nc7+ Kd8 19.Rc1 Rb8 20.bxc5 exd5 21.Nxd5 Bf5 22.Bd3 Bxd3
+23.Qxd3 Qa5+ 24.Qd2 Ra8 25.Nb4 Rb8 26.Nd3 Qxd2+ 27.Kxd2 g6
+28.Ne5 Bh6+ 29.Kd3 Bxc1 30.Rxc1 Nf5 31.Nxf7+ Kd7 32.Nxh8 Rxh8
+33.g4 Nh6 34.Re1 Kc6 35.Kd4 Ra8 36.Re7 Ra4+ 37.Kc3 Kxc5 38.d7
+Rc4+ 39.Kb3 Rd4 40.h3 Ng8 41.Re8 Rxd7 42.Rxg8 Rd3+ 43.Kb2 Rxh3
+44.Rf8 Rh4 45.f3 Rh1 46.Kc3 h5 47.Rf6 hxg4 48.fxg4 Rh3+ 49.Kb2
+Kb4 50.Kc2 Kc4 51.Kd2 Kd4 52.Ke2 Ra3 53.Rxg6 Ke5 1/2-1/2
+
+[Event "Costa Brava"]
+[Site "Sant Feliu de Guixols ESP"]
+[Date "1975.09.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Pal Benko"]
+[ECO "A22"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "153"]
+
+1.c4 e5 2.Nc3 Nf6 3.Nf3 d6 4.g3 c6 5.Bg2 Nbd7 6.O-O Be7 7.d4
+O-O 8.e4 Re8 9.h3 Bf8 10.Qc2 a6 11.Rd1 b5 12.dxe5 dxe5 13.Be3
+Bb7 14.c5 Qc7 15.b4 a5 16.a3 axb4 17.axb4 Rxa1 18.Rxa1 Ra8
+19.Rxa8 Bxa8 20.Qa2 Bb7 21.Ng5 Nb8 22.f4 h6 23.Nf3 Nbd7 24.f5
+Be7 25.g4 Qd8 26.Bf1 Nh7 27.Qa7 Qa8 28.Qxa8+ Bxa8 29.h4 Kf8
+30.g5 hxg5 31.hxg5 Ke8 32.Ne2 Nhf8 33.Nc1 Bd8 34.Nd3 f6 35.g6
+Nb8 36.Be2 Nfd7 37.Bd1 Be7 38.Bb3 Bf8 39.Bf7+ Kd8 40.Nd2 Bb7
+41.Kf2 Na6 42.Nb3 Nab8 43.Ke2 Na6 44.Kd2 Nc7 45.Kc3 Na6 46.Nd2
+Nab8 47.Nf1 Na6 48.Ng3 Nc7 49.Nh5 Ke7 50.Nf2 Bc8 51.Ng4 Bb7
+52.Bf2 Ba8 53.Bh4 Na6 54.Be6 Nab8 55.Ng3 Bb7 56.Nf1 Ke8 57.Nd2
+Kd8 58.Nf3 Kc7 59.Bg3 Kd8 60.Nfxe5 fxe5 61.Nxe5 Nxe5 62.Bxe5
+Nd7 63.Bd6 Bxd6 64.cxd6 Bc8 65.Bxd7 Bxd7 66.Kd3 Ke8 67.Kd4 Kf8
+68.Kc5 Ke8 69.Kb6 Kd8 70.Kb7 Bc8+ 71.Kxc6 Bd7+ 72.Kd5 Ke8
+73.Ke5 Bc6 74.Kf4 Kf8 75.e5 Bd5 76.e6 Bb3 77.Ke5 1-0
+
+[Event "Amsterdam IBM"]
+[Site "Amsterdam NED"]
+[Date "1972.05.31"]
+[EventDate "1972.05.30"]
+[Round "2"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Nikola Padevsky"]
+[ECO "A15"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "53"]
+
+1.Nf3 Nf6 2.c4 e6 3.b3 d5 4.Bb2 Be7 5.g3 O-O 6.Bg2 c5 7.O-O
+Nc6 8.e3 b6 9.Qe2 Bb7 10.Rd1 Qc7 11.Nc3 Rfd8 12.cxd5 Nxd5
+13.Nxd5 Rxd5 14.d4 Rd7 15.dxc5 Bxc5 16.Ng5 Rxd1+ 17.Rxd1 h6
+18.Ne4 Bf8 19.Nf6+ gxf6 20.Qg4+ Kh7 21.Be4+ f5 22.Bxf5+ exf5
+23.Qxf5+ Kg8 24.Rd7 Qxd7 25.Qxd7 Rb8 26.Qg4+ Kh7 27.Qf5+ 1-0
+
+[Event "Budapest-Moscow"]
+[Site "Budapest HUN"]
+[Date "1949.03.??"]
+[EventDate "1949.03.05"]
+[Round "3"]
+[Result "0-1"]
+[White "Vasily Smyslov"]
+[Black "Laszlo Szabo"]
+[ECO "A07"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "68"]
+
+1. e4 c5 2. Nc3 Nc6 3. g3 g6 4. Bg2 Bg7 5. Nge2 d6 6. d3 e6
+7. O-O Nge7 8. Bd2 O-O 9. h3 h6 10. Kh2 Rb8 11. Qc1 Kh7 12. f4
+b5 13. g4 f5 14. Ng3 Nd4 15. Nd1 fxg4 16. hxg4 e5 17. f5 gxf5
+18. gxf5 Nexf5 19. exf5 Qh4+ 20. Bh3 Nxf5 21. Nxf5 Rxf5
+22. Be1 Qh5 23. Rxf5 Bxf5 24. Qe3 e4 25. Kg2 Rg8 26. Bxf5+
+Qxf5 27. Bg3 Be5 28. Qxe4 Rxg3+ 29. Kh1 Qxe4+ 30. dxe4 Rg4
+31. Nf2 Rf4 32. Kg2 Bd4 33. Nd3 Rxe4 34. c3 Re2+ 0-1
+
+[Event "Zaanstreek"]
+[Site "Zaandam NED"]
+[Date "1946.06.04"]
+[EventDate "1946.06.03"]
+[Round "2"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Max Euwe"]
+[ECO "D17"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "111"]
+
+1. d4 d5 2. c4 c6 3. Nf3 Nf6 4. Nc3 dxc4 5. a4 Bf5 6. Ne5 e6
+7. f3 Bb4 8. Bg5 h6 9. Bxf6 Qxf6 10. e4 Bh7 11. Bxc4 O-O
+12. Qb3 c5 13. Ng4 Qe7 14. d5 exd5 15. Bxd5 Nc6 16. O-O Nd4
+17. Qc4 Kh8 18. Rae1 a6 19. f4 b5 20. Qd3 c4 21. Qh3 Rae8
+22. axb5 axb5 23. Ne5 Rd8 24. Qh5 Kg8 25. Kh1 Rd6 26. Re3 Rf6
+27. Ng4 Ra6 28. Rg3 Kh8 29. Ne5 Rf6 30. Ng4 Ra6 31. Ne5 Rf6
+32. Bxf7 R6xf7 33. Nd5 Rxf4 34. Rxf4 Rxf4 35. Nxf4 Kg8 36. Nd5
+Qf8 37. Nf3 Be1 38. Nf6+ Qxf6 39. Qe8+ Qf8 40. Qxf8+ Kxf8
+41. Nxe1 b4 42. Re3 g5 43. Nf3 Nb5 44. Kg1 c3 45. bxc3 bxc3
+46. Ne1 Nd4 47. Kf2 c2 48. Rc3 Bxe4 49. Rc4 Bg6 50. Ke3 Nf5+
+51. Kd2 Nd6 52. Rc7 Ne8 53. Ra7 Nf6 54. Nxc2 Ng4 55. Ne3 Nxh2
+56. Ke1 1-0
+
+[Event "European Team Championship"]
+[Site "Hamburg FRG"]
+[Date "1965.06.15"]
+[EventDate "1965.06.06"]
+[Round "9"]
+[Result "0-1"]
+[White "Mikhail Botvinnik"]
+[Black "Laszlo Szabo"]
+[ECO "E83"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "154"]
+
+1.c4 g6 2.d4 Nf6 3.Nc3 Bg7 4.e4 d6 5.f3 O-O 6.Be3 Nc6 7.Nge2
+e5 8.d5 Ne7 9.Qd2 Nd7 10.g3 f5 11.Bg2 fxe4 12.fxe4 a6 13.h3
+Rb8 14.Ba7 Ra8 15.Bf2 h6 16.O-O Nf6 17.Be3 Kh7 18.c5 Bd7 19.b4
+g5 20.a4 Qe8 21.Qe1 Qg6 22.Rb1 Nh5 23.g4 Nf4 24.Ng3 Qf6 25.Rf2
+Neg6 26.Bf1 Nh4 27.Qd1 Qe7 28.Rbb2 Rf7 29.Nf5 Bxf5 30.gxf5 h5
+31.Rh2 Bh6 32.Kh1 Rg8 33.Bf2 Rfg7 34.Ne2 g4 35.hxg4 Rxg4
+36.Ng1 Qg7 37.Bh3 Nxh3 38.Rxh3 Ng2 39.Rxh5 Nf4 40.Rh4 Nd3
+41.Rxg4 Qxg4 42.Qxg4 Rxg4 43.Rc2 Nxf2+ 44.Rxf2 Rxe4 45.Rb2 Rc4
+46.Ne2 Kg7 47.Kg2 Kf6 48.Kf3 e4 49.Kg4 e3 50.Kf3 Kxf5 51.cxd6
+cxd6 52.Rb1 Bg5 53.a5 Ke5 54.Rg1 Bf6 55.Rb1 Kxd5 56.Kxe3 Kc6
+57.Kd3 Kb5 58.Rf1 Be5 59.Rf7 Rxb4 60.Rxb7+ Kxa5 61.Ra7 Kb6
+62.Ra8 Kb7 63.Rf8 a5 64.Rf7+ Ka6 65.Rf8 Ka7 66.Rc8 Kb7 67.Rf8
+Rb3+ 68.Kc2 Rh3 69.Nc1 a4 70.Nd3 Rh2+ 71.Kb1 Bc3 72.Rf3 Kb6
+73.Nf4 Bd4 74.Rd3 Be5 75.Ng6 Kc5 76.Re3 Bd4 77.Rf3 Kc4 0-1
+
+[Event "Budapest"]
+[Site "Budapest HUN"]
+[Date "1952.03.16"]
+[EventDate "1952.03.03"]
+[Round "8"]
+[Result "0-1"]
+[White "Tigran Vartanovich Petrosian"]
+[Black "Laszlo Szabo"]
+[ECO "E14"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "130"]
+
+1.d4 Nf6 2.c4 e6 3.Nf3 b6 4.e3 Bb7 5.Bd3 Be7 6.Nc3 d5 7.O-O
+O-O 8.b3 c5 9.Bb2 cxd4 10.exd4 Nc6 11.Qe2 Rc8 12.cxd5 Nxd5
+13.Nxd5 Qxd5 14.Bc4 Qh5 15.Bc3 Bd6 16.Rfd1 Ne7 17.a4 Bxh2+
+18.Nxh2 Qxe2 19.Bxe2 Rxc3 20.a5 Rxb3 21.axb6 axb6 22.Ra7 Rb8
+23.Rc1 Nc6 24.Rxb7 Rxb7 25.Rxc6 Rb1+ 26.Nf1 Kf8 27.f3 Rd7
+28.Kf2 Rxd4 29.Ne3 b5 30.Rb6 Rd2 31.Rb8+ Ke7 32.Rb7+ Kd8
+33.Nf1 Ra2 34.Rxf7 Rbb2 35.Ng3 h5 36.Rf8+ Kc7 37.Rh8 g6 38.Ke3
+Ra3+ 39.Kf4 b4 40.Rh7+ Kc6 41.Bf1 Rf2 42.Kg5 b3 43.Re7 Ra5+
+44.Kh4 Ra4+ 45.Kh3 g5 46.Rxe6+ Kd5 47.Ne4 Rxf1 48.Rb6 Rxe4
+49.fxe4+ Kc4 50.e5 Re1 51.e6 Kc3 52.Rc6+ Kd3 53.Rd6+ Kc2
+54.Rc6+ Kb1 55.Kg3 b2 56.Kf2 Re5 57.Kf3 Re1 58.Kf2 Re4 59.g3
+h4 60.gxh4 gxh4 61.Kg2 Re1 62.Kh3 Ka2 63.Ra6+ Kb3 64.Rb6+ Kc3
+65.Kxh4 Rxe6 0-1
+
+[Event "Amsterdam Candidates"]
+[Site "Amsterdam NED"]
+[Date "1956.04.05"]
+[EventDate "1956.03.27"]
+[Round "6"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Boris Spassky"]
+[ECO "A49"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "75"]
+
+1. Nf3 Nf6 2. g3 g6 3. Bg2 Bg7 4. d4 O-O 5. O-O d6 6. b3 a5
+7. c4 a4 8. b4 c5 9. bxc5 dxc5 10. Na3 cxd4 11. Nxd4 Na6
+12. Nab5 Nd7 13. Be3 Ndc5 14. Qc1 Bd7 15. Rd1 Rc8 16. Qa3 Re8
+17. Rab1 Bf8 18. Nc2 Qa5 19. Bxb7 Nxb7 20. Rxd7 Nac5 21. Rdd1
+Qa8 22. Nb4 e6 23. Qb2 Na5 24. Rdc1 Ne4 25. Na3 Rb8 26. c5 Nc6
+27. Rc4 Nxc5 28. Bxc5 Bxc5 29. Rxc5 Rxb4 30. Qc3 Rxb1+
+31. Nxb1 Rd8 32. Nd2 Nd4 33. Qc4 Nb3 34. axb3 a3 35. Qc3 a2
+36. Ra5 Qxa5 37. Qxa5 Rxd2 38. Kg2 1-0
+
+[Event "Kemeri"]
+[Site "Kemeri LAT"]
+[Date "1939.03.06"]
+[EventDate "1939.03.04"]
+[Round "3"]
+[Result "1-0"]
+[White "Laszlo Szabo"]
+[Black "Vladas Mikenas"]
+[ECO "B40"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "75"]
+
+1.e4 c5 2.Nf3 e6 3.d4 cxd4 4.Nxd4 Nf6 5.Nc3 Bb4 6.e5 Ne4 7.Qg4
+Nxc3 8.Qxg7 Rf8 9.a3 Nb5+ 10.axb4 Nxd4 11.Bg5 Qb6 12.Bh6 Qxb4+
+13.c3 Nf5 14.cxb4 Nxg7 15.Bxg7 Rg8 16.Bf6 Nc6 17.Bd3 h6 18.h3
+Nxb4 19.Bh7 Rxg2 20.Kf1 Rg6 21.Bxg6 fxg6 22.Rg1 Kf7 23.Ra4 Nd5
+24.Rag4 g5 25.Bxg5 hxg5 26.Rxg5 Ne7 27.Rg7+ Kf8 28.Rh7 b6
+29.Ke1 a5 30.h4 a4 31.h5 a3 32.h6 Nf5 33.Rh8+ Kf7 34.h7 axb2
+35.Rf8+ Ke7 36.Kd2 Ra2 37.Kc2 Bb7 38.h8=Q 1-0
+

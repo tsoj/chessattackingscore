@@ -1,0 +1,84 @@
+[Event "AVRO"]
+[Site "The Netherlands"]
+[Date "1938.11.22"]
+[EventDate "1938.11.06"]
+[Round "11"]
+[Result "1-0"]
+[White "Mikhail Botvinnik"]
+[Black "Jose Raul Capablanca"]
+[ECO "E40"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "81"]
+
+1.d4 Nf6 2.c4 e6 3.Nc3 Bb4 4.e3 d5 5.a3 Bxc3+ 6.bxc3 c5 7.cxd5
+exd5 8.Bd3 O-O 9.Ne2 b6 10.O-O Ba6 11.Bxa6 Nxa6 12.Bb2 Qd7
+13.a4 Rfe8 14.Qd3 c4 15.Qc2 Nb8 16.Rae1 Nc6 17.Ng3 Na5 18.f3
+Nb3 19.e4 Qxa4 20.e5 Nd7 21.Qf2 g6 22.f4 f5 23.exf6 Nxf6 24.f5
+Rxe1 25.Rxe1 Re8 26.Re6 Rxe6 27.fxe6 Kg7 28.Qf4 Qe8 29.Qe5 Qe7
+30.Ba3 Qxa3 31.Nh5+ gxh5 32.Qg5+ Kf8 33.Qxf6+ Kg8 34.e7 Qc1+
+35.Kf2 Qc2+ 36.Kg3 Qd3+ 37.Kh4 Qe4+ 38.Kxh5 Qe2+ 39.Kh4 Qe4+
+40.g4 Qe1+ 41.Kh5 1-0
+
+[Event "Botvinnik - Tal World Championship Match"]
+[Site "Moscow URS"]
+[Date "1960.03.15"]
+[EventDate "?"]
+[Round "1"]
+[Result "1-0"]
+[White "Mikhail Tal"]
+[Black "Mikhail Botvinnik"]
+[ECO "C18"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "63"]
+
+1.e4 e6 2.d4 d5 3.Nc3 Bb4 4.e5 c5 5.a3 Bxc3+ 6.bxc3 Qc7 7.Qg4
+f5 8.Qg3 Ne7 9.Qxg7 Rg8 10.Qxh7 cxd4 11.Kd1 Bd7 12.Qh5+ Ng6
+13.Ne2 d3 14.cxd3 Ba4+ 15.Ke1 Qxe5 16.Bg5 Nc6 17.d4 Qc7 18.h4
+e5 19.Rh3 Qf7 20.dxe5 Ncxe5 21.Re3 Kd7 22.Rb1 b6 23.Nf4 Rae8
+24.Rb4 Bc6 25.Qd1 Nxf4 26.Rxf4 Ng6 27.Rd4 Rxe3+ 28.fxe3 Kc7
+29.c4 dxc4 30.Bxc4 Qg7 31.Bxg8 Qxg8 32.h5 1-0
+
+[Event "Tallinn"]
+[Site "Tallinn URS"]
+[Date "1973.03.10"]
+[EventDate "1973.02.20"]
+[Round "13"]
+[Result "0-1"]
+[White "Boris Spassky"]
+[Black "Mikhail Tal"]
+[ECO "E30"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "76"]
+
+1. d4 Nf6 2. c4 e6 3. Nc3 Bb4 4. Bg5 h6 5. Bh4 c5 6. d5 b5
+7. dxe6 fxe6 8. cxb5 d5 9. e3 O-O 10. Nf3 Qa5 11. Bxf6 Rxf6
+12. Qd2 a6 13. bxa6 Nc6 14. Be2 d4 15. exd4 Rxf3 16. Bxf3 cxd4
+17. O-O dxc3 18. bxc3 Bxc3 19. Qd6 Rxa6 20. Bxc6 Bb4 21. Qb8
+Rxc6 22. Rac1 Bc5 23. Rc2 Qa4 24. Qb3 Qf4 25. Qg3 Qf5 26. Rfc1
+Bb7 27. Qf3 Qg5 28. Qb3 Rc7 29. g3 Bxf2+ 30. Kxf2 Qf6+ 31. Ke1
+Qe5+ 32. Kf1 Ba6+ 33. Kg1 Qd4+ 34. Kg2 Qe4+ 35. Kg1 Bb7 36. h4
+Qh1+ 37. Kf2 Rf7+ 38. Ke2 Qe4+ 0-1
+
+[Event "SWIFT Blitz"]
+[Site "Brussels BEL"]
+[Date "1987.04.26"]
+[EventDate "1987.04.26"]
+[Round "?"]
+[Result "1-0"]
+[White "Mikhail Tal"]
+[Black "Anatoly Karpov"]
+[ECO "B10"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "59"]
+
+1. e4 c6 2. c4 d5 3. exd5 cxd5 4. cxd5 Nf6 5. Nc3 Nxd5 6. Nf3
+Nxc3 7. bxc3 g6 8. d4 Bg7 9. Bd3 O-O 10. O-O Nc6 11. Re1 Re8
+12. Bg5 Be6 13. Rxe6 fxe6 14. Bc4 Qd6 15. Qe2 Nd8 16. Re1 Rc8
+17. Nd2 Kh8 18. Ne4 Qc7 19. Bb3 e5 20. h4 exd4 21. h5 gxh5
+22. Qxh5 Rf8 23. Bc2 Qe5 24. Ng3 Qxe1+ 25. Kh2 h6 26. Bxh6 Kg8
+27. Bxg7 Rxf2 28. Qh7+ Kf7 29. Qg6+ Kg8 30. Bh6+ 1-0
+

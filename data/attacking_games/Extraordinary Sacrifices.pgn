@@ -1,0 +1,165 @@
+[Event "Junior competition"]
+[Site "Leningrad URS"]
+[Date "1975.07.27"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Garry Kasparov"]
+[Black "Boris Kantsler"]
+[ECO "A07"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "63"]
+
+1. e4 e6 2. d3 d5 3. Nd2 c5 4. g3 Nc6 5. Bg2 g6 6. Ngf3 Bg7 7. O-O Nge7 8. Re1 O-O 9. Qe2 b5 10. e5 a5 11. Nf1 Ba6 12. h4 b4 13. N1h2 h6 14. Bf4 Kh7 15. Bh3 c4 16. Kg2 Nf5 17. Bxf5 gxf5 18. g4 fxg4 19. Nxg4 Ne7 20. Bg5 hxg5 21. hxg5 Rh8 22. Nf6+ Kg6 23. Rh1 Nf5 24. Rxh8 Bxh8 25. Nd4 Nxd4 26. Qh5+ Kf5 27. g6+ Kf4 28. Re1 Bxf6 29. f3 Nxf3 30. Qxf3+ Kg5 31. Qg3+ Kh5 32. exf6 1-0
+
+[Event "Casual game"]
+[Site "London ENG"]
+[Date "1851.06.21"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Adolf Anderssen"]
+[Black "Lionel Adalbert Bagration Felix Kieseritzky"]
+[ECO "C33"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[Source "La Régence, v3 n7, July 1851, pp221-222"]
+[SourceNote "ends 19.Ke2"]
+[Source2 "The Chess Player, vol.i no.1, 1851.07.19, p.2"]
+[PlyCount "45"]
+
+1.e4 e5 2.f4 exf4 3.Bc4 Qh4+ 4.Kf1 b5 5.Bxb5 Nf6 6.Nf3 Qh6
+7.d3 Nh5 8.Nh4 Qg5 9.Nf5 c6 10.g4 Nf6 11.Rg1 cxb5 12.h4 Qg6
+13.h5 Qg5 14.Qf3 Ng8 15.Bxf4 Qf6 16.Nc3 Bc5 17.Nd5 Qxb2 18.Bd6
+Bxg1 {It is from this move that Black's defeat stems. Wilhelm
+Steinitz suggested in 1879 that a better move would be
+18... Qxa1+; likely moves to follow are 19. Ke2 Qb2 20. Kd2
+Bxg1.} 19. e5 Qxa1+ 20. Ke2 Na6 21.Nxg7+ Kd8 22.Qf6+ Nxf6
+23.Be7# 1-0
+
+[Event "Odds game (Ra1)"]
+[Site "New Orleans, LA USA"]
+[Date "1850.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Paul Morphy"]
+[Black "NN"]
+[ECO "000"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "35"]
+[SetUp "1"]
+[Source "British Chess Magazine, v.98 n.8, August 1978, p.366"]
+[FEN "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/1NBQKBNR w Kkq - 0 1"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5 d5 5.exd5 Nxd5 6.Nxf7 Kxf7
+7.Qf3+ Ke6 8.Nc3 Nce7 9.O-O c6 10.d4 exd4 11.Re1+ Kd7 12.Nxd5
+Nxd5 13.Bxd5 cxd5 14.Qxd5+ Kc7 15.Bf4+ Bd6 16.Qc5+ Kb8
+17.Qxd6+ Qxd6 18.Bxd6# 1-0
+
+[Event "Open"]
+[Site "New York, NY USA"]
+[Date "1987.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Joshua Waitzkin"]
+[Black "Edward A Frumkin"]
+[ECO "B45"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "61"]
+
+1. e4 c5 2. Nf3 e6 3. d4 cxd4 4. Nxd4 Nf6 5. Nc3 Nc6 6. Be3
+Bb4 7. f3 d5 8. Bb5 Bd7 9. Bxc6 bxc6 10. e5 Ng8 11. a3 Ba5
+12. b4 Bc7 13. f4 Ne7 14. Na4 O-O 15. Nc5 a5 16. c3 Nc8
+17. O-O Nb6 18. Qg4 Nc4 19. Bf2 Qe8 20. Rfe1 Bc8 21. Bh4 Kh8
+22. a4 Bb6 23. Rad1 Bxc5 24. bxc5 Nb2 25. Re3 Nxd1 26. Qxg7+
+Kxg7 27. Bf6+ Kg6 28. Rg3+ Kh6 29. Bg7+ Kh5 30. Rg5+ Kh4
+31. Nf3# 1-0
+
+[Event "Casual game"]
+[Site "New Orleans, LA USA"]
+[Date "1849.??.??"]
+[EventDate "1849.??.??"]
+[Round "?"]
+[Result "1-0"]
+[White "Paul Morphy"]
+[Black "Eugene Rousseau"]
+[ECO "C39"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "33"]
+
+1. e4 e5 2. f4 exf4 3. Nf3 g5 4. h4 g4 5. Ng5 h6 6. Nxf7 Kxf7
+7. Qxg4 Qf6 8. Bc4+ Ke7 9. Nc3 c6 10. e5 Qxe5+ 11. Kd1 Kd8
+12. Re1 Qc5 13. Bxg8 d5 14. Re8+ Kxe8 15. Qxc8+ Ke7 16. Nxd5+
+Kd6 17. Qc7# 1-0
+
+[Event "Bled"]
+[Site "Bled YUG"]
+[Date "1961.09.04"]
+[EventDate "1961.09.03"]
+[Round "2"]
+[Result "1-0"]
+[White "Robert James Fischer"]
+[Black "Mikhail Tal"]
+[ECO "B47"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "93"]
+
+1. e4 c5 2. Nf3 Nc6 3. d4 cxd4 4. Nxd4 e6 5. Nc3 Qc7 6. g3 Nf6
+7. Ndb5 Qb8 8. Bf4 Ne5 9. Be2 Bc5 10. Bxe5 Qxe5 11. f4 Qb8
+12. e5 a6 13. exf6 axb5 14. fxg7 Rg8 15. Ne4 Be7 16. Qd4 Ra4
+17. Nf6+ Bxf6 18. Qxf6 Qc7 19. O-O-O Rxa2 20. Kb1 Ra6 21. Bxb5
+Rb6 22. Bd3 e5 23. fxe5 Rxf6 24. exf6 Qc5 25. Bxh7 Qg5
+26. Bxg8 Qxf6 27. Rhf1 Qxg7 28. Bxf7+ Kd8 29. Be6 Qh6 30. Bxd7
+Bxd7 31. Rf7 Qxh2 32. Rdxd7+ Ke8 33. Rde7+ Kd8 34. Rd7+ Kc8
+35. Rc7+ Kd8 36. Rfd7+ Ke8 37. Rd1 b5 38. Rb7 Qh5 39. g4 Qh3
+40. g5 Qf3 41. Re1+ Kf8 42. Rxb5 Kg7 43. Rb6 Qg3 44. Rd1 Qc7
+45. Rdd6 Qc8 46. b3 Kh7 47. Ra6 1-0
+
+[Event "Paris"]
+[Site "Paris FRA"]
+[Date "1858.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Paul Morphy"]
+[Black "Duke Karl / Count Isouard"]
+[ECO "C41"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "33"]
+[Source "(London) Field, London, 1858.12.04, p458"]
+
+1.e4 e5 2.Nf3 d6 3.d4 Bg4 {This is a weak move
+already.--Fischer} 4.dxe5 Bxf3 5.Qxf3 dxe5 6.Bc4 Nf6 7.Qb3 Qe7
+8.Nc3 c6 9.Bg5 {Black is in what's like a zugzwang position
+here. He can't develop the [Queen's] knight because the pawn
+is hanging, the bishop is blocked because of the
+Queen.--Fischer} b5 10.Nxb5 cxb5 11.Bxb5+ Nbd7 12.O-O-O Rd8
+13.Rxd7 Rxd7 14.Rd1 Qe6 15.Bxd7+ Nxd7 16.Qb8+ Nxb8 17.Rd8# 1-0
+
+[Event "?"]
+[Site "Breslau POL (Prussian Empire)"]
+[Date "1860.??.??"]
+[EventDate "?"]
+[Round "?"]
+[Result "1-0"]
+[White "Adolf Anderssen"]
+[Black "Berthold Suhle"]
+[ECO "C51"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "45"]
+
+1.e4 e5 2.Nf3 Nc6 3.Bc4 Bc5 4.b4 Bxb4 5.c3 Bc5 6.O-O d6 7.d4
+exd4 8.cxd4 Bb6 9.d5 Na5 10.Bb2 Nf6 11.Bd3 Bg4 12.Nc3 c6
+13.Ne2 O-O 14.Qd2 Rc8 15.Qg5 Bxf3 16.gxf3 cxd5 17.Kh1 Nc4
+18.Rg1 Ne8 19.Qxg7+ Nxg7 20.Rxg7+ Kh8 21.Rg8+ Kxg8 22.Rg1+ Qg5
+23.Rxg5# 1-0
+
