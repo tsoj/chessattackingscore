@@ -1,6 +1,6 @@
 import std/[tables, sequtils, math, options]
 import nimchess
-import features, paramfeatures, paramnorm, utils
+import features, weights, norms, utils
 
 export features
 

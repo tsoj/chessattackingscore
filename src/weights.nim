@@ -2,7 +2,7 @@
 Feature weights for chess attacking score calculation.
 These weights determine the relative importance of each attacking feature.
 
-This file is automatically updated by the tuneweights.nim script on 2025-12-24T23:03:00Z.
+This file is automatically updated by the tuneweights.nim script on 2025-12-24T23:10:13Z.
 ]##
 
 import features

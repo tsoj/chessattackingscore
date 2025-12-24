@@ -2,7 +2,7 @@
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculatenormalization.nim script on 2025-12-24T23:02:42Z.
+This file is automatically updated by the calcnorm.nim script on 2025-12-24T23:09:55Z.
 ]##
 
 import features

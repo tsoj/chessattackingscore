@@ -111,14 +111,14 @@ proc writeNormalizationParamsFile(
   ##[
   Write the normalization parameters directly to the source file.
   ]##
-  let filePath = "src/paramnorm.nim"
+  let filePath = "src/norms.nim"
 
   var content =
     fmt"""##[
 Normalization parameters for chess attacking score features.
 These parameters are used to normalize raw feature scores before applying weights.
 
-This file is automatically updated by the calculatenormalization.nim script on {now().utc}.
+This file is automatically updated by the calcnorm.nim script on {now().utc}.
 ]##
 
 import features

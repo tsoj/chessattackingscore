@@ -163,7 +163,7 @@ proc writeFeatureWeightsFile(weights: FeatureWeights) =
   ##[
   Write the feature weights directly to the source file.
   ]##
-  let filePath = "src/paramfeatures.nim"
+  let filePath = "src/weights.nim"
 
   var content =
     fmt"""##[
