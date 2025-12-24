@@ -5,15 +5,9 @@ This analyzes a large set of games to determine mean and standard deviation
 for each raw score feature, enabling better normalization.
 ]##
 
-import std/[os, strutils, tables, strformat, math, parseopt, times]
+import std/[os, strutils, tables, strformat, math, times]
 import nimchess
-from chessattackingscore import
-  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature
-
-type NormalizationArgs = object
-  pgnPath: string
-  maxGames: int
-  minRating: int
+import features, utils, core
 
 proc collectRawScores(
     pgnPath: string, maxGames: int = 0, minRating: int = 2000
@@ -38,24 +32,14 @@ proc collectRawScores(
         echo &"\nReached game limit of {maxGames}."
         break
 
-      let whitePlayer = game.headers.getOrDefault("White", "?")
-      let blackPlayer = game.headers.getOrDefault("Black", "?")
-
-      if "?" in whitePlayer or "?" in blackPlayer:
-        continue
-
-      # Filter by rating
-      try:
-        let whiteElo = parseInt(game.headers.getOrDefault("WhiteElo", "0"))
-        let blackElo = parseInt(game.headers.getOrDefault("BlackElo", "0"))
-        let minElo = min(whiteElo, blackElo)
-        if minElo > 0 and minElo < minRating:
-          inc gamesFilteredByRating
-          continue
-      except ValueError:
+      if not shouldIncludeGame(game, minRating):
+        inc gamesFilteredByRating
         continue
 
       # Analyze both players
+      let whitePlayer = game.headers.getOrDefault("White", "?")
+      let blackPlayer = game.headers.getOrDefault("Black", "?")
+
       for player in [whitePlayer, blackPlayer]:
         let stats = analyseGame(game, player)
         let rawScores = getRawFeatureScores(stats)

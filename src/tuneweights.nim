@@ -1,8 +1,6 @@
-import std/[os, strutils, sequtils, tables, math, random, strformat, times]
+import std/[os, strutils, sequtils, math, random, strformat, times, options]
 import nimchess
-from chessattackingscore import
-  AttackingStats, analyseGame, getRawFeatureScores, AttackingFeature, FeatureWeights,
-  getAttackingScore, getNormalizedFeatureScores
+import features, utils, core
 
 type GameData = tuple[rawScores: array[AttackingFeature, float], targetLabel: float]
 
@@ -43,19 +41,14 @@ proc preprocessGamesFromFolder(
       if processedData.len >= maxGamesPerClass:
         break
 
-      let gameResult = game.headers.getOrDefault("Result", "*")
+      let winnerOpt = getWinner(game)
 
-      if gameResult notin ["1-0", "0-1"]:
-        continue
-
-      # For attacking games, find the winner and analyze only their play
-      let winnerPlayerName =
-        game.headers.getOrDefault(if gameResult == "1-0": "White" else: "Black", "")
-
-      if winnerPlayerName != "" and winnerPlayerName != "?":
-        let stats = analyseGame(game, winnerPlayerName)
-        let rawScores = getRawFeatureScores(stats)
-        processedData.add((rawScores, targetLabel))
+      if winnerOpt.isSome:
+        let winnerPlayerName = winnerOpt.get()
+        if winnerPlayerName != "?":
+          let stats = analyseGame(game, winnerPlayerName)
+          let rawScores = getRawFeatureScores(stats)
+          processedData.add((rawScores, targetLabel))
 
   # Shuffle the data
   shuffle(processedData)
@@ -203,12 +196,13 @@ const featureWeights* = FeatureWeights(
     echo fmt"Error writing to {filePath}: {e.msg}"
 
 proc main() =
-  var normalGamesDir = "./data/non_attacking_games"
-  var attackingGamesDir = "./data/attacking_games"
-  var maxGamesPerClass = 500000
-  var maxIterations = 5000
-  var testSplit = 0.1
-  var learningRate = 10.0
+  const
+    normalGamesDir = "./data/non_attacking_games"
+    attackingGamesDir = "./data/attacking_games"
+    maxGamesPerClass = 500000
+    maxIterations = 5000
+    testSplit = 0.0
+    learningRate = 0.5
 
   randomize()
 
@@ -217,10 +211,6 @@ proc main() =
     preprocessGamesFromFolder(normalGamesDir, normalTarget, maxGamesPerClass)
   var attackingData =
     preprocessGamesFromFolder(attackingGamesDir, attackingTarget, maxGamesPerClass)
-
-  attackingData.add preprocessGamesFromFolder(
-    attackingGamesDir & "/draws", attackingTarget, maxGamesPerClass
-  )
 
   # Create train/test splits
   if testSplit == 0.0:
