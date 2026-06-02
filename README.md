@@ -4,6 +4,8 @@ A tool to analyze PGNs and score players for attacking style
 
 ## Build
 
+Note: Prebuild binaries can be found on the [release page](https://github.com/tsoj/chessattackingscore/releases).
+
 ### Optional: Retune normalization and feature weights:
 ```bash
 nimble calcParams
